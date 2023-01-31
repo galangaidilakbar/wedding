@@ -7,6 +7,7 @@ use App\Models\Address;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class AddressController extends Controller
@@ -18,7 +19,9 @@ class AddressController extends Controller
      */
     public function index(): View
     {
-        return view('address.index');
+        return view('address.index', [
+            'addresses' => Address::with('user')->latest()->get()
+        ]);
     }
 
     /**
@@ -41,13 +44,13 @@ class AddressController extends Controller
     {
         $request->user()->addresses()->create($request->all());
 
-        return to_route('address.index')->with('status', 'address-saved');
+        return to_route('address.index')->with('status', 'Alamat berhasil disimpan.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Address $address
+     * @param Address $address
      * @return Response
      */
     public function show(Address $address)
@@ -58,7 +61,7 @@ class AddressController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Address $address
+     * @param Address $address
      * @return Response
      */
     public function edit(Address $address)
@@ -70,7 +73,7 @@ class AddressController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param \App\Models\Address $address
+     * @param Address $address
      * @return Response
      */
     public function update(Request $request, Address $address)
@@ -81,11 +84,13 @@ class AddressController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Address $address
-     * @return Response
+     * @param Address $address
+     * @return RedirectResponse
      */
-    public function destroy(Address $address)
+    public function destroy(Address $address): RedirectResponse
     {
-        //
+        $address->delete();
+
+        return to_route('address.index')->with('status', 'Alamat berhasil dihapus.');
     }
 }
