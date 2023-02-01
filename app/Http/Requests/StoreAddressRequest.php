@@ -26,6 +26,7 @@ class StoreAddressRequest extends FormRequest
         return [
             'name' => 'required|string|max:50',
             'detail' => 'required|string|max:255',
+            'keterangan', 'nullable|string|max:50',
             'latitude' => 'nullable|between:-90,90',
             'longitude' => 'nullable|between:-180,180',
             'accuracy' => 'nullable|numeric',
