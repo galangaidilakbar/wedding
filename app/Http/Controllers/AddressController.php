@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAddressRequest;
 use App\Models\Address;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class AddressController extends Controller
@@ -62,23 +60,27 @@ class AddressController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Address $address
-     * @return Response
+     * @return View
      */
-    public function edit(Address $address)
+    public function edit(Address $address): View
     {
-        //
+        return view('address.edit', [
+            'address' => $address
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param StoreAddressRequest $request
      * @param Address $address
-     * @return Response
+     * @return RedirectResponse
      */
-    public function update(Request $request, Address $address)
+    public function update(StoreAddressRequest $request, Address $address): RedirectResponse
     {
-        //
+        $address->update($request->all());
+
+        return to_route('address.index')->with('status', 'Alamat berhasil diupdate.');
     }
 
     /**
