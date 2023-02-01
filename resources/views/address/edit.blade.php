@@ -43,7 +43,7 @@
                                    value="{{ old('latitude', $address->accuracy) }}">
 
                             <div>
-                                <x-input-label for="name" :value="__('Nama')"/>
+                                <x-input-label for="name" :value="__('Nama Tempat')"/>
                                 <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
                                               :value="old('name', $address->name)" required autofocus
                                               autocomplete="name"/>
