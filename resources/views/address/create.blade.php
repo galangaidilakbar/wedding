@@ -51,6 +51,14 @@
                                 <x-input-error class="mt-2" :messages="$errors->get('detail')"/>
                             </div>
 
+                            <div>
+                                <x-input-label for="keterangan" :value="__('Keterangan (opsional)')"/>
+                                <x-text-input id="keterangan" name="keterangan" type="text" class="mt-1 block w-full"
+                                              :value="old('keterangan')"/>
+                                <x-input-error class="mt-2" :messages="$errors->get('keterangan')"/>
+                                <span class="text-xs text-gray-600 dark:text-gray-400">{{__('Tambahkan ini biar kami lebih mudah menemukan alamat mu')}}</span>
+                            </div>
+
                             <div class="flex items-center gap-4">
                                 <x-primary-button>{{ __('Simpan') }}</x-primary-button>
                             </div>
