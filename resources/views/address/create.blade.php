@@ -85,7 +85,7 @@
 
         function success(pos) {
             const crd = pos.coords;
-            map.flyTo([crd.latitude, crd.longitude], 13);
+            map.flyTo([crd.latitude, crd.longitude], 19);
             const marker = L.marker([crd.latitude, crd.longitude]).addTo(map);
             marker.bindPopup(`Tingkat akurasi ${crd.accuracy} meter.`).openPopup();
 
