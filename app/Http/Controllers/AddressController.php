@@ -17,9 +17,7 @@ class AddressController extends Controller
      */
     public function index(): View
     {
-        return view('address.index', [
-            'addresses' => Address::with('user')->latest()->get()
-        ]);
+        //
     }
 
     /**
@@ -42,7 +40,7 @@ class AddressController extends Controller
     {
         $request->user()->addresses()->create($request->all());
 
-        return to_route('address.index')->with('status', 'Alamat berhasil disimpan.');
+        return to_route('profile.edit')->with('address-status', 'Alamat berhasil disimpan.');
     }
 
     /**
@@ -64,9 +62,7 @@ class AddressController extends Controller
      */
     public function edit(Address $address): View
     {
-        return view('address.edit', [
-            'address' => $address
-        ]);
+        return view('address.edit', ['address' => $address]);
     }
 
     /**
@@ -80,7 +76,7 @@ class AddressController extends Controller
     {
         $address->update($request->all());
 
-        return to_route('address.index')->with('status', 'Alamat berhasil diupdate.');
+        return to_route('profile.edit')->with('address-status', 'Alamat berhasil diupdate.');
     }
 
     /**
@@ -93,6 +89,6 @@ class AddressController extends Controller
     {
         $address->delete();
 
-        return to_route('address.index')->with('status', 'Alamat berhasil dihapus.');
+        return to_route('profile.edit')->with('address-status', 'Alamat berhasil dihapus.');
     }
 }
