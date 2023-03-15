@@ -6,68 +6,65 @@
                     <section>
                         <header>
                             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                {{ __('Edit Alamat') }}
+                                {{ __('Ubah Alamat') }}
                             </h2>
 
                             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                {{ __("Alamat ini akan digunakan sebagai tempat lokasi acara pernikahan.") }}
+                                {{ __("Mohon diperhatikan bahwa alamat ini akan dijadikan sebagai lokasi acara pernikahan.") }}
                             </p>
                         </header>
 
                         <section class="mt-6">
-                            <div id="map" class="h-96"></div>
-
-                            <button
-                                class="mt-1 inline-flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400"
-                                type="button"
-                                onclick="getCurrentLocation()">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                     class="w-5 h-5">
-                                    <path fill-rule="evenodd"
-                                          d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z"
-                                          clip-rule="evenodd"/>
-                                </svg>
-                                <span>{{__('Gunakan lokasi saat ini')}}</span>
-                            </button>
+                            <div id="map" class="h-80"></div>
                         </section>
 
                         <form method="post" action="{{ route('address.update', $address) }}" class="mt-6 space-y-6">
                             @csrf
-                            @method('PUT')
+                            @method('put')
 
-                            <input type="hidden" id="latitude" name="latitude"
-                                   value="{{ old('latitude', $address->latitude) }}">
-                            <input type="hidden" id="longitude" name="longitude"
-                                   value="{{ old('latitude', $address->longitude) }}">
-                            <input type="hidden" id="accuracy" name="accuracy"
-                                   value="{{ old('latitude', $address->accuracy) }}">
+                            <input type="hidden" id="latitude" name="latitude">
+                            <input type="hidden" id="longitude" name="longitude">
+                            <input type="hidden" id="accuracy" name="accuracy">
 
-                            <div>
-                                <x-input-label for="name" :value="__('Nama Tempat')"/>
-                                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
-                                              :value="old('name', $address->name)" required autofocus
-                                              autocomplete="name"/>
-                                <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+                            <div class="grid grid-cols-2 space-x-4">
+                                <!-- Nama Lengkap -->
+                                <div>
+                                    <x-input-label for="full_name" :value="__('Nama Lengkap')"/>
+                                    <x-text-input id="full_name" name="full_name" type="text" class="mt-1 block w-full"
+                                                  :value="old('full_name', $address->full_name)" required autofocus
+                                                  autocomplete="name"/>
+                                    <x-input-error class="mt-2" :messages="$errors->get('full_name')"/>
+                                </div>
+
+                                <!-- Nomor telepon -->
+                                <div>
+                                    <x-input-label for="phone_number" :value="__('Nomor Telepon')"/>
+                                    <x-text-input id="phone_number" name="phone_number" type="number"
+                                                  class="mt-1 block w-full"
+                                                  :value="old('phone_number', $address->phone_number)" required/>
+                                    <x-input-error class="mt-2" :messages="$errors->get('phone_number')"/>
+                                </div>
                             </div>
 
+                            <!-- Detail alamat -->
                             <div>
                                 <x-input-label for="detail" :value="__('Detail Alamat')"/>
-                                <x-text-input id="detail" name="detail" type="text" class="mt-1 block w-full"
-                                              :value="old('detail', $address->detail)" required/>
+                                <textarea id="detail" name="detail" rows="4"
+                                          class="block p-2.5 w-full mt-1 text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
+                                          placeholder="Leave a comment...">{{ old('detail', $address->detail) }}</textarea>
                                 <x-input-error class="mt-2" :messages="$errors->get('detail')"/>
                             </div>
 
+                            <!-- Patokan -->
                             <div>
-                                <x-input-label for="keterangan" :value="__('Keterangan (opsional)')"/>
-                                <x-text-input id="keterangan" name="keterangan" type="text" class="mt-1 block w-full"
-                                              :value="old('keterangan', $address->keterangan)"/>
-                                <x-input-error class="mt-2" :messages="$errors->get('keterangan')"/>
-                                <span
-                                    class="text-xs text-gray-600 dark:text-gray-400">{{__('Tambahkan ini biar kami lebih mudah menemukan alamat mu')}}</span>
+                                <x-input-label for="patokan" :value="__('Patokan')"/>
+                                <x-text-input id="patokan" name="patokan" type="text" class="mt-1 block w-full"
+                                              :value="old('patokan', $address->patokan)"/>
+                                <x-input-error class="mt-2" :messages="$errors->get('patokan')"/>
                             </div>
 
                             <div class="flex items-center gap-4">
-                                <x-primary-button>{{ __('Simpan') }}</x-primary-button>
+                                <x-primary-button>{{ __('Ubah') }}</x-primary-button>
                             </div>
                         </form>
                     </section>
@@ -76,59 +73,35 @@
         </div>
     </div>
 
-    @if($address->latitude === null && $address->longitude === null)
-        <script>
-            const map = L.map('map').setView([-1.933, 115.203], 4);
-
-            function success(pos) {
-                const crd = pos.coords;
-                map.flyTo([crd.latitude, crd.longitude], 19);
-                const marker = L.marker([crd.latitude, crd.longitude]).addTo(map);
-                marker.bindPopup(`Tingkat akurasi ${crd.accuracy} meter.`).openPopup();
-
-                document.getElementById("latitude").value = `${crd.latitude}`
-                document.getElementById("longitude").value = `${crd.longitude}`
-                document.getElementById("accuracy").value = `${crd.accuracy}`
-            }
-        </script>
-    @else
-        <script>
-            const map = L.map('map').setView([{{ $address->latitude }}, {{ $address->longitude }}], 19);
-            const addressMarker = L.marker([{{ $address->latitude }}, {{ $address->longitude }}]).addTo(map)
-
-            function success(pos) {
-                map.removeLayer(addressMarker)
-
-                const crd = pos.coords;
-                map.flyTo([crd.latitude, crd.longitude], 19);
-                const marker = L.marker([crd.latitude, crd.longitude]).addTo(map);
-                marker.bindPopup(`Tingkat akurasi ${crd.accuracy} meter.`).openPopup();
-
-                document.getElementById("latitude").value = `${crd.latitude}`
-                document.getElementById("longitude").value = `${crd.longitude}`
-                document.getElementById("accuracy").value = `${crd.accuracy}`
-            }
-        </script>
-    @endif
-
     <script>
+        const map = L.map('map').fitWorld()
+
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            attribution: '© OpenStreetMap'
         }).addTo(map);
 
-        const options = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-        };
+        map.locate({setView: true, maxZoom: 19});
 
-        function error(err) {
-            console.warn(`ERROR(${err.code}): ${err.message}`);
+        function onLocationFound(e) {
+            const radius = e.accuracy;
+
+            L.marker(e.latlng).addTo(map)
+                .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+            L.circle(e.latlng, radius).addTo(map);
+
+            document.getElementById("latitude").value = e.latlng.lat
+            document.getElementById("longitude").value = e.latlng.lng
+            document.getElementById("accuracy").value = e.accuracy
         }
 
-        function getCurrentLocation() {
-            navigator.geolocation.getCurrentPosition(success, error, options);
+        map.on('locationfound', onLocationFound);
+
+        function onLocationError(e) {
+            alert(e.message);
         }
+
+        map.on('locationerror', onLocationError);
     </script>
 </x-app-layout>
