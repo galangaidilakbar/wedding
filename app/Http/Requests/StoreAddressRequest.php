@@ -24,12 +24,13 @@ class StoreAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:50',
+            'full_name' => 'required|string|max:50',
+            'phone_number' => 'required|max:13',
             'detail' => 'required|string|max:255',
-            'keterangan', 'nullable|string|max:50',
-            'latitude' => 'nullable|between:-90,90',
-            'longitude' => 'nullable|between:-180,180',
-            'accuracy' => 'nullable|numeric',
+            'patokan' => 'required|string|max:50',
+            'latitude' => 'required|between:-90,90',
+            'longitude' => 'required|between:-180,180',
+            'accuracy' => 'required|numeric',
         ];
     }
 }
