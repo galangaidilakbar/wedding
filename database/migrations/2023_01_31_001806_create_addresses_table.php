@@ -16,12 +16,13 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
+            $table->string('full_name');
+            $table->char('phone_number');
             $table->text('detail');
-            $table->text('keterangan')->nullable();
-            $table->decimal('latitude', 10, 8)->nullable();
-            $table->decimal('longitude', 11, 8)->nullable();
-            $table->integer('accuracy')->nullable();
+            $table->char('patokan', 50);
+            $table->decimal('latitude', 10, 8);
+            $table->decimal('longitude', 11, 8);
+            $table->integer('accuracy');
             $table->timestamps();
         });
     }
