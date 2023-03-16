@@ -6,5 +6,7 @@ return [
     'Remember me' => 'Ingat Saya',
     'Forgot your password?' => 'Lupa kata sandi?',
     'Log in' => 'Masuk',
-    'Profile' => 'Profil'
+    'Profile' => 'Profil',
+    'Category' => 'Kategori Produk',
+    'Save' => 'Simpan',
 ];
