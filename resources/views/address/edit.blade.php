@@ -50,8 +50,8 @@
                             <div>
                                 <x-input-label for="detail" :value="__('Detail Alamat')"/>
                                 <textarea id="detail" name="detail" rows="4"
-                                          class="block p-2.5 w-full mt-1 text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
-                                          placeholder="Leave a comment...">{{ old('detail', $address->detail) }}</textarea>
+                                          class="block p-2.5 w-full mt-1 text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
+                                          placeholder="Tuliskan alamat secara lengkap dimulai dari nama jalan, nomer rumah, RT/RW, Nama Desa, Kecamatan, Kabupaten, dan Provinsi">{{ old('detail', $address->detail) }}</textarea>
                                 <x-input-error class="mt-2" :messages="$errors->get('detail')"/>
                             </div>
 
