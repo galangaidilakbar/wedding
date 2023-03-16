@@ -15,8 +15,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
+                        {{ __('Kategori Produk') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.*')">
-                        {{ __('Manajemen Produk') }}
+                        {{ __('Produk') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -74,8 +77,8 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('product.index')" :active="request()->routeIs('product.index')">
-                {{ __('Manajemen Produk') }}
+            <x-responsive-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
+                {{ __('Kategori Produk') }}
             </x-responsive-nav-link>
         </div>
 
