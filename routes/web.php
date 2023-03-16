@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('address', AddressController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('category', CategoryController::class)->only(['index', 'store', 'edit', 'update', 'destroy']);
 
     Route::resources([
         'product' => ProductController::class
