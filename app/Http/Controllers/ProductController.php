@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
@@ -68,23 +69,37 @@ class ProductController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Product $product
-     * @return Response
+     * @return View
      */
-    public function edit(Product $product)
+    public function edit(Product $product): View
     {
-        //
+        return view('product.edit', [
+            'product' => $product,
+            'categories' => Category::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateProductRequest $request
      * @param Product $product
-     * @return Response
+     * @return RedirectResponse
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product): RedirectResponse
     {
-        //
+        $validated = $request->all();
+
+        if ($request->hasFile('photo')) {
+            Storage::delete($product->photo);
+            $path = $request->file('photo')->store('public/products');
+            $validated['photo'] = $path;
+            $validated['photo_url'] = Storage::url($path);
+        }
+
+        $product->update($validated);
+
+        return to_route('product.index')->with('status', 'produk berhasil diubah');
     }
 
     /**
