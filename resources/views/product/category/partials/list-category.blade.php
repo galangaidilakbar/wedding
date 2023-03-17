@@ -31,7 +31,7 @@
                         {{ $loop->iteration }}
                     </th>
                     <td class="px-6 py-4">
-                        {{ $category->name }}
+                        {{ $category->name }} ({{ $category->products->count() }})
                     </td>
                     <td class="px-6 py-4 flex space-x-2">
                         <x-primary-link href="{{ route('category.edit', $category) }}">
@@ -44,7 +44,8 @@
                             @csrf
                             @method('delete')
                             <x-primary-link href="{{ route('address.destroy', $category) }}"
-                                            onclick="event.preventDefault(); this.closest('form').submit();">
+                                            onclick="event.preventDefault(); this.closest('form').submit();"
+                            class="{{ $category->products->count() ? 'cursor-not-allowed opacity-50': '' }}">
                                 Hapus
                             </x-primary-link>
                         </form>
