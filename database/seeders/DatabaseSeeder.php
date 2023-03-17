@@ -28,5 +28,9 @@ class DatabaseSeeder extends Seeder
              'email' => 'anita@kodegakure.com',
              'is_admin' => false
          ]);
+
+         $this->call([
+            CategorySeeder::class
+         ]);
     }
 }
