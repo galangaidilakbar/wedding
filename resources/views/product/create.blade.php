@@ -10,12 +10,41 @@
                             </h2>
 
                             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                {{ __('Ehe ehe ehe eeeehhe ehehe ehehe') }}
+                                {{ __('Lorem ipsum dolor sit amet.') }}
                             </p>
                         </header>
 
                         <form method="post" action="{{ route('product.store') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
                             @csrf
+
+                            <div>
+                                <x-input-label for="name" :value="__('Nama Produk')" />
+                                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
+                                              :value="old('name')" required autofocus autocomplete="name" x-model="name" />
+                                <x-input-error class="mt-2" :messages="$errors->get('name')" />
+                            </div>
+
+                            <div>
+                                <x-input-label for="category_id" :value="__('Kategori Produk')" />
+                                <x-select name="category_id" id="category_id" class="mt-1 block w-full">
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </x-select>
+                            </div>
+
+                            <div>
+                                <x-input-label for="price" :value="__('Harga')" />
+                                <x-text-input id="price" name="price" type="number" class="mt-1 block w-full"
+                                              :value="old('price')" onchange="rupiah(this.value)"/>
+                                <x-input-error class="mt-2" :messages="$errors->get('price')" />
+                            </div>
+
+                            <div>
+                                <x-input-label for="description" :value="__('Deskripsi')" />
+                                <x-textarea id="description" name="description" class="mt-1 block w-full">{{ old('description') }}</x-textarea>
+                                <x-input-error class="mt-2" :messages="$errors->get('detail')" />
+                            </div>
 
                             <div>
                                 <x-input-label for="photo" :value="__('Foto Produk')" />
@@ -30,26 +59,7 @@
                                 <x-input-error class="mt-2" :messages="$errors->get('photo')" />
                             </div>
 
-                            <div>
-                                <x-input-label for="name" :value="__('Nama Produk')" />
-                                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
-                                    :value="old('name')" required autofocus autocomplete="name" x-model="name" />
-                                <x-input-error class="mt-2" :messages="$errors->get('name')" />
-                            </div>
 
-                            <div>
-                                <x-input-label for="price" :value="__('Harga')" />
-                                <x-text-input id="price" name="price" type="number" class="mt-1 block w-full"
-                                    :value="old('price')" onchange="rupiah(this.value)"/>
-                                <x-input-error class="mt-2" :messages="$errors->get('price')" />
-                            </div>
-
-                            <div>
-                                <x-input-label for="description" :value="__('Deskripsi')" />
-                                <x-text-input id="description" name="description" type="text" class="mt-1 block w-full"
-                                    :value="old('description')" required />
-                                <x-input-error class="mt-2" :messages="$errors->get('detail')" />
-                            </div>
 
                             <div class="grid grid-cols-2 gap-4" x-data="{ open: false }">
                                 <div class="text-gray-900 dark:text-white">
