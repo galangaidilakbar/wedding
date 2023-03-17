@@ -8,8 +8,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
@@ -20,17 +18,7 @@ class CategoryController extends Controller
      */
     public function index(): Application|Factory|View
     {
-        return view('product.category.category', ['categories' => Category::all()]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
+        return view('product.category.category', ['categories' => Category::with('products')->get()]);
     }
 
     /**
@@ -44,17 +32,6 @@ class CategoryController extends Controller
         Category::create($request->all());
 
         return back()->with('category-saved', 'Kategory berhasil disimpan.');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Category $category
-     * @return Response
-     */
-    public function show(Category $category)
-    {
-        //
     }
 
     /**
