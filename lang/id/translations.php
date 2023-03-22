@@ -9,4 +9,5 @@ return [
     'Profile' => 'Profil',
     'Category' => 'Kategori Produk',
     'Save' => 'Simpan',
+    'Shopping Cart' => 'Keranjang Belanja',
 ];
