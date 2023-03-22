@@ -6,6 +6,7 @@ use App\Models\Cart;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class CartController extends Controller
@@ -25,6 +26,8 @@ class CartController extends Controller
         foreach ($carts as $cart){
             $prices[] = $cart->product->price;
         }
+
+        Log::info('Showing the shopping cart for user: ' . request()->user()->id);
 
         return view('order.carts', [
             'carts' => $carts,
@@ -55,6 +58,8 @@ class CartController extends Controller
         ]);
 
         Cart::firstOrCreate(['user_id' => $request->user()->id, 'product_id' => $validated['product_id']]);
+
+        Log::info('Save the product into the shopping cart', ['user_id' => $request->user()->id, 'product_id' => $validated['product_id']]);
 
         return back()->with('cart-saved', 'Produk berhasil disimpan ke dalam keranjang.');
     }
@@ -102,6 +107,8 @@ class CartController extends Controller
     public function destroy(Cart $cart): RedirectResponse
     {
         $cart->delete();
+
+        Log::info('Delete the product from shopping cart', ['user_id' => $cart->user_id, 'product_id' => $cart->product_id]);
 
         return back();
     }
