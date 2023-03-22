@@ -78,7 +78,8 @@
                                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white font-semibold">
                                             Total
                                         </th>
-                                        <td class="px-6 py-4 text-gray-900 dark:text-white font-semibold" colspan="3">
+                                        <td colspan="2"></td>
+                                        <td class="px-6 py-4 text-gray-900 dark:text-white font-semibold">
                                             Rp @rupiah($total_price)
                                         </td>
                                         <td class="px-6 py-4">
