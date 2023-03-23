@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
 
          User::factory()->create([
              'name' => 'Anita Rahmawati',
-             'email' => 'anita@kodegakure.com',
+             'email' => 'anitarahma1507@gmail.com',
              'is_admin' => false
          ]);
 
