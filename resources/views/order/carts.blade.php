@@ -85,9 +85,11 @@
                                             Rp @rupiah($total_price)
                                         </td>
                                         <td class="px-6 py-4">
-                                            <x-primary-button>
-                                                Checkout
-                                            </x-primary-button>
+                                            <form action="{{ route('order.create')}}">
+                                                <x-primary-button>
+                                                    Checkout
+                                                </x-primary-button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endif
