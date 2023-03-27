@@ -26,7 +26,7 @@
             </thead>
             <tbody>
             @forelse($categories as $category)
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $loop->iteration }}
                     </th>
@@ -43,11 +43,10 @@
                         <form method="POST" action="{{ route('category.destroy', $category) }}">
                             @csrf
                             @method('delete')
-                            <x-primary-link href="{{ route('address.destroy', $category) }}"
-                                            onclick="event.preventDefault(); this.closest('form').submit();"
-                            class="{{ $category->products->count() ? 'cursor-not-allowed opacity-50': '' }}">
-                                Hapus
-                            </x-primary-link>
+
+                            <button type="submit" {{ $category->products->count() ? 'disabled' : '' }} class="font-medium text-blue-600 dark:text-blue-500 hover:underline {{ $category->products->count() ? 'cursor-not-allowed opacity-50': '' }}">
+                                {{ __('Hapus')  }}
+                            </button>
                         </form>
                     </td>
                 </tr>
