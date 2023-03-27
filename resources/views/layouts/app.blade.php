@@ -21,6 +21,8 @@
         <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
                 integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
                 crossorigin=""></script>
+
+        <link rel="shortcut icon" href="{{ asset('img/ginasty-logo.jpeg') }}" type="image/x-icon">
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
