@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\AddressController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +24,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -35,10 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('address', AddressController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
     Route::resource('category', CategoryController::class)->only(['index', 'store', 'edit', 'update', 'destroy']);
     Route::resource('cart', CartController::class)->only(['index', 'store', 'destroy']);
-
-    Route::resources([
-        'product' => ProductController::class
-    ]);
+    Route::resource('order', OrderController::class)->only(['create', 'store']);
+    Route::resource('product', ProductController::class);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
