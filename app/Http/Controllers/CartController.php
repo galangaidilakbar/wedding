@@ -61,7 +61,7 @@ class CartController extends Controller
 
         Log::info('Save the product into the shopping cart', ['user_id' => $request->user()->id, 'product_id' => $validated['product_id']]);
 
-        return back()->with('cart-saved', 'Produk berhasil disimpan ke dalam keranjang.');
+        return to_route('cart.index');
     }
 
     /**
