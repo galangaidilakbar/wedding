@@ -10,5 +10,6 @@ return [
     'Category' => 'Kategori Produk',
     'Save' => 'Simpan',
     'Shopping Cart' => 'Keranjang Belanja',
-    'YOU MUST HAVE AT LEAST ONE ADDRESS TO PLACE AN ORDER' => 'ANDA HARUS MEMILIKI SETIDAKNYA SATU ALAMAT UNTUK MEMESAN',
+    'address_is_empty' => 'ANDA HARUS MEMILIKI SETIDAKNYA SATU ALAMAT UNTUK MEMESAN',
+    'carts_is_empty' => 'Keranjang belanja anda kosong',
 ];
