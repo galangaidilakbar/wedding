@@ -20,7 +20,7 @@
         <div class="text-gray-600 dark:text-gray-400 text-sm">{{ __('Total Pembayaran') }}</div>
         <div class="text-gray-900 dark:text-white text-2xl font-bold text-gray-900 dark:text-white"
              x-show="jenis_pembayaran === 'dp'">
-            Rp @rupiah($total_pembayaran)
+            Rp @rupiah($total_pembayaran_dengan_dp)
         </div>
         <div class="text-gray-900 dark:text-white text-2xl font-bold text-gray-900 dark:text-white"
              x-show="jenis_pembayaran === 'bayar_penuh'">
