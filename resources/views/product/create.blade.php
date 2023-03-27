@@ -55,7 +55,7 @@
                                 file:text-sm file:font-semibold
                                 file:bg-indigo-50 dark:file:bg-indigo-400 file:text-indigo-700 dark:file:text-indigo-100
                                 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-500"
-                                    accept=".png, .jpeg" onchange="showPreview(event)">
+                                    accept=".png, .jpeg, .jpg" onchange="showPreview(event)">
                                 <x-input-error class="mt-2" :messages="$errors->get('photo')" />
                             </div>
 
