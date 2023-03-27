@@ -7,7 +7,7 @@ return [
     'Forgot your password?' => 'Lupa kata sandi?',
     'Log in' => 'Masuk',
     'Profile' => 'Profil',
-    'Category' => 'Kategori Produk',
+    'Category Product' => 'Kategori Produk',
     'Save' => 'Simpan',
     'Shopping Cart' => 'Keranjang Belanja',
     'address_is_empty' => 'ANDA HARUS MEMILIKI SETIDAKNYA SATU ALAMAT UNTUK MEMESAN',
