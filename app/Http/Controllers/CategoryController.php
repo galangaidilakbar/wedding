@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Category;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -14,10 +12,12 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return View
      */
-    public function index(): Application|Factory|View
+    public function index(): View
     {
+        $this->authorize('is-admin');
+
         return view('product.category.category', ['categories' => Category::with('products')->get()]);
     }
 
@@ -29,6 +29,8 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request): RedirectResponse
     {
+        $this->authorize('is-admin');
+
         Category::create($request->all());
 
         return back()->with('category-saved', 'Kategory berhasil disimpan.');
@@ -42,6 +44,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category): View
     {
+        $this->authorize('is-admin');
+
         return view('product.category.edit-category', ['category' => $category]);
     }
 
@@ -54,6 +58,8 @@ class CategoryController extends Controller
      */
     public function update(StoreCategoryRequest $request, Category $category): RedirectResponse
     {
+        $this->authorize('is-admin');
+
         $category->update($request->all());
 
         return to_route('category.index')->with('status', 'Kategori berhasil diperbarui');
@@ -67,6 +73,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category): RedirectResponse
     {
+        $this->authorize('is-admin');
+
         $category->delete();
 
         return back();
