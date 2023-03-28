@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,12 +16,12 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        Category::factory()->create(['name' => 'Paket']);
-        Category::factory()->create(['name' => 'Pelaminan']);
-        Category::factory()->create(['name' => 'Meja']);
-        Category::factory()->create(['name' => 'Kursi']);
-        Category::factory()->create(['name' => 'Tenda']);
-        Category::factory()->create(['name' => 'Tata Rias']);
-        Category::factory()->create(['name' => 'Photography']);
+        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Paket']);
+        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Pelaminan']);
+        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Meja']);
+        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Kursi']);
+        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Tenda']);
+        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Tata Rias']);
+        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Photography']);
     }
 }
