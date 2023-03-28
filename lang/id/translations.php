@@ -13,4 +13,5 @@ return [
     'address_is_empty' => 'ANDA HARUS MEMILIKI SETIDAKNYA SATU ALAMAT UNTUK MEMESAN',
     'carts_is_empty' => 'Keranjang belanja anda kosong',
     'add to cart' => 'Masukkan keranjang',
+    'you_are_not_admin' => 'Anda bukan admin',
 ];
