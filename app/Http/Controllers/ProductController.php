@@ -21,6 +21,8 @@ class ProductController extends Controller
      */
     public function index(): View
     {
+        $this->authorize('is-admin');
+
         return view('product.index', ['products' => Product::with('category')->get()]);
     }
 
@@ -31,6 +33,8 @@ class ProductController extends Controller
      */
     public function create(): View
     {
+        $this->authorize('is-admin');
+
         return view('product.create', ['categories' => Category::all()]);
     }
 
@@ -42,6 +46,8 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request): RedirectResponse
     {
+        $this->authorize('is-admin');
+
         $validated = $request->all();
 
         // store the product image
@@ -73,6 +79,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product): View
     {
+        $this->authorize('is-admin');
+
         return view('product.edit', [
             'product' => $product,
             'categories' => Category::all()
@@ -88,6 +96,8 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product): RedirectResponse
     {
+        $this->authorize('is-admin');
+
         $validated = $request->all();
 
         if ($request->hasFile('photo')) {
@@ -110,8 +120,12 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): RedirectResponse
     {
+        $this->authorize('is-admin');
+
         Storage::delete($product->photo);
+
         $product->delete();
+
         return to_route('product.index')->with('status', 'produk berhasil dihapus');
     }
 }
