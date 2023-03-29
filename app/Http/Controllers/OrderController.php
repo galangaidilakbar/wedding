@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
@@ -46,9 +47,9 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreOrderRequest $request
-     * @return Response
+     * @return RedirectResponse
      */
-    public function store(StoreOrderRequest $request)
+    public function store(StoreOrderRequest $request): RedirectResponse
     {
         $validated = $request->validated();
         $validated['user_id'] = $request->user()->id;
@@ -60,7 +61,7 @@ class OrderController extends Controller
             $cart->delete();
         }
 
-        return 'order created, detail order saved';
+        return to_route('order.index');
     }
 
     /**
@@ -71,7 +72,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        dd($order->with('detail_orders.product')->get());
     }
 
     /**
@@ -100,12 +101,14 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Order $order
-     * @return Response
+     * @param Order $order
+     * @return RedirectResponse
      */
-    public function destroy(Order $order)
+    public function destroy(Order $order): RedirectResponse
     {
-        //
+        $order->delete();
+
+        return to_route('order.index');
     }
 
     public function getCarts(): Collection
