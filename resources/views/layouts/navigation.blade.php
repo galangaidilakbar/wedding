@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"/>
                     </a>
                 </div>
 
@@ -21,13 +21,13 @@
                     </x-nav-link>
 
                     @can('is-admin')
-                    <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
-                        {{ __('Kategori Produk') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
+                            {{ __('Kategori Produk') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.*')">
-                        {{ __('Produk') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.*')">
+                            {{ __('Produk') }}
+                        </x-nav-link>
                     @endcan
                 </div>
             </div>
@@ -63,7 +63,7 @@
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                             onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -91,9 +91,19 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
-                {{ __('Kategori Produk') }}
+            <x-responsive-nav-link :href="route('order.index')" :active="request()->routeIs('order.*')">
+                {{ __('translations.Orders') }}
             </x-responsive-nav-link>
+
+            @can('is-admin')
+                <x-responsive-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
+                    {{ __('Kategori Produk') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('product.index')" :active="request()->routeIs('product.*')">
+                    {{ __('Produk') }}
+                </x-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->
