@@ -14,11 +14,13 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        //
+        return view('order.index', [
+            'orders' => request()->user()->orders()->get(),
+        ]);
     }
 
     /**

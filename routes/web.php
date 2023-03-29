@@ -37,7 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('category', CategoryController::class)->only(['index', 'store', 'edit', 'update', 'destroy']);
     Route::resource('product', ProductController::class);
     Route::resource('cart', CartController::class)->only(['index', 'store', 'destroy']);
-    Route::resource('order', OrderController::class)->only(['create', 'store']);
+    Route::resource('order', OrderController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
 });
 
 require __DIR__ . '/auth.php';
