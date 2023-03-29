@@ -2,7 +2,7 @@
     @foreach ($products as $product)
         <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-700">
             <a href="{{ route('product.show', $product) }}">
-                <img class="rounded-t-lg" src="{{ $product->photo_url }}" alt="{{ $product->name }}"/>
+                <img class="rounded-t-lg" src="{{ $product->photo_url }}" alt="{{ $product->name }}" loading="lazy"/>
             </a>
             <div class="px-5 py-5">
                 <a href="{{ route('product.show', $product) }}">
