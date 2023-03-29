@@ -66,9 +66,9 @@ class ProductController extends Controller
      * @param Product $product
      * @return Response
      */
-    public function show(Product $product)
+    public function show(Product $product): View
     {
-        //
+        return view('product.show', ['product' => $product]);
     }
 
     /**
