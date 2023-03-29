@@ -16,6 +16,10 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('order.index')" :active="request()->routeIs('order.*')">
+                        {{ __('translations.Orders') }}
+                    </x-nav-link>
+
                     @can('is-admin')
                     <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
                         {{ __('Kategori Produk') }}
@@ -52,10 +56,6 @@
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('translations.Profile') }}
-                        </x-dropdown-link>
-
-                        <x-dropdown-link :href="route('order.index')">
-                            {{ __('translations.Orders') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
