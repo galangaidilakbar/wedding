@@ -68,11 +68,13 @@ class OrderController extends Controller
      * Display the specified resource.
      *
      * @param \App\Models\Order $order
-     * @return Response
+     * @return View
      */
-    public function show(Order $order)
+    public function show(Order $order): View
     {
-        dd($order->with('detail_orders.product')->get());
+        // dd($order->with(['detail_orders.product', 'address'])->first());
+
+        return view('order.show', ['order' => $order->with(['detail_orders.product', 'address'])->first()]);
     }
 
     /**
