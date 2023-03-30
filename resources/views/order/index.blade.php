@@ -58,7 +58,7 @@
                                                 @method('delete')
                                                 <x-primary-link href="{{ route('address.destroy', $order) }}"
                                                                 onclick="event.preventDefault(); this.closest('form').submit();">
-                                                    Hapus
+                                                    {{ __('translations.Cancel') }}
                                                 </x-primary-link>
                                             </form>
                                         </td>
