@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PaymentsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
@@ -38,6 +39,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('product', ProductController::class);
     Route::resource('cart', CartController::class)->only(['index', 'store', 'destroy']);
     Route::resource('order', OrderController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
+
+    Route::resource('order.payments', PaymentsController::class)->except('index');
 });
 
 require __DIR__ . '/auth.php';
