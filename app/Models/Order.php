@@ -14,6 +14,12 @@ class Order extends Model
 
     protected $guarded = ['id'];
 
+    /*
+     * Getters DP
+     * @return float
+     */
+    public const DP = 0.30;
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -24,14 +30,13 @@ class Order extends Model
         return $this->hasMany(DetailOrder::class);
     }
 
-    /*
-     * Getters DP
-     * @return float
-     */
-    public const DP = 0.30;
-
     public function address(): BelongsTo
     {
         return $this->belongsTo(Address::class);
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payments::class);
     }
 }
