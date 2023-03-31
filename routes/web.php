@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CreateInvoiceController;
 use App\Http\Controllers\PaymentsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
@@ -38,8 +39,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('category', CategoryController::class)->only(['index', 'store', 'edit', 'update', 'destroy']);
     Route::resource('product', ProductController::class);
     Route::resource('cart', CartController::class)->only(['index', 'store', 'destroy']);
-    Route::resource('order', OrderController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
 
+    # All about order.
+    Route::get('/order/{order}/invoice', [CreateInvoiceController::class, 'index'])->name('order.invoice');
+    Route::resource('order', OrderController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
     Route::resource('order.payments', PaymentsController::class)->except('index');
 });
 

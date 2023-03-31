@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\Order;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,6 +29,7 @@ class OrderController extends Controller
      * Show the form for creating a new resource.
      *
      * @return View
+     * @throws AuthorizationException
      */
     public function create(): View
     {
@@ -54,33 +56,32 @@ class OrderController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = $request->user()->id;
         $validated['total_harga'] = $this->getTotalProductPrice();
-        $validated['status'] = 'pending';
         $order = Order::create($validated);
+
+        // Create detail order and delete carts
         foreach ($this->getCarts() as $cart) {
             $order->detail_orders()->create(['product_id' => $cart->product_id]);
             $cart->delete();
         }
 
-        return to_route('order.index');
+        return to_route('order.show', $order);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Order $order
+     * @param Order $order
      * @return View
      */
     public function show(Order $order): View
     {
-        // dd($order->with(['detail_orders.product', 'address'])->first());
-
-        return view('order.show', ['order' => $order->with(['detail_orders.product', 'address'])->first()]);
+        return view('order.show', ['order' => $order->with(['detail_orders.product', 'address', 'payments'])->first()]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Order $order
+     * @param Order $order
      * @return Response
      */
     public function edit(Order $order)
@@ -92,7 +93,7 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param \App\Models\Order $order
+     * @param Order $order
      * @return Response
      */
     public function update(Request $request, Order $order)
