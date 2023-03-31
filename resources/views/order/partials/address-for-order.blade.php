@@ -1,4 +1,4 @@
-<section class="mb-6">
+<section class="mb-6 max-w-xl">
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
             {{ __('Alamat Acara') }}
