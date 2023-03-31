@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('jenis_pembayaran', ['dp', 'bayar_penuh']);
             $table->enum('metode_pembayaran', ['cash', 'transfer_bank']);
             $table->decimal('total_harga', 12, 2);
-            $table->enum('status', ['pending', 'paid', 'canceled']);
+            $table->enum('status', ['pending', 'paid', 'canceled'])->default('pending');
             $table->timestamps();
         });
     }
