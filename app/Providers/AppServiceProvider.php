@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Blade::directive('rupiah', function($price) {
-            return "<?php echo number_format($price, 0, ',','.'); ?>";
+            return "<?php echo number_format($price, 0, '.',','); ?>";
         });
     }
 }
