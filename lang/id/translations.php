@@ -18,4 +18,7 @@ return [
     'Orders' => 'Pesanan',
     'Order detail' => 'Detail Pesanan',
     'Cancel' => 'Batal',
+    'Upload Proof of Payment Form' => 'Unggah Bukti Pembayaran',
+    'amount' => 'Jumlah',
+    'Upload' => 'Unggah',
 ];
