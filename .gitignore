@@ -17,4 +17,7 @@ yarn-error.log
 /.idea
 /.vscode
 .DS_Store
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php
 
