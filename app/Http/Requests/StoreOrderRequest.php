@@ -26,8 +26,9 @@ class StoreOrderRequest extends FormRequest
         return [
             'address_id' => 'required',
             'tanggal_acara' => 'required|date|after: +2 weeks',
-            'jenis_pembayaran' => 'required',
+            'opsi_bayar' => 'required',
             'metode_pembayaran' => 'required',
+            'catatan' => 'nullable',
         ];
     }
 }

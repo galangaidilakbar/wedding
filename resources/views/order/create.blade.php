@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form action="{{ route('order.store') }}" method="post" x-data="{ jenis_pembayaran: 'dp' }">
+                    <form action="{{ route('order.store') }}" method="post">
                         @csrf
 
                         <!-- Alamat -->
@@ -22,13 +22,13 @@
                         @include('order.partials.tanggal-acara')
 
                         <!-- Jenis Pembayaran -->
-                        @include('order.partials.jenis-pembayaran')
+                        @include('order.partials.opsi-bayar')
 
                         <!-- Metode Pembayaran -->
                         @include('order.partials.metode-pembayaran')
 
-                        <!-- Rincian Pesanan -->
-                        @include('order.partials.rincian-pesanan-in-order')
+                        <!-- Catatan -->
+                        @include('order.partials.catatan')
 
                         <x-primary-button>{{ __('Buat Pesanan') }}</x-primary-button>
                     </form>

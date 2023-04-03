@@ -18,9 +18,11 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('address_id')->constrained()->cascadeOnDelete();
             $table->date('tanggal_acara');
-            $table->enum('jenis_pembayaran', ['dp', 'bayar_penuh']);
-            $table->enum('metode_pembayaran', ['cash', 'transfer_bank']);
-            $table->decimal('total_harga', 12, 2);
+            $table->enum('opsi_bayar', ['DP', 'FULL'])->default('DP');
+            $table->enum('metode_pembayaran', ['CASH', 'BANK'])->default('CASH');
+            $table->text('catatan')->nullable();
+            $table->decimal('total_dp', 12);
+            $table->decimal('total_harga', 12);
             $table->enum('status', ['pending', 'paid', 'canceled'])->default('pending');
             $table->timestamps();
         });

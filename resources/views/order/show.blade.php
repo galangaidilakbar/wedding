@@ -9,6 +9,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
+                    @if (session('order-status') === 'order-created')
+                        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 max-w-xl" role="alert"
+                             x-data="{ show: true }"
+                             x-show="show"
+                             x-transition
+                             x-init="setTimeout(() => show = false, 2000)">
+                            {{ __('Pesanan berhasil dibuat.') }}
+                        </div>
+                    @endif
+
                     {{-- Informasi Pesanan --}}
                     <section class="mb-6 max-w-xl">
                         <header>
@@ -34,16 +44,19 @@
                                 <div>{{ $order->tanggal_acara }}</div>
 
                                 <div>{{ __('Jenis Pembayaran') }}</div>
-                                <div class="uppercase">{{ $order->jenis_pembayaran }}</div>
+                                <div class="uppercase">{{ $order->opsi_bayar }}</div>
 
                                 <div>{{ __('Metode Pembayaran') }}</div>
                                 <div class="uppercase">{{ $order->metode_pembayaran }}</div>
 
-                                <div>{{ __('Status Pesanan') }}</div>
-                                <div class="uppercase">{{ $order->status }}</div>
+                                <div>{{ __('Total DP') }}</div>
+                                <div>Rp @rupiah($order->total_dp)</div>
 
                                 <div>{{ __('Total Pesanan') }}</div>
                                 <div>Rp @rupiah($order->total_harga)</div>
+
+                                <div>{{ __('Status Pesanan') }}</div>
+                                <div class="uppercase">{{ $order->status }}</div>
                             </div>
                         </div>
                     </section>
@@ -97,7 +110,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        @if($order->metode_pembayaran === 'transfer_bank')
+                        @if($order->metode_pembayaran === 'BANK')
                             <div class="flex justify-center mt-4">
                                 <x-primary-button-link
                                     href="{{ route('order.payments.create', $order) }}">{{ __('Upload Bukti Bayar') }}</x-primary-button-link>

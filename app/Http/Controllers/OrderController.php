@@ -56,6 +56,7 @@ class OrderController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = $request->user()->id;
         $validated['total_harga'] = $this->getTotalProductPrice();
+        $validated['total_dp'] = $this->getTotalPembayaranDenganDP();
         $order = Order::create($validated);
 
         // Create detail order and delete carts
@@ -64,7 +65,7 @@ class OrderController extends Controller
             $cart->delete();
         }
 
-        return to_route('order.show', $order);
+        return to_route('order.show', $order)->with('order-status', 'order-created');
     }
 
     /**
@@ -75,6 +76,7 @@ class OrderController extends Controller
      */
     public function show(Order $order): View
     {
+//        dd($order->metode_pembayaran);
         return view('order.show', ['order' => $order->with(['detail_orders.product', 'address', 'payments'])->first()]);
     }
 
