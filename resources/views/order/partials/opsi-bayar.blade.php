@@ -7,7 +7,7 @@
 
     <div class="grid grid-cols-1 space-y-6 mt-4">
         {{-- DP --}}
-        <div class="flex space-x-8 px-6 py-4 bg-gray-50 dark:bg-gray-900 border rounded-lg">
+        <div class="flex space-x-8 px-6 py-4 bg-gray-50 dark:bg-gray-900 border rounded-lg dark:border-gray-700">
             <div class="flex-shrink-0">
                 <input type="radio" id="DP" name="opsi_bayar" value="DP" checked>
             </div>
@@ -22,7 +22,7 @@
         </div>
 
         {{-- FULL --}}
-        <div class="flex space-x-8 px-6 py-4 bg-gray-50 dark:bg-gray-900 border rounded-lg">
+        <div class="flex space-x-8 px-6 py-4 bg-gray-50 dark:bg-gray-900 border rounded-lg dark:border-gray-700">
             <div class="flex-shrink-0">
                 <input type="radio" id="FULL" name="opsi_bayar" value="FULL">
             </div>

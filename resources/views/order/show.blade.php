@@ -9,12 +9,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
+
+                    {{-- Showing success alert when order created successfully --}}
                     @if (session('order-status') === 'order-created')
-                        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 max-w-xl" role="alert"
-                             x-data="{ show: true }"
-                             x-show="show"
-                             x-transition
-                             x-init="setTimeout(() => show = false, 2000)">
+                        <div
+                            class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 max-w-xl"
+                            role="alert"
+                            x-data="{ show: true }"
+                            x-show="show"
+                            x-transition
+                            x-init="setTimeout(() => show = false, 2000)">
                             {{ __('Pesanan berhasil dibuat.') }}
                         </div>
                     @endif

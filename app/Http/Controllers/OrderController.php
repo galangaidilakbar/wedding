@@ -76,8 +76,7 @@ class OrderController extends Controller
      */
     public function show(Order $order): View
     {
-//        dd($order->metode_pembayaran);
-        return view('order.show', ['order' => $order->with(['detail_orders.product', 'address', 'payments'])->first()]);
+        return view('order.show', ['order' => $order]);
     }
 
     /**
