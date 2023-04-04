@@ -1,11 +1,7 @@
 <section class="mb-6 max-w-xl">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Produk Dipesan') }}
-        </h2>
-    </header>
+    <x-input-label :value="__('Produk Dipesan')"/>
 
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead
                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

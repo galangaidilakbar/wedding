@@ -1,13 +1,5 @@
 <section class="mb-6 max-w-xl">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Alamat Acara') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __("Mohon memilih lokasi acara.") }}
-        </p>
-    </header>
+    <x-input-label :value="__('Alamat Acara')"/>
 
     <div class="flex flex-col">
         @foreach($addresses as $address)
