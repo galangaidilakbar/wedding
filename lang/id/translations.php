@@ -21,4 +21,6 @@ return [
     'Upload Proof of Payment Form' => 'Unggah Bukti Pembayaran',
     'amount' => 'Jumlah',
     'Upload' => 'Unggah',
+    'Change' => 'Ubah',
+    'Delete' => 'Hapus',
 ];

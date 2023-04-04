@@ -33,7 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('address', AddressController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('address', AddressController::class)->except(['index', 'show']);
 
     # All about product.
     Route::resource('category', CategoryController::class)->only(['index', 'store', 'edit', 'update', 'destroy']);
