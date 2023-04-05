@@ -6,78 +6,72 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <section>
-                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Tanggal Pesanan
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Nomor Pesanan
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Total Pesanan
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Status
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Aksi
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @forelse($orders as $order)
-                                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $order->created_at->toDateTimeString() }}
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            {{ $order->id }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            Rp @rupiah($order->total_harga)
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $order->status }}
-                                        </td>
-                                        <td class="px-6 py-4 flex space-x-2">
-                                            <x-primary-link href="{{ route('order.show', $order) }}">
-                                                Lihat
-                                            </x-primary-link>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                @forelse($orders as $order)
+                    <div class="grid grid-cols-1 mt-6 first:mt-0">
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">
+                                {{ __('NO. PESANAN: ') }} {{ $order->id }}
+                            </h2>
+                            <!-- Tombol -->
+                            <div class="flex space-x-2">
+                                <x-secondary-button-link href="{{ route('order.invoice', $order) }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                         class="w-5 h-5">
+                                        <path fill-rule="evenodd"
+                                              d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm2.25 8.5a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 3a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z"
+                                              clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ __('translations.Invoice') }}
+                                </x-secondary-button-link>
 
-                                            <div class="border-l"></div>
-
-                                            <form method="POST" action="{{ route('order.destroy', $order) }}">
-                                                @csrf
-                                                @method('delete')
-                                                <x-primary-link href="{{ route('address.destroy', $order) }}"
-                                                                onclick="event.preventDefault(); this.closest('form').submit();">
-                                                    {{ __('translations.Cancel') }}
-                                                </x-primary-link>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <td colspan="5" class="px-6 py-4">
-                                            <figure class="flex flex-col justify-center items-center">
-                                                <img src="{{ asset('img/empty.svg') }}" alt="empty illustration" class="w-20 h-auto">
-                                                <figcaption class="mt-4 text-gray-500 dark:text-gray-400 text-sm">Data pesanan masih kosong</figcaption>
-                                            </figure>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                                </tbody>
-                            </table>
+                                <x-primary-button-link href="{{ route('order.show', $order) }}">
+                                    {{ __('Lihat') }}
+                                </x-primary-button-link>
+                            </div>
                         </div>
-                    </section>
-                </div>
+                        <div class="flex space-x-4 border-b pb-2 mt-4">
+                            <div class="text-sm text-gray-500 dark:text-gray-400">
+                                {{ __('translations.Order date') }}: <span
+                                    class="text-gray-900 dark:text-gray-100">{{ $order->created_at->format('d M Y') }}</span>
+                            </div>
+                            <div class="border-l"></div>
+                            <div>
+                                {{ $order->status }}
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 mt-6 border-b pb-6">
+                            @foreach($order->detail_orders as $cart)
+                                <div class="flex space-x-8 mt-4 first:mt-0">
+                                    <div class="w-32">
+                                        <img src="{{ $cart->product->photo_url }}" alt="{{ $cart->product->name }}"
+                                             class="rounded">
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                            {{ $cart->product->name }}
+                                        </div>
+                                    </div>
+                                    <div class="font-bold text-gray-900 dark:text-gray-100">
+                                        Rp @rupiah($cart->product->price)
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div
+                            class="mt-6 text-right text-lg font-semibold text-gray-900 dark:text-gray-100">{{ __('Total Pesanan: ') }}
+                            Rp @rupiah($order->total_harga)
+                        </div>
+                    </div>
+
+                @empty
+                    <div class="flex">
+                        <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">
+                            {{ __('translations.No orders yet') }}
+                        </h2>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>

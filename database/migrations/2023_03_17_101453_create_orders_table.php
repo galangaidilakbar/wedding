@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('catatan')->nullable();
             $table->decimal('total_dp', 12);
             $table->decimal('total_harga', 12);
-            $table->enum('status', ['pending', 'paid', 'canceled'])->default('pending');
+            $table->enum('status', ['Menunggu Pembayaran', 'paid', 'canceled'])->default('Menunggu Pembayaran');
             $table->timestamps();
         });
     }
