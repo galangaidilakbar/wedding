@@ -7,18 +7,18 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'invoice'                => 'Faktur Penjualan',
-    'serial'                 => 'Serial No.',
+    'invoice'                => 'Faktur',
+    'serial'                 => 'NO. PESANAN: ',
     'date'                   => 'Tanggal Faktur',
     'seller'                 => 'Penjual',
     'buyer'                  => 'Pembeli',
     'address'                => 'Alamat',
     'code'                   => 'Kode',
     'vat'                    => 'VAT code',
-    'phone'                  => 'Phone',
+    'phone'                  => 'No. HP',
     'description'            => 'Deskripsi',
     'units'                  => 'Satuan',
-    'quantity'               => 'Qty',
+    'quantity'               => 'Jumlah',
     'price'                  => 'Harga',
     'discount'               => 'Discount',
     'tax'                    => 'Tax',
@@ -31,8 +31,8 @@ return [
     'pay_until'              => 'Silahkan bayar sebelum',
     'amount_in_words'        => 'Jumlah dalam kalimat',
     'amount_in_words_format' => '%s %s and %s %s',
-    'notes'                  => 'Notes',
-    'shipping'               => 'Shipping',
+    'notes'                  => 'Catatan',
+    'shipping'               => 'Pengiriman',
     'paid'                   => 'Paid',
     'due'                    => 'Due',
 ];

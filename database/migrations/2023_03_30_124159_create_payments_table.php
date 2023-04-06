@@ -15,10 +15,10 @@ return new class extends Migration {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained()->cascadeOnDelete();
-            $table->integer('amount')->nullable();          // in rupiah
-            $table->string('proof_of_payment')->nullable(); // path to image
-            $table->string('proof_of_payment_url')->nullable(); // url to image
+            $table->string('proof_of_payment'); // path to image
+            $table->string('proof_of_payment_url'); // url to image
             $table->enum('status', ['pending', 'verified', 'rejected'])->default('pending');
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }
