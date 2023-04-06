@@ -160,19 +160,19 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $order_id
- * @property int|null $amount
- * @property string|null $proof_of_payment
- * @property string|null $proof_of_payment_url
+ * @property string $proof_of_payment
+ * @property string $proof_of_payment_url
  * @property string $status
+ * @property string|null $note
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Order $order
  * @method static \Illuminate\Database\Eloquent\Builder|Payments newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Payments newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Payments query()
- * @method static \Illuminate\Database\Eloquent\Builder|Payments whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payments whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payments whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payments whereNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payments whereOrderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payments whereProofOfPayment($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payments whereProofOfPaymentUrl($value)
