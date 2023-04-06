@@ -43,7 +43,7 @@
                                 <div class="flex space-x-8 mt-4 first:mt-0">
                                     <div class="w-32">
                                         <img src="{{ $cart->product->photo_url }}" alt="{{ $cart->product->name }}"
-                                             class="rounded">
+                                             class="rounded" loading="lazy">
                                     </div>
                                     <div class="flex-1">
                                         <div class="text-lg font-medium text-gray-900 dark:text-gray-100">

@@ -20,7 +20,7 @@
     @endif
 
     @forelse($addresses as $address)
-        <div class="flex flex-wrap px-6 py-4 rounded-lg dark:bg-gray-900 first:mt-0 mt-4 text-gray-600 dark:text-gray-400">
+        <div class="flex flex-wrap px-6 py-4 rounded-lg bg-gray-50 dark:bg-gray-900 first:mt-0 mt-4 text-gray-600 dark:text-gray-400 border dark:border-gray-700">
             <div class="grow flex space-x-4">
                 <div class="text-gray-900 dark:text-white font-bold">{{ $address->full_name }}</div>
                 <div>{{ $address->phone_number }}</div>
