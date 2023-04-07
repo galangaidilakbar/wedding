@@ -13,7 +13,7 @@
                         {{-- Product image --}}
                         <div>
                             <img src="{{ $product->photo_url }}" alt="{{ $product->name }}"
-                                class="w-full h-full object-cover rounded-lg">
+                                class="w-full h-full max-h-96 object-cover rounded-lg">
                         </div>
 
                         {{-- Product details --}}
