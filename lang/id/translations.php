@@ -26,4 +26,5 @@ return [
     'Invoice' => 'Faktur',
     'Order date' => 'Tanggal Pesanan',
     'No orders yet' => 'Belum ada pesanan',
+    'Dashboard' => 'Beranda',
 ];
