@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg text-gray-600 dark:text-gray-400">
                 @forelse($orders as $order)
                     <div class="grid grid-cols-1 mt-6 first:mt-0">
                         <div class="flex justify-between items-center">
@@ -28,17 +28,17 @@
                                 </x-primary-button-link>
                             </div>
                         </div>
-                        <div class="flex space-x-4 border-b pb-2 mt-4">
+                        <div class="flex space-x-4 border-b dark:border-gray-700 pb-2 mt-4">
                             <div class="text-sm text-gray-500 dark:text-gray-400">
                                 {{ __('translations.Order date') }}: <span
                                     class="text-gray-900 dark:text-gray-100">{{ $order->created_at->format('d M Y') }}</span>
                             </div>
-                            <div class="border-l"></div>
-                            <div>
+                            <div class="border-l dark:border-gray-700"></div>
+                            <div class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                 {{ $order->status }}
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 mt-6 border-b pb-6">
+                        <div class="grid grid-cols-1 mt-6 border-b dark:border-gray-700 pb-6">
                             @foreach($order->detail_orders as $cart)
                                 <div class="flex space-x-8 mt-4 first:mt-0">
                                     <div class="w-32">
@@ -56,9 +56,11 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div
-                            class="mt-6 text-right text-lg font-semibold text-gray-900 dark:text-gray-100">{{ __('Total Pesanan: ') }}
-                            Rp @rupiah($order->total_harga)
+                        <div class="mt-6 text-right">
+                            {{ __('Total Pesanan: ') }}
+                            <span class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                Rp @rupiah($order->total_harga)
+                            </span>
                         </div>
                     </div>
 
