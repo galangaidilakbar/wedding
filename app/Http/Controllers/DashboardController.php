@@ -11,6 +11,9 @@ class DashboardController extends Controller
 {
     public function index(): View
     {
-        return view('dashboard', ['categories' => Category::all()]);
+        return view('dashboard', [
+            'categories' => Category::with('products')->get(),
+            'show_all_products' => false,
+        ]);
     }
 }

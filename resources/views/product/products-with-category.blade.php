@@ -1,11 +1,14 @@
 <section>
     @foreach($categories as $category)
-        <header class="first:pt-0 pt-6">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-6">{{ $category->name }}</h2>
+        <header class="first:pt-0 pt-6 mb-6">
+            <a href="{{ route('getProductByCategoryName') . '?name=' . $category->name }}"
+               class="text-lg font-medium text-gray-900 dark:text-gray-100 hover:underline">
+                {{ $category->name }}
+            </a>
         </header>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 place-content-center">
-            @foreach($category->products()->latest()->take(3)->get() as $product)
+            @foreach($category->products->sortBy('price') as $product)
                 <div
                     class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-700">
                     <a href="{{ route('product.show', $product) }}">
@@ -21,6 +24,9 @@
                             @rupiah($product->price)</h3>
                     </div>
                 </div>
+                @unless($show_all_products)
+                    @break($loop->iteration == 3)
+                @endunless
             @endforeach
         </div>
     @endforeach
