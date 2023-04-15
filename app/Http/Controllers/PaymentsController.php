@@ -4,22 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Payments;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\StorePaymentRequest;
+use Illuminate\Http\RedirectResponse;
 
 class PaymentsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -27,19 +20,32 @@ class PaymentsController extends Controller
      */
     public function create(Order $order): View
     {
-        abort_if($order->metode_pembayaran === 'cash', 403, 'Metode pembayaran tidak sesuai');
+        abort_if($order->metode_pembayaran === 'CASH', 403, 'Metode pembayaran tidak sesuai');
+
         return view('order.payment.create', ['order' => $order]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @param StorePaymentRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Order $order, StorePaymentRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $path = $request->file('proof_of_payment')->store('public/payments');
+
+        $validated['proof_of_payment'] = $path;
+
+        $validated['proof_of_payment_url'] = Storage::url($path);
+
+        $order->payments()->create($validated);
+
+        $order->update(['status' => 'Melakukan Verifikasi']);
+
+        return to_route('order.show', $order);
     }
 
     /**
@@ -67,7 +73,7 @@ class PaymentsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  \App\Models\Payments  $payments
      * @return Response
      */
