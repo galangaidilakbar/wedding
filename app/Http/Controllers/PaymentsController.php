@@ -45,6 +45,12 @@ class PaymentsController extends Controller
 
         $order->update(['status' => 'Melakukan Verifikasi']);
 
+        // Create new timeline
+        $order->timelines()->create([
+            'title' => 'Mengunggah Bukti Bayar.',
+            'description' => 'Menunggu verifikasi pembayaran dari admin.',
+        ]);
+
         return to_route('order.show', $order);
     }
 

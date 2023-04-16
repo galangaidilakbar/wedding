@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Address;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,5 +37,10 @@ class Order extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payments::class);
+    }
+
+    public function timelines(): HasMany
+    {
+        return $this->hasMany(Timeline::class);
     }
 }

@@ -38,17 +38,38 @@
                         </div>
                     @endif
 
-                    <div class="grid grid-cols-1 space-y-6">
+                    <div class="grid grid-cols-1 space-y-6" x-data="{ open: false }">
                         <!-- Status -->
                         <div class="flex justify-between items-center">
                             <h6 class="text-lg font-bold dark:text-white">
                                 {{ $order->status }}
                             </h6>
 
-                            <x-primary-link href="#">
-                                Lihat Detail
-                            </x-primary-link>
+                            <button @click="open = !open"
+                                class="text-right font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                x-text="open ? '{{ __('Tutup') }}' : '{{ __('Lihat Detail') }}'">
+                            </button>
                         </div>
+
+                        <ol x-show="open" x-transition class="relative border-l border-gray-200 dark:border-gray-700">
+                            @foreach ($order->timelines()->latest()->get() as $timeline)
+                                <li class="mb-10 ml-4">
+                                    <div
+                                        class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                                    </div>
+                                    <time
+                                        class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                                        {{ $timeline->created_at->format('d F Y, H:i') }}
+                                    </time>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                        {{ $timeline->title }}
+                                    </h3>
+                                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                                        {{ $timeline->description }}
+                                    </p>
+                                </li>
+                            @endforeach
+                        </ol>
 
                         <div class="border-b dark:border-gray-400 border-dashed"></div>
 
@@ -254,6 +275,37 @@
                     </section>
                 </div>
             </div>
+
+            <!-- Opsi -->
+{{--            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">--}}
+{{--                <div class="max-w-xl">--}}
+{{--                    <section>--}}
+{{--                        <header>--}}
+{{--                            <h6 class="text-lg font-bold dark:text-white">--}}
+{{--                                {{ __('Rincian Pembayaran') }}--}}
+{{--                            </h6>--}}
+{{--                        </header>--}}
+
+{{--                        <div class="grid grid-cols-1 mt-6 space-y-3">--}}
+{{--                            <!-- Hapus -->--}}
+{{--                            <div class="flex justify-between">--}}
+{{--                                <div class="text-sm text-gray-500 dark:text-gray-400">--}}
+{{--                                    {{ __('Hapus') }}--}}
+{{--                                </div>--}}
+{{--                                <div class="text-sm text-gray-900 dark:text-gray-100">--}}
+{{--                                    <form action="{{ route('order.destroy', $order->id) }}" method="POST">--}}
+{{--                                        @csrf--}}
+{{--                                        @method('DELETE')--}}
+{{--                                        <button type="submit" class="text-red-600 hover:underline">--}}
+{{--                                            {{ __('Hapus') }}--}}
+{{--                                        </button>--}}
+{{--                                    </form>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </section>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         </div>
     </div>
 </x-app-layout>

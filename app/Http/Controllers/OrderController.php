@@ -65,6 +65,9 @@ class OrderController extends Controller
             $cart->delete();
         }
 
+        // Create timeline
+        $order->timelines()->create(['title' => 'Pesanan Dibuat.']);
+
         return to_route('order.show', $order)->with('order-status', 'order-created');
     }
 
