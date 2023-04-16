@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,12 +19,15 @@ class ProductController extends Controller
      * Display a listing of the resource.
      *
      * @return View
+     * @throws AuthorizationException
      */
     public function index(): View
     {
         $this->authorize('is-admin');
 
-        return view('product.index', ['products' => Product::with('category')->get()]);
+        return view('product.index', [
+            'products' => Product::with('category')->paginate()
+        ]);
     }
 
     /**

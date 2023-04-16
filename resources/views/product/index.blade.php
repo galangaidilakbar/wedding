@@ -14,6 +14,10 @@
                     </x-primary-button-link>
 
                     @include('product.partials.list-products')
+
+                    <div class="mt-4">
+                        {{ $products->links() }}
+                    </div>
                 </div>
             </div>
         </div>
