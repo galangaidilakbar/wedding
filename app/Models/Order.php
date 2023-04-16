@@ -31,7 +31,7 @@ class Order extends Model
 
     public function address(): BelongsTo
     {
-        return $this->belongsTo(Address::class);
+        return $this->belongsTo(Address::class)->withTrashed();
     }
 
     public function payments(): HasMany
