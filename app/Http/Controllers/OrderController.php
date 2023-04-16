@@ -21,7 +21,9 @@ class OrderController extends Controller
     public function index(): View
     {
         return view('order.index', [
-            'orders' => request()->user()->orders()->get(),
+            'orders' => auth()->user()->isAdmin()
+                ? Order::with('detail_orders.product')->get()
+                : auth()->user()->orders()->with('detail_orders.product')->get()
         ]);
     }
 
