@@ -13,14 +13,15 @@
                 <div class="max-w-xl">
                     <!-- Alert Menunggu Pembayaran -->
                     @if ($order->status === 'Menunggu Pembayaran')
-                        <div class="p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800"
+                        <div
+                            class="p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800"
                             role="alert">
                             <div class="flex items-center">
                                 <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                     xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
-                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                                        clip-rule="evenodd"></path>
+                                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                          clip-rule="evenodd"></path>
                                 </svg>
                                 <span class="sr-only">Info</span>
                                 <h3 class="text-lg font-medium">{{ $order->status }}</h3>
@@ -32,7 +33,7 @@
                             </div>
 
                             <a href="{{ route('order.payments.create', $order) }}"
-                                class="text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-yellow-300 dark:text-gray-800 dark:hover:bg-yellow-400 dark:focus:ring-yellow-800">
+                               class="text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-yellow-300 dark:text-gray-800 dark:hover:bg-yellow-400 dark:focus:ring-yellow-800">
                                 {{ __('Lakukan Pembayaran') }}
                             </a>
                         </div>
@@ -46,8 +47,8 @@
                             </h6>
 
                             <button @click="open = !open"
-                                class="text-right font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                x-text="open ? '{{ __('Tutup') }}' : '{{ __('Lihat Detail') }}'">
+                                    class="text-right font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                    x-text="open ? '{{ __('Tutup') }}' : '{{ __('Lihat Detail') }}'">
                             </button>
                         </div>
 
@@ -81,10 +82,10 @@
                             <div class="text-gray-900 text-sm">
                                 <x-secondary-button-link href="{{ route('order.invoice', $order) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                        class="w-5 h-5 mr-1">
+                                         class="w-5 h-5 mr-1">
                                         <path fill-rule="evenodd"
-                                            d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm4.75 6.75a.75.75 0 011.5 0v2.546l.943-1.048a.75.75 0 011.114 1.004l-2.25 2.5a.75.75 0 01-1.114 0l-2.25-2.5a.75.75 0 111.114-1.004l.943 1.048V8.75z"
-                                            clip-rule="evenodd" />
+                                              d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm4.75 6.75a.75.75 0 011.5 0v2.546l.943-1.048a.75.75 0 011.114 1.004l-2.25 2.5a.75.75 0 01-1.114 0l-2.25-2.5a.75.75 0 111.114-1.004l.943 1.048V8.75z"
+                                              clip-rule="evenodd"/>
                                     </svg>
                                     {{ __('Unduh') }}
                                 </x-secondary-button-link>
@@ -119,7 +120,7 @@
                                 <div class="flex space-x-8 mt-4 first:mt-0">
                                     <div class="w-32">
                                         <img src="{{ $cart->product->photo_url }}" alt="{{ $cart->product->name }}"
-                                            class="rounded" loading="lazy">
+                                             class="rounded" loading="lazy">
                                     </div>
                                     <div class="flex-1">
                                         <div class="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -159,10 +160,20 @@
                         </header>
 
                         <div class="mt-6">
-                            <div class="font-bold mb-1 text-gray-900 dark:text-gray-100">
-                                {{ $order->address->full_name }}</div>
-                            <div class="text-gray-500 dark:text-gray-400 text-sm">{{ $order->address->phone_number }}
+                            <!-- Map Container -->
+                            <div id="map" class="h-96 bg-gray-300 rounded dark:bg-gray-700"></div>
+
+                            <!-- Nama Lengkap -->
+                            <div class="font-bold mb-1 text-gray-900 dark:text-gray-100 mt-4">
+                                {{ $order->address->full_name }}
                             </div>
+
+                            <!-- Nomor telepon -->
+                            <div class="text-gray-500 dark:text-gray-400 text-sm">
+                                {{ $order->address->phone_number }}
+                            </div>
+
+                            <!-- Detail alamat -->
                             <div class="text-gray-500 dark:text-gray-400 text-sm">
                                 {{ $order->address->detail }} ({{ $order->address->patokan }})
                             </div>
@@ -220,8 +231,8 @@
                                     {{ __('Riwayat Pembayaran') }}
                                 </div>
                                 <button @click="open = !open"
-                                    class="text-right font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                    x-text="open ? '{{ __('Tutup') }}' : '{{ __('Lihat Detail') }}'">
+                                        class="text-right font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                        x-text="open ? '{{ __('Tutup') }}' : '{{ __('Lihat Detail') }}'">
                                 </button>
 
                                 <!-- Detail Riwayat Pembayaran -->
@@ -231,7 +242,7 @@
                                             <!-- Bukti Bayar -->
                                             <div class="w-32">
                                                 <img src="{{ $payment->proof_of_payment_url }}"
-                                                    alt="{{ $payment->proof_of_payment }}">
+                                                     alt="{{ $payment->proof_of_payment }}">
                                             </div>
 
                                             <div class="grow">
@@ -277,35 +288,49 @@
             </div>
 
             <!-- Opsi -->
-{{--            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">--}}
-{{--                <div class="max-w-xl">--}}
-{{--                    <section>--}}
-{{--                        <header>--}}
-{{--                            <h6 class="text-lg font-bold dark:text-white">--}}
-{{--                                {{ __('Rincian Pembayaran') }}--}}
-{{--                            </h6>--}}
-{{--                        </header>--}}
+            {{--            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">--}}
+            {{--                <div class="max-w-xl">--}}
+            {{--                    <section>--}}
+            {{--                        <header>--}}
+            {{--                            <h6 class="text-lg font-bold dark:text-white">--}}
+            {{--                                {{ __('Rincian Pembayaran') }}--}}
+            {{--                            </h6>--}}
+            {{--                        </header>--}}
 
-{{--                        <div class="grid grid-cols-1 mt-6 space-y-3">--}}
-{{--                            <!-- Hapus -->--}}
-{{--                            <div class="flex justify-between">--}}
-{{--                                <div class="text-sm text-gray-500 dark:text-gray-400">--}}
-{{--                                    {{ __('Hapus') }}--}}
-{{--                                </div>--}}
-{{--                                <div class="text-sm text-gray-900 dark:text-gray-100">--}}
-{{--                                    <form action="{{ route('order.destroy', $order->id) }}" method="POST">--}}
-{{--                                        @csrf--}}
-{{--                                        @method('DELETE')--}}
-{{--                                        <button type="submit" class="text-red-600 hover:underline">--}}
-{{--                                            {{ __('Hapus') }}--}}
-{{--                                        </button>--}}
-{{--                                    </form>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </section>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            {{--                        <div class="grid grid-cols-1 mt-6 space-y-3">--}}
+            {{--                            <!-- Hapus -->--}}
+            {{--                            <div class="flex justify-between">--}}
+            {{--                                <div class="text-sm text-gray-500 dark:text-gray-400">--}}
+            {{--                                    {{ __('Hapus') }}--}}
+            {{--                                </div>--}}
+            {{--                                <div class="text-sm text-gray-900 dark:text-gray-100">--}}
+            {{--                                    <form action="{{ route('order.destroy', $order->id) }}" method="POST">--}}
+            {{--                                        @csrf--}}
+            {{--                                        @method('DELETE')--}}
+            {{--                                        <button type="submit" class="text-red-600 hover:underline">--}}
+            {{--                                            {{ __('Hapus') }}--}}
+            {{--                                        </button>--}}
+            {{--                                    </form>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                    </section>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
+
+            <!-- Create map -->
+            <script>
+                const map = L.map('map').setView([{{ $order->address->latitude }}, {{ $order->address->longitude }}], 19);
+
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(map);
+
+                L.marker([{{ $order->address->latitude }}, {{ $order->address->longitude }}]).addTo(map)
+                    .bindPopup("{{ $order->address->full_name }}")
+                    .openPopup();
+            </script>
         </div>
     </div>
 </x-app-layout>
