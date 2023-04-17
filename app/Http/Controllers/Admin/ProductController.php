@@ -23,8 +23,18 @@ class ProductController extends Controller
     {
         $this->authorize('is-admin');
 
+        $products = Product::query();
+
+        // get the search value from the request
+        $search = request()->input('search');
+
+        // search the products by name
+        $products->when($search, function ($query) use ($search) {
+            $query->where('name', 'like', '%'.$search.'%');
+        });
+
         return view('admin.product.index', [
-            'products' => Product::with('category')->paginate(),
+            'products' => $products->with('category')->paginate()->withQueryString(),
         ]);
     }
 

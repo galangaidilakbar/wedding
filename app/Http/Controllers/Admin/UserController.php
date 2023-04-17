@@ -20,9 +20,9 @@ class UserController extends Controller
         $search = $request->input('search');
 
         // search the users by name or email
-        $users->when($request->input('search'), function ($q) use ($search) {
-            $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%');
+        $users->when($search, function ($q) use ($search) {
+            $q->where('name', 'like', '%'.$search.'%')
+                ->orWhere('email', 'like', '%'.$search.'%');
         });
 
         return view('admin.user.index', [
