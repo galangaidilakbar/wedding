@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\Product\GetProductByCategoryNameController;
+use App\Http\Controllers\Product\SearchProductController;
 use App\Http\Controllers\Product\ShowProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('address', AddressController::class)->except(['index', 'show']);
+
+    // Search product.
+    Route::get('/products/search', SearchProductController::class)->name('products.search');
 
     // Show product.
     Route::get('/products/{product}', ShowProductController::class)->name('products.show');
