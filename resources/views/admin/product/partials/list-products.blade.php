@@ -36,13 +36,13 @@
                         Rp @rupiah($product->price)
                     </td>
                     <td class="px-6 py-4 flex space-x-2">
-                        <x-primary-link href="{{ route('product.edit', $product) }}">
+                        <x-primary-link href="{{ route('admin.products.edit', $product) }}">
                             Ubah
                         </x-primary-link>
 
                         <div class="border-l"></div>
 
-                        <form method="POST" action="{{ route('product.destroy', $product) }}">
+                        <form method="POST" action="{{ route('admin.products.destroy', $product) }}">
                             @csrf
                             @method('delete')
                             <x-primary-link href="{{ route('address.destroy', $product) }}"
@@ -57,7 +57,8 @@
                     <td colspan="5" class="px-6 py-4">
                         <figure class="flex flex-col justify-center items-center">
                             <img src="{{ asset('img/empty.svg') }}" alt="empty illustration" class="w-20 h-auto">
-                            <figcaption class="mt-4 text-gray-500 dark:text-gray-400 text-sm">Data produk masih kosong</figcaption>
+                            <figcaption class="mt-4 text-gray-500 dark:text-gray-400 text-sm">Data produk masih kosong
+                            </figcaption>
                         </figure>
                     </td>
                 </tr>

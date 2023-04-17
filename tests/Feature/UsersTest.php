@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class AdminTest extends TestCase
+class UsersTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -28,8 +28,8 @@ class AdminTest extends TestCase
         ]);
     }
 
-    // Regular user can't access admin pages
-    public function test_regular_user_cannot_access_admin_pages()
+    // Regular user can't access users pages
+    public function test_regular_user_cannot_access_users_pages()
     {
         $this->actingAs($this->regularUser);
 
@@ -38,8 +38,8 @@ class AdminTest extends TestCase
         $response->assertStatus(403);
     }
 
-    // Admin user can access admin pages
-    public function test_admin_user_can_access_admin_pages()
+    // Admin user can access users pages
+    public function test_admin_user_can_access_users_pages()
     {
         $this->actingAs($this->adminUser);
 

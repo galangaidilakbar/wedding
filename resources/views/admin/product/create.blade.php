@@ -14,7 +14,7 @@
                             </p>
                         </header>
 
-                        <form method="post" action="{{ route('product.store') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+                        <form method="post" action="{{ route('admin.products.store') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
                             @csrf
 
                             <div>

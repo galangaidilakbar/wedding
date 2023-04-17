@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
@@ -23,7 +24,7 @@ class ProductController extends Controller
     {
         $this->authorize('is-admin');
 
-        return view('product.index', [
+        return view('admin.product.index', [
             'products' => Product::with('category')->paginate(),
         ]);
     }
@@ -35,7 +36,7 @@ class ProductController extends Controller
     {
         $this->authorize('is-admin');
 
-        return view('product.create', ['categories' => Category::all()]);
+        return view('admin.product.create', ['categories' => Category::all()]);
     }
 
     /**
@@ -54,7 +55,7 @@ class ProductController extends Controller
 
         Product::create($validated);
 
-        return to_route('product.index')->with('status', 'produk berhasil disimpan');
+        return to_route('admin.products.index')->with('status', 'produk berhasil disimpan');
     }
 
     /**
@@ -74,7 +75,7 @@ class ProductController extends Controller
     {
         $this->authorize('is-admin');
 
-        return view('product.edit', [
+        return view('admin.product.edit', [
             'product' => $product,
             'categories' => Category::all(),
         ]);
@@ -98,7 +99,7 @@ class ProductController extends Controller
 
         $product->update($validated);
 
-        return to_route('product.index')->with('status', 'produk berhasil diubah');
+        return to_route('admin.products.index')->with('status', 'produk berhasil diubah');
     }
 
     /**
@@ -112,6 +113,6 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return to_route('product.index')->with('status', 'produk berhasil dihapus');
+        return to_route('admin.products.index')->with('status', 'produk berhasil dihapus');
     }
 }

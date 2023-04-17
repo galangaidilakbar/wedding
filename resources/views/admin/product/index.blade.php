@@ -9,11 +9,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <x-primary-button-link href="{{ route('product.create') }}">
+                    <x-primary-button-link href="{{ route('admin.products.create') }}">
                         {{ __('Tambah Produk') }}
                     </x-primary-button-link>
 
-                    @include('product.partials.list-products')
+                    @include('admin.product.partials.list-products')
 
                     <div class="mt-4">
                         {{ $products->links() }}

@@ -36,9 +36,8 @@ class CategoryTest extends TestCase
     {
         $this->actingAs($this->regularUser);
 
-        $response = $this->get(route('admin.categories.index'));
-
-        $response->assertStatus(403);
+        $this->get(route('admin.categories.index'))->assertForbidden();
+        $this->get(route('admin.categories.edit', 1))->assertForbidden();
     }
 
     // Regular user cannot create a category
@@ -49,18 +48,6 @@ class CategoryTest extends TestCase
         $response = $this->post(route('admin.categories.store'), [
             'name' => 'Test Category',
         ]);
-
-        $response->assertForbidden();
-    }
-
-    // Regular user cannot access form edit category
-    public function test_regular_user_cannot_access_form_edit_category()
-    {
-        $this->actingAs($this->regularUser);
-
-        $category = Category::first();
-
-        $response = $this->get(route('admin.categories.edit', $category->id));
 
         $response->assertForbidden();
     }

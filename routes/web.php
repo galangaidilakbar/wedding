@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CreateInvoiceController;
@@ -9,7 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\Product\GetProductByCategoryNameController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Product\ShowProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,8 +38,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('address', AddressController::class)->except(['index', 'show']);
 
-    // All about product.
-    Route::resource('product', ProductController::class);
+    // Show product.
+    Route::get('/products/{product}', ShowProductController::class)->name('products.show');
+
     Route::resource('cart', CartController::class)->only(['index', 'store', 'destroy']);
     Route::get('/getProductByCategoryName', GetProductByCategoryNameController::class)->name('getProductByCategoryName');
 
@@ -53,9 +55,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'as' => 'admin.',
         'middleware' => 'admin',
     ], function () {
+        // List all users.
         Route::get('/users', UserController::class)->name('users');
 
+        // CRUD for categories.
         Route::resource('/categories', CategoryController::class)->except(['create', 'show']);
+
+        // CRUD for products.
+        Route::resource('/products', ProductController::class)->except('show');
     });
 });
 
