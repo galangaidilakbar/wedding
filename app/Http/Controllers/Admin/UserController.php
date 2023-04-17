@@ -14,8 +14,19 @@ class UserController extends Controller
      */
     public function __invoke(Request $request): View
     {
+        $users = User::query();
+
+        // get the search value from the request
+        $search = $request->input('search');
+
+        // search the users by name or email
+        $users->when($request->input('search'), function ($q) use ($search) {
+            $q->where('name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
+        });
+
         return view('admin.user.index', [
-            'users' => User::paginate(),
+            'users' => $users->paginate()->withQueryString(),
         ]);
     }
 }
