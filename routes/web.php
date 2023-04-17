@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CreateInvoiceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
@@ -38,7 +38,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('address', AddressController::class)->except(['index', 'show']);
 
     // All about product.
-    Route::resource('category', CategoryController::class)->only(['index', 'store', 'edit', 'update', 'destroy']);
     Route::resource('product', ProductController::class);
     Route::resource('cart', CartController::class)->only(['index', 'store', 'destroy']);
     Route::get('/getProductByCategoryName', GetProductByCategoryNameController::class)->name('getProductByCategoryName');
@@ -55,6 +54,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'middleware' => 'admin',
     ], function () {
         Route::get('/users', UserController::class)->name('users');
+
+        Route::resource('/categories', CategoryController::class)->except(['create', 'show']);
     });
 });
 

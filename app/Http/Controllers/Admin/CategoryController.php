@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Category;
 use Illuminate\Contracts\View\View;
@@ -16,7 +17,9 @@ class CategoryController extends Controller
     {
         $this->authorize('is-admin');
 
-        return view('product.category.category', ['categories' => Category::with('products')->get()]);
+        return view('admin.category.index', [
+            'categories' => Category::withCount('products')->get(),
+        ]);
     }
 
     /**
@@ -26,9 +29,9 @@ class CategoryController extends Controller
     {
         $this->authorize('is-admin');
 
-        Category::create($request->all());
+        Category::create($request->validated());
 
-        return back()->with('category-saved', 'Kategory berhasil disimpan.');
+        return back()->with('status', 'saved');
     }
 
     /**
@@ -38,7 +41,7 @@ class CategoryController extends Controller
     {
         $this->authorize('is-admin');
 
-        return view('product.category.edit-category', ['category' => $category]);
+        return view('admin.category.edit', ['category' => $category]);
     }
 
     /**
@@ -48,9 +51,9 @@ class CategoryController extends Controller
     {
         $this->authorize('is-admin');
 
-        $category->update($request->all());
+        $category->update($request->validated());
 
-        return to_route('category.index')->with('status', 'Kategori berhasil diperbarui');
+        return to_route('admin.categories.index')->with('status', 'updated');
     }
 
     /**
@@ -62,6 +65,6 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return back();
+        return back()->with('status', 'deleted');
     }
 }

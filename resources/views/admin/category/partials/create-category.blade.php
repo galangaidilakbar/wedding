@@ -9,26 +9,26 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('category.store') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('admin.categories.store') }}" class="mt-6 space-y-6">
         @csrf
 
         <div>
-            <x-input-label for="name" :value="__('Nama Kategori')" />
+            <x-input-label for="name" :value="__('Nama Kategori')"/>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" autocomplete="name" autofocus/>
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2"/>
         </div>
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('translations.Save') }}</x-primary-button>
 
-            @if (session('category-saved'))
+            @if (session('status') === 'saved')
                 <p
                     x-data="{ show: true }"
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
                     class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Saved.') }}</p>
+                >{{ __('translations.Saved') }}</p>
             @endif
         </div>
     </form>

@@ -21,7 +21,7 @@
                     </x-nav-link>
 
                     @can('is-admin')
-                        <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
+                        <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.*')">
                             {{ __('Kategori Produk') }}
                         </x-nav-link>
 
@@ -100,7 +100,7 @@
             </x-responsive-nav-link>
 
             @can('is-admin')
-                <x-responsive-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
+                <x-responsive-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.*')">
                     {{ __('Kategori Produk') }}
                 </x-responsive-nav-link>
 
