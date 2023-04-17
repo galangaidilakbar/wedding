@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class GetProductByCategoryNameTest extends TestCase
@@ -30,7 +29,7 @@ class GetProductByCategoryNameTest extends TestCase
     {
         $this->actingAs($this->user);
 
-        $response = $this->get(route('getProductByCategoryName') . '?name=' . $this->category->name);
+        $response = $this->get(route('getProductByCategoryName').'?name='.$this->category->name);
 
         $response->assertStatus(200);
     }
@@ -40,10 +39,8 @@ class GetProductByCategoryNameTest extends TestCase
     {
         $this->actingAs($this->user);
 
-        $response = $this->get(route('getProductByCategoryName') . '?name=' . 'random');
+        $response = $this->get(route('getProductByCategoryName').'?name='.'random');
 
         $response->assertStatus(404);
     }
-
-
 }
