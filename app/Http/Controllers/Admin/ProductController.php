@@ -9,7 +9,6 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -56,16 +55,6 @@ class ProductController extends Controller
         Product::create($validated);
 
         return to_route('admin.products.index')->with('status', 'produk berhasil disimpan');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @return Response
-     */
-    public function show(Product $product): View
-    {
-        return view('product.show', ['product' => $product]);
     }
 
     /**
