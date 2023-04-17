@@ -29,6 +29,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // add last login at and last login ip
+        $request->user()->update([
+            'last_login_at' => now(),
+            'last_login_ip' => $request->ip(),
+        ]);
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

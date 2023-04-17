@@ -55,6 +55,12 @@
                                     <th scope="col" class="px-6 py-3">
                                         Tanggal Daftar
                                     </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Terakhir Login
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        IP Address
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -72,6 +78,12 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             {{ $user->created_at->format('d M Y, H:i') }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $user->last_login_at ? $user->last_login_at->format('d M Y, H:i') : '-'}}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $user->last_login_ip ?? '-' }}
                                         </td>
                                     </tr>
                                 @empty
