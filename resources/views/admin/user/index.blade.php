@@ -44,7 +44,7 @@
                                             {{ $user->email }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            {{ $user->created_at->format('d M Y') }}
+                                            {{ $user->created_at->format('d M Y, H:i') }}
                                         </td>
                                     </tr>
                                 @empty
