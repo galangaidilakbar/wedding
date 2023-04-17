@@ -28,6 +28,10 @@
                         <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.*')">
                             {{ __('Produk') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                            {{ __('Pengguna') }}
+                        </x-nav-link>
                     @endcan
                 </div>
             </div>
@@ -102,6 +106,10 @@
 
                 <x-responsive-nav-link :href="route('product.index')" :active="request()->routeIs('product.*')">
                     {{ __('Produk') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                    {{ __('Pengguna') }}
                 </x-responsive-nav-link>
             @endcan
         </div>

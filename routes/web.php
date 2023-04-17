@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CreateInvoiceController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\Product\GetProductByCategoryNameController;
@@ -46,6 +47,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/order/{order}/invoice', [CreateInvoiceController::class, 'index'])->name('order.invoice');
     Route::resource('order', OrderController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
     Route::resource('order.payments', PaymentsController::class)->except('index');
+
+    # Admin
+    Route::group([
+        'prefix' => 'admin',
+        'as' => 'admin.',
+        'middleware' => 'admin'
+    ], function () {
+        Route::get('/users', UserController::class)->name('users');
+    });
 });
 
 require __DIR__ . '/auth.php';
