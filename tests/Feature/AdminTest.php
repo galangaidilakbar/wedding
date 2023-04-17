@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AdminTest extends TestCase
@@ -12,18 +11,20 @@ class AdminTest extends TestCase
     use RefreshDatabase;
 
     // Initiate the test
-    public User $regularUser, $adminUser;
+    public User $regularUser;
+
+    public User $adminUser;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->regularUser = User::factory()->create([
-            'is_admin' => false
+            'is_admin' => false,
         ]);
 
         $this->adminUser = User::factory()->create([
-            'is_admin' => true
+            'is_admin' => true,
         ]);
     }
 
@@ -36,7 +37,6 @@ class AdminTest extends TestCase
 
         $response->assertStatus(403);
     }
-
 
     // Admin user can access admin pages
     public function test_admin_user_can_access_admin_pages()

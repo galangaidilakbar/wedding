@@ -13,8 +13,6 @@ class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return View
      */
     public function index(): View
     {
@@ -23,15 +21,15 @@ class CartController extends Controller
         // get product price
         $prices = collect();
 
-        foreach ($carts as $cart){
+        foreach ($carts as $cart) {
             $prices[] = $cart->product->price;
         }
 
-        Log::info('Showing the shopping cart for user: ' . request()->user()->id);
+        Log::info('Showing the shopping cart for user: '.request()->user()->id);
 
         return view('order.carts', [
             'carts' => $carts,
-            'total_price' => $prices->sum()
+            'total_price' => $prices->sum(),
         ]);
     }
 
@@ -47,14 +45,11 @@ class CartController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'product_id' => 'required|integer'
+            'product_id' => 'required|integer',
         ]);
 
         Cart::firstOrCreate(['user_id' => $request->user()->id, 'product_id' => $validated['product_id']]);
@@ -67,7 +62,6 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Cart $cart
      * @return Response
      */
     public function show(Cart $cart)
@@ -78,7 +72,6 @@ class CartController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Cart $cart
      * @return Response
      */
     public function edit(Cart $cart)
@@ -89,8 +82,6 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param Cart $cart
      * @return Response
      */
     public function update(Request $request, Cart $cart)
@@ -100,9 +91,6 @@ class CartController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param Cart $cart
-     * @return RedirectResponse
      */
     public function destroy(Cart $cart): RedirectResponse
     {

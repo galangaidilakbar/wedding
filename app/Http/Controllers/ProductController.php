@@ -8,7 +8,6 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -18,7 +17,6 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return View
      * @throws AuthorizationException
      */
     public function index(): View
@@ -26,14 +24,12 @@ class ProductController extends Controller
         $this->authorize('is-admin');
 
         return view('product.index', [
-            'products' => Product::with('category')->paginate()
+            'products' => Product::with('category')->paginate(),
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return View
      */
     public function create(): View
     {
@@ -44,9 +40,6 @@ class ProductController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param StoreProductRequest $request
-     * @return RedirectResponse
      */
     public function store(StoreProductRequest $request): RedirectResponse
     {
@@ -67,7 +60,6 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Product $product
      * @return Response
      */
     public function show(Product $product): View
@@ -77,9 +69,6 @@ class ProductController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param Product $product
-     * @return View
      */
     public function edit(Product $product): View
     {
@@ -87,16 +76,12 @@ class ProductController extends Controller
 
         return view('product.edit', [
             'product' => $product,
-            'categories' => Category::all()
+            'categories' => Category::all(),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param UpdateProductRequest $request
-     * @param Product $product
-     * @return RedirectResponse
      */
     public function update(UpdateProductRequest $request, Product $product): RedirectResponse
     {
@@ -118,9 +103,6 @@ class ProductController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param Product $product
-     * @return RedirectResponse
      */
     public function destroy(Product $product): RedirectResponse
     {

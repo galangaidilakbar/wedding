@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePaymentRequest;
 use App\Models\Order;
 use App\Models\Payments;
-use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\StorePaymentRequest;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class PaymentsController extends Controller
 {
@@ -28,7 +28,6 @@ class PaymentsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param StorePaymentRequest $request
      * @return RedirectResponse
      */
     public function store(Order $order, StorePaymentRequest $request)
@@ -57,7 +56,6 @@ class PaymentsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Payments  $payments
      * @return Response
      */
     public function show(Payments $payments)
@@ -68,7 +66,6 @@ class PaymentsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Payments  $payments
      * @return Response
      */
     public function edit(Payments $payments)
@@ -79,8 +76,6 @@ class PaymentsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  \App\Models\Payments  $payments
      * @return Response
      */
     public function update(Request $request, Payments $payments)
@@ -91,7 +86,6 @@ class PaymentsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Payments  $payments
      * @return Response
      */
     public function destroy(Payments $payments)

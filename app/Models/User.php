@@ -46,7 +46,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Cek apakah user merupakan seorang admin
-     *
      */
     public function isAdmin(): bool
     {
@@ -55,9 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Membuat relasi antara user dengan alamat
-     *
      */
-
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);

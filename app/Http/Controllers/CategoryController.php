@@ -11,8 +11,6 @@ class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return View
      */
     public function index(): View
     {
@@ -23,9 +21,6 @@ class CategoryController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param StoreCategoryRequest $request
-     * @return RedirectResponse
      */
     public function store(StoreCategoryRequest $request): RedirectResponse
     {
@@ -38,9 +33,6 @@ class CategoryController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param Category $category
-     * @return View
      */
     public function edit(Category $category): View
     {
@@ -51,10 +43,6 @@ class CategoryController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param StoreCategoryRequest $request
-     * @param Category $category
-     * @return RedirectResponse
      */
     public function update(StoreCategoryRequest $request, Category $category): RedirectResponse
     {
@@ -67,9 +55,6 @@ class CategoryController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param Category $category
-     * @return RedirectResponse
      */
     public function destroy(Category $category): RedirectResponse
     {

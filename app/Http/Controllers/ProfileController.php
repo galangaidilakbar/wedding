@@ -18,7 +18,7 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'user' => $request->user(),
-            'addresses' => $request->user()->addresses()->get()
+            'addresses' => $request->user()->addresses()->get(),
         ]);
     }
 

@@ -15,22 +15,19 @@ class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return View
      */
     public function index(): View
     {
         return view('order.index', [
             'orders' => auth()->user()->isAdmin()
                 ? Order::with('detail_orders.product')->get()
-                : auth()->user()->orders()->with('detail_orders.product')->get()
+                : auth()->user()->orders()->with('detail_orders.product')->get(),
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return View
      * @throws AuthorizationException
      */
     public function create(): View
@@ -49,9 +46,6 @@ class OrderController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param StoreOrderRequest $request
-     * @return RedirectResponse
      */
     public function store(StoreOrderRequest $request): RedirectResponse
     {
@@ -75,9 +69,6 @@ class OrderController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param Order $order
-     * @return View
      */
     public function show(Order $order): View
     {
@@ -87,7 +78,6 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Order $order
      * @return Response
      */
     public function edit(Order $order)
@@ -98,8 +88,6 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param Order $order
      * @return Response
      */
     public function update(Request $request, Order $order)
@@ -109,9 +97,6 @@ class OrderController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param Order $order
-     * @return RedirectResponse
      */
     public function destroy(Order $order): RedirectResponse
     {
@@ -131,6 +116,7 @@ class OrderController extends Controller
         foreach ($this->getCarts() as $cart) {
             $prices[] = $cart->product->price;
         }
+
         return $prices->sum();
     }
 

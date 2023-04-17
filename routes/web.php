@@ -1,17 +1,17 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CreateInvoiceController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\Product\GetProductByCategoryNameController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,31 +31,31 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    # All about user.
+    // All about user.
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('address', AddressController::class)->except(['index', 'show']);
 
-    # All about product.
+    // All about product.
     Route::resource('category', CategoryController::class)->only(['index', 'store', 'edit', 'update', 'destroy']);
     Route::resource('product', ProductController::class);
     Route::resource('cart', CartController::class)->only(['index', 'store', 'destroy']);
     Route::get('/getProductByCategoryName', GetProductByCategoryNameController::class)->name('getProductByCategoryName');
 
-    # All about order.
+    // All about order.
     Route::get('/order/{order}/invoice', [CreateInvoiceController::class, 'index'])->name('order.invoice');
     Route::resource('order', OrderController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
     Route::resource('order.payments', PaymentsController::class)->except('index');
 
-    # Admin
+    // Admin
     Route::group([
         'prefix' => 'admin',
         'as' => 'admin.',
-        'middleware' => 'admin'
+        'middleware' => 'admin',
     ], function () {
         Route::get('/users', UserController::class)->name('users');
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
