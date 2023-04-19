@@ -30,7 +30,7 @@ class CreateInvoiceController extends Controller
         // Create customer
         $customer = new Party([
             'name' => request()->user()->name,
-            'address' => $order->address->detail.'('.$order->address->patokan.')',
+            'address' => $order->address->detail . '(' . $order->address->patokan . ')',
             'phone' => $order->address->phone_number,
         ]);
 
@@ -43,7 +43,7 @@ class CreateInvoiceController extends Controller
         // Create invoice
         $invoice = Invoice::make()
             ->status($order->status)
-            ->sequence($order->id)
+            ->sequence($order->created_at->format("YmdHims"))
             ->date($order->created_at)
             ->seller($seller)
             ->buyer($customer)

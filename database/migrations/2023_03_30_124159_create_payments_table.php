@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('order_id')->constrained()->cascadeOnDelete();
             $table->string('proof_of_payment'); // path to image
             $table->string('proof_of_payment_url'); // url to image
             $table->enum('status', ['Belum Diverifikasi', 'Gagal', 'Diterima', 'Dikembalikan'])->default('Belum Diverifikasi');
