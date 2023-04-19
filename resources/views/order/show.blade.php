@@ -103,6 +103,16 @@
                                 {{ $order->created_at->format('d F Y, H:i') }}
                             </div>
                         </div>
+
+                        <!-- Tanggal Acara -->
+                        <div class="flex justify-between">
+                            <div class="text-gray-500 dark:text-gray-400 text-sm">
+                                {{ __('translations.Event date') }}
+                            </div>
+                            <div class="text-gray-900 dark:text-gray-100 text-sm">
+                                {{ $order->tanggal_acara->format('d F Y') }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

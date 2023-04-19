@@ -30,4 +30,5 @@ return [
     'Saved' => 'Disimpan.',
     'Updated' => 'diperbarui.',
     'Deleted' => 'dihapus.',
+    'Event date' => 'Tanggal Acara',
 ];

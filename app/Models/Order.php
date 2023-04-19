@@ -43,4 +43,9 @@ class Order extends Model
     {
         return $this->hasMany(Timeline::class);
     }
+
+    // The attributes that should be cast.
+    protected $casts = [
+        'tanggal_acara' => 'datetime',
+    ];
 }
