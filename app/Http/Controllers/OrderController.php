@@ -32,13 +32,11 @@ class OrderController extends Controller
      */
     public function create(): View
     {
-        $addresses = request()->user()->addresses()->get();
-        abort_if($addresses->isEmpty(), 403, trans('translations.address_is_empty'));
         abort_if($this->getCarts()->isEmpty(), 403, trans('translations.carts_is_empty'));
 
         return view('order.create', [
             'carts' => $this->getCarts(),
-            'addresses' => $addresses,
+            'addresses' => auth()->user()->addresses()->get(),
             'total_product_price' => $this->getTotalProductPrice(),
             'total_pembayaran_dengan_dp' => $this->getTotalPembayaranDenganDP(),
         ]);

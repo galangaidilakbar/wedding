@@ -29,4 +29,17 @@ class StoreOrderRequest extends FormRequest
             'catatan' => 'nullable',
         ];
     }
+
+    // messages
+    public function messages(): array
+    {
+        return [
+            'address_id.required' => 'Alamat harus diisi',
+            'tanggal_acara.required' => 'Tanggal acara harus diisi',
+            'tanggal_acara.date' => 'Tanggal acara harus berupa tanggal',
+            'tanggal_acara.after' => 'Tanggal acara harus lebih dari 2 minggu dari hari ini',
+            'opsi_bayar.required' => 'Opsi pembayaran harus diisi',
+            'metode_pembayaran.required' => 'Metode pembayaran harus diisi',
+        ];
+    }
 }
