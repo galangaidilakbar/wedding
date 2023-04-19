@@ -27,7 +27,7 @@ class CartController extends Controller
 
         Log::info('Showing the shopping cart for user: '.request()->user()->id);
 
-        return view('order.carts', [
+        return view('cart', [
             'carts' => $carts,
             'total_price' => $prices->sum(),
         ]);
