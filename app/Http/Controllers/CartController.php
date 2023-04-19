@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
@@ -34,59 +34,18 @@ class CartController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Product $product, Request $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'product_id' => 'required|integer',
+        Cart::firstOrCreate([
+            'user_id' => $request->user()->id,
+            'product_id' => $product->id,
         ]);
 
-        Cart::firstOrCreate(['user_id' => $request->user()->id, 'product_id' => $validated['product_id']]);
-
-        Log::info('Save the product into the shopping cart', ['user_id' => $request->user()->id, 'product_id' => $validated['product_id']]);
+        Log::info('Save the product into the shopping cart', ['user_id' => $request->user()->id, 'product_id' => $product->id]);
 
         return to_route('cart.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @return Response
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @return Response
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @return Response
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
     }
 
     /**

@@ -34,10 +34,8 @@
 
                             <!-- Add to cart button for desktop -->
                             <div class="mt-4">
-                                <form action="{{ route('cart.store') }}" method="post" class="hidden md:block">
+                                <form action="{{ route('products.cart.store', $product) }}" method="post" class="hidden md:block">
                                     @csrf
-
-                                    <input type="hidden" value="{{ $product->id }}" id="product_id" name="product_id">
 
                                     <x-primary-button>
                                         {{ __('translations.add to cart') }}
@@ -48,11 +46,9 @@
 
                         <!-- Add to cart button for mobile -->
                         <div class="grid-cols-2 md:hidden relative">
-                            <form action="{{ route('cart.store') }}" method="post"
+                            <form action="{{ route('products.cart.store', $product) }}" method="post"
                                   class="fixed bottom-0 inset-x-0 px-6 mb-6">
                                 @csrf
-
-                                <input type="hidden" value="{{ $product->id }}" id="product_id" name="product_id">
 
                                 <x-primary-button class="w-full flex justify-center">
                                     <span>{{ __('translations.add to cart') }}</span>

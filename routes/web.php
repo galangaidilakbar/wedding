@@ -45,7 +45,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Show product.
     Route::get('/products/{product}', ShowProductController::class)->name('products.show');
 
-    Route::resource('cart', CartController::class)->only(['index', 'store', 'destroy']);
+    // Store product into shopping cart.
+    Route::post('/products/{product}/cart', [CartController::class, 'store'])->name('products.cart.store');
+
+    // Show and delete shopping cart.
+    Route::resource('cart', CartController::class)->only(['index', 'destroy']);
+
+    // Get product by category name.
     Route::get('/getProductByCategoryName', GetProductByCategoryNameController::class)->name('getProductByCategoryName');
 
     // All about order.
