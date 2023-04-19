@@ -170,7 +170,7 @@
                                     <input class="grow-0" type="radio" id="CASH" name="metode_pembayaran" value="CASH"
                                            checked>
                                     <div class="flex-1">
-                                        <label for="CASH">{{ __('DP (Direkomendasikan)') }}</label>
+                                        <label for="CASH">{{ __('CASH') }}</label>
                                         <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                             {{ __('Bayar langsung di kantor.') }}
                                         </p>
