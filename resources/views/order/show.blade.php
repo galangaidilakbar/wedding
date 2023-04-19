@@ -32,10 +32,12 @@
                                 pembayaran agar transaksi dapat segera diselesaikan. Terima kasih.
                             </div>
 
-                            <a href="{{ route('order.payments.create', $order) }}"
-                               class="text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-yellow-300 dark:text-gray-800 dark:hover:bg-yellow-400 dark:focus:ring-yellow-800">
-                                {{ __('Lakukan Pembayaran') }}
-                            </a>
+                            @if($order->metode_pembayaran === 'BANK')
+                                <a href="{{ route('order.payments.create', $order) }}"
+                                   class="text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-yellow-300 dark:text-gray-800 dark:hover:bg-yellow-400 dark:focus:ring-yellow-800">
+                                    {{ __('Lakukan Pembayaran') }}
+                                </a>
+                            @endif
                         </div>
                     @endif
 
