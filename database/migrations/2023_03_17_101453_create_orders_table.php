@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('total_dp', 12);
             $table->decimal('total_harga', 12);
             $table->enum('status', ['Menunggu Pembayaran', 'Melakukan Verifikasi', 'canceled'])->default('Menunggu Pembayaran');
+            $table->enum('status_color', ['yellow', 'red', 'green'])->default('yellow');
             $table->timestamps();
         });
     }
