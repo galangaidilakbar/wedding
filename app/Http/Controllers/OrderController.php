@@ -18,10 +18,22 @@ class OrderController extends Controller
      */
     public function index(): View
     {
+        // get orders by user or admin
+        $orders = request()->user()->isAdmin()
+            ? Order::with('detail_orders.product')->latest()
+            : request()->user()->orders()->with('detail_orders.product')->latest();
+
+        // search order by id
+        $orders->when(request()->has('search'), fn($query) => $query->where('id', request()->search));
+
+        // filter order by status
+        $orders->when(request()->has('status'), fn($query) => $query->where('status', request()->status));
+
+        // filter order by date
+        $orders->when(request()->has('date'), fn($query) => $query->whereDate('created_at', request()->date));
+
         return view('order.index', [
-            'orders' => auth()->user()->isAdmin()
-                ? Order::with('detail_orders.product')->get()
-                : auth()->user()->orders()->with('detail_orders.product')->get(),
+            'orders' => $orders->paginate(10)->withQueryString(),
         ]);
     }
 
