@@ -7,6 +7,19 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                <div>
+                    <!-- Search bar -->
+                    <div>
+                        <x-search-bar to="{{ route('order.index') }}" placeholder="Cari pesananmu di sini"/>
+                    </div>
+
+                    <!-- Filter by status-->
+
+                    <!-- Filter by date -->
+                </div>
+            </div>
+
             @forelse($orders as $order)
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                     <div class="grid grid-cols-1 mt-6 first:mt-0 space-y-6">
@@ -16,11 +29,10 @@
                                 <div class="text-sm text-gray-500 dark:text-gray-400">
                                     {{ $order->created_at->format('d M Y') }}
                                 </div>
-                                <div
-                                    class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-                                    {{ $order->status }}
-                                </div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400 hidden lg:block">
+
+                                <x-badge-status :text="$order->status" color="yellow" />
+
+                                <div class="text-sm text-gray-500 dark:text-gray-400 hidden lg:block select-all">
                                     {{ $order->id }}
                                 </div>
                             </div>
@@ -84,6 +96,8 @@
                     </h2>
                 </div>
             @endforelse
+
+            {{ $orders->links() }}
         </div>
     </div>
 </x-app-layout>
