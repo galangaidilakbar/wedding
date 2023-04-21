@@ -54,8 +54,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Get product by category name.
     Route::get('/getProductByCategoryName', GetProductByCategoryNameController::class)->name('getProductByCategoryName');
 
-    // All about order.
+    // Create invoice.
     Route::get('/order/{order}/invoice', [CreateInvoiceController::class, 'index'])->name('order.invoice');
+
+    // Cancel order.
+    Route::patch('/order/{order}/cancel', [OrderController::class, 'cancel'])->name('order.cancel');
+
+    // CRUD for order.
     Route::resource('order', OrderController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
     Route::resource('order.payments', PaymentsController::class)->except('index');
 
