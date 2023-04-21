@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Timeline> $timelines
  * @property-read int|null $timelines_count
  * @property-read \App\Models\User $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Order query()
@@ -46,17 +47,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereTotalHarga($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
+ *
  * @property string $status_color
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\DetailOrder> $detail_orders
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payments> $payments
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Timeline> $timelines
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereStatusColor($value)
+ *
  * @mixin \Eloquent
  */
 class Order extends Model
 {
     use HasFactory;
-
     use HasUuids;
 
     protected $guarded = ['id'];

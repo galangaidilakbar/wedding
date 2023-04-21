@@ -24,13 +24,13 @@ class OrderController extends Controller
             : request()->user()->orders()->with('detail_orders.product')->latest();
 
         // search order by id
-        $orders->when(request()->has('search'), fn($query) => $query->where('id', request()->search));
+        $orders->when(request()->has('search'), fn ($query) => $query->where('id', request()->search));
 
         // filter order by status
-        $orders->when(request()->has('status'), fn($query) => $query->where('status', request()->status));
+        $orders->when(request()->has('status'), fn ($query) => $query->where('status', request()->status));
 
         // filter order by date
-        $orders->when(request()->has('date'), fn($query) => $query->whereDate('created_at', request()->date));
+        $orders->when(request()->has('date'), fn ($query) => $query->whereDate('created_at', request()->date));
 
         return view('order.index', [
             'orders' => $orders->paginate(10)->withQueryString(),

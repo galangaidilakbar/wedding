@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Order $order
  * @property-read \App\Models\Product $product
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|DetailOrder newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DetailOrder newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DetailOrder query()
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|DetailOrder whereOrderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DetailOrder whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DetailOrder whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class DetailOrder extends Model
