@@ -8,9 +8,17 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use App\Services\ProductRecommendations;
 
 class CartController extends Controller
 {
+    private ProductRecommendations $productRecommendations;
+
+    public function __construct(ProductRecommendations $productRecommendations)
+    {
+        $this->productRecommendations = $productRecommendations;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -30,6 +38,7 @@ class CartController extends Controller
         return view('cart', [
             'carts' => $carts,
             'total_price' => $prices->sum(),
+            'recommendations' => $this->productRecommendations->get(),
         ]);
     }
 
