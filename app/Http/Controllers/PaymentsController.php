@@ -22,6 +22,9 @@ class PaymentsController extends Controller
     {
         abort_if($order->metode_pembayaran === 'CASH', 403, 'Metode pembayaran tidak sesuai');
 
+        // abort if order status is not waiting for payment
+        abort_if($order->status !== 'Menunggu Pembayaran', 403, 'Status pesanan tidak sesuai');
+
         return view('order.payment.create', ['order' => $order]);
     }
 
@@ -42,7 +45,10 @@ class PaymentsController extends Controller
 
         $order->payments()->create($validated);
 
-        $order->update(['status' => 'Melakukan Verifikasi']);
+        $order->update([
+            'status' => 'Melakukan Verifikasi',
+            'status_color' => 'blue',
+        ]);
 
         // Create new timeline
         $order->timelines()->create([
