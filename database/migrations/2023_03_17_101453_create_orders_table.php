@@ -21,8 +21,8 @@ return new class extends Migration
             $table->text('catatan')->nullable();
             $table->decimal('total_dp', 12);
             $table->decimal('total_harga', 12);
-            $table->enum('status', ['Menunggu Pembayaran', 'Melakukan Verifikasi', 'canceled'])->default('Menunggu Pembayaran');
-            $table->enum('status_color', ['yellow', 'red', 'green'])->default('yellow');
+            $table->enum('status', ['Menunggu Pembayaran', 'Melakukan Verifikasi', 'Dibatalkan'])->default('Menunggu Pembayaran');
+            $table->string('status_color')->default('yellow');
             $table->timestamps();
         });
     }
