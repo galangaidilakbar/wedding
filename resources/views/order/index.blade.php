@@ -30,7 +30,7 @@
                                     {{ $order->created_at->format('d M Y') }}
                                 </div>
 
-                                <x-badge-status :text="$order->status" color="yellow" />
+                                <x-badge-status :text="$order->status" :color="$order->status_color" />
 
                                 <div class="text-sm text-gray-500 dark:text-gray-400 hidden lg:block select-all">
                                     {{ $order->id }}
