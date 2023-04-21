@@ -117,6 +117,21 @@ class OrderController extends Controller
         return to_route('order.index');
     }
 
+    /**
+     * Cancel order.
+     */
+    public function cancel(Order $order): RedirectResponse
+    {
+        $order->update([
+            'status' => Order::CANCELLED,
+            'status_color' => 'gray',
+        ]);
+
+        $order->timelines()->create(['title' => 'Pesanan Dibatalkan.']);
+
+        return to_route('order.show', $order)->with('order-status', 'order-canceled');
+    }
+
     public function getCarts(): Collection
     {
         return request()->user()->carts()->with('product')->get();
