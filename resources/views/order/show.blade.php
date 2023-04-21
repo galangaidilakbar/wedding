@@ -32,12 +32,42 @@
                                 pembayaran agar transaksi dapat segera diselesaikan. Terima kasih.
                             </div>
 
-                            @if($order->metode_pembayaran === 'BANK')
-                                <a href="{{ route('order.payments.create', $order) }}"
-                                   class="text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-yellow-300 dark:text-gray-800 dark:hover:bg-yellow-400 dark:focus:ring-yellow-800">
-                                    {{ __('Lakukan Pembayaran') }}
-                                </a>
-                            @endif
+                            <div class="flex">
+                                <!-- Lakukan Pembayaran jika metode pembayaran adalah BANK -->
+                                @if ($order->metode_pembayaran === 'BANK')
+                                    <a href="{{ route('order.payments.create', $order) }}"
+                                       class="text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-yellow-300 dark:text-gray-800 dark:hover:bg-yellow-400 dark:focus:ring-yellow-800">
+                                        {{ __('Lakukan Pembayaran') }}
+                                    </a>
+                                @endif
+
+                                <!-- Batalkan Pesanan jika status Menunggu Pembayaran -->
+                                @if ($order->status === 'Menunggu Pembayaran')
+                                    <form action="{{ route('order.cancel', $order) }}" method="post"
+                                          onclick="return confirm('Apakah anda yakin?')">
+                                        @csrf
+                                        @method('patch')
+
+                                        <button type="submit"
+                                                class="text-yellow-800 bg-transparent border border-yellow-800 hover:bg-yellow-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 py-1.5 text-center dark:hover:bg-yellow-300 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-gray-800 dark:focus:ring-yellow-800">
+                                            {{ __('Batalkan Pesanan') }}
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Alert Pesanan Dibatalkan -->
+                    @if(session('order-status') === 'order-canceled')
+                        <div
+                            x-data="{ open: true }"
+                            x-show="open"
+                            x-transition
+                            x-init="setTimeout(() => open = false, 5000)"
+                            class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                            role="alert">
+                            {{ __('Pesanan berhasil dibatalkan.') }}
                         </div>
                     @endif
 
@@ -300,35 +330,35 @@
             </div>
 
             <!-- Opsi -->
-            {{--            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">--}}
-            {{--                <div class="max-w-xl">--}}
-            {{--                    <section>--}}
-            {{--                        <header>--}}
-            {{--                            <h6 class="text-lg font-bold dark:text-white">--}}
-            {{--                                {{ __('Rincian Pembayaran') }}--}}
-            {{--                            </h6>--}}
-            {{--                        </header>--}}
+            {{--            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"> --}}
+            {{--                <div class="max-w-xl"> --}}
+            {{--                    <section> --}}
+            {{--                        <header> --}}
+            {{--                            <h6 class="text-lg font-bold dark:text-white"> --}}
+            {{--                                {{ __('Rincian Pembayaran') }} --}}
+            {{--                            </h6> --}}
+            {{--                        </header> --}}
 
-            {{--                        <div class="grid grid-cols-1 mt-6 space-y-3">--}}
-            {{--                            <!-- Hapus -->--}}
-            {{--                            <div class="flex justify-between">--}}
-            {{--                                <div class="text-sm text-gray-500 dark:text-gray-400">--}}
-            {{--                                    {{ __('Hapus') }}--}}
-            {{--                                </div>--}}
-            {{--                                <div class="text-sm text-gray-900 dark:text-gray-100">--}}
-            {{--                                    <form action="{{ route('order.destroy', $order->id) }}" method="POST">--}}
-            {{--                                        @csrf--}}
-            {{--                                        @method('DELETE')--}}
-            {{--                                        <button type="submit" class="text-red-600 hover:underline">--}}
-            {{--                                            {{ __('Hapus') }}--}}
-            {{--                                        </button>--}}
-            {{--                                    </form>--}}
-            {{--                                </div>--}}
-            {{--                            </div>--}}
-            {{--                        </div>--}}
-            {{--                    </section>--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
+            {{--                        <div class="grid grid-cols-1 mt-6 space-y-3"> --}}
+            {{--                            <!-- Hapus --> --}}
+            {{--                            <div class="flex justify-between"> --}}
+            {{--                                <div class="text-sm text-gray-500 dark:text-gray-400"> --}}
+            {{--                                    {{ __('Hapus') }} --}}
+            {{--                                </div> --}}
+            {{--                                <div class="text-sm text-gray-900 dark:text-gray-100"> --}}
+            {{--                                    <form action="{{ route('order.destroy', $order->id) }}" method="POST"> --}}
+            {{--                                        @csrf --}}
+            {{--                                        @method('DELETE') --}}
+            {{--                                        <button type="submit" class="text-red-600 hover:underline"> --}}
+            {{--                                            {{ __('Hapus') }} --}}
+            {{--                                        </button> --}}
+            {{--                                    </form> --}}
+            {{--                                </div> --}}
+            {{--                            </div> --}}
+            {{--                        </div> --}}
+            {{--                    </section> --}}
+            {{--                </div> --}}
+            {{--            </div> --}}
 
             <!-- Create map -->
             <script>
