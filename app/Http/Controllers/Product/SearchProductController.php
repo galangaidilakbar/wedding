@@ -19,10 +19,11 @@ class SearchProductController extends Controller
         // get the search value from the request
         $search = $request->input('search');
 
-        // search the products by name or description
+        // search product by name, description or id
         $products->when($search, function ($q) use ($search) {
             $q->where('name', 'like', '%'.$search.'%')
-                ->orWhere('description', 'like', '%'.$search.'%');
+                ->orWhere('description', 'like', '%'.$search.'%')
+                ->orWhere('id', $search);;
         });
 
         return view('product.index', [
