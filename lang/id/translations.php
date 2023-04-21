@@ -24,7 +24,7 @@ return [
     'Change' => 'Ubah',
     'Delete' => 'Hapus',
     'Invoice' => 'Faktur',
-    'Order date' => 'Tanggal Pesanan',
+    'Order date' => 'Tanggal Pembelian',
     'No orders yet' => 'Belum ada pesanan',
     'Dashboard' => 'Beranda',
     'Saved' => 'Disimpan.',
