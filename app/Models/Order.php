@@ -61,11 +61,11 @@ class Order extends Model
 
     protected $guarded = ['id'];
 
-    /*
-     * Getters DP
-     * @return float
-     */
+    // DP 30%
     public const DP = 0.30;
+
+    // The order is cancelled
+    public const CANCELLED = 'Dibatalkan';
 
     public function user(): BelongsTo
     {
