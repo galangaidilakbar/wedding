@@ -8,13 +8,39 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div>
+                <div class="flex justify-between items-center flex-wrap">
                     <!-- Search bar -->
-                    <div>
+                    <div class="w-full lg:w-auto">
                         <x-search-bar to="{{ route('order.index') }}" placeholder="Cari pesananmu di sini"/>
                     </div>
 
                     <!-- Filter by status-->
+                    <form
+                        action="{{ route('order.index') }}"
+                        method="get"
+                        class="mt-2 lg:mt-0 w-1/2 lg:w-auto"
+                        onchange="this.closest('form').submit()">
+
+                        <x-input-label
+                            for="status"
+                            value="status"
+                            class="sr-only"/>
+
+                        <x-select
+                            id="status"
+                            name="status"
+                            class="mt-1 block"
+                            required>
+                            <option value="" disabled>-- Status --</option>
+                            @foreach(App\Models\Order::ORDER_STATUS as $value)
+                                <option
+                                    value="{{ $value }}"
+                                    {{ request('status') === $value ? 'selected' : '' }}>
+                                    {{ $value }}
+                                </option>
+                            @endforeach
+                        </x-select>
+                    </form>
 
                     <!-- Filter by date -->
                 </div>
@@ -102,11 +128,10 @@
                     </div>
                 </div>
             @empty
-                <div class="flex">
-                    <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">
-                        {{ __('translations.No orders yet') }}
-                    </h2>
-                </div>
+                <figure class="flex flex-col justify-center items-center">
+                    <img src="{{ asset('img/empty.svg') }}" alt="empty illustration" class="w-20 h-auto">
+                    <figcaption class="mt-4 text-gray-500 dark:text-gray-400 text-sm">Tidak ada pesanan</figcaption>
+                </figure>
             @endforelse
 
             {{ $orders->links() }}
