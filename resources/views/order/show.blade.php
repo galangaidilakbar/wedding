@@ -111,7 +111,7 @@
                             <div class="text-gray-500 dark:text-gray-400 text-sm">
                                 {{ __('No. Pesanan') }}
                             </div>
-                            <div class="text-gray-900 text-sm">
+                            <div class="text-gray-900 dark:text-gray-400 text-sm">
                                 {{ $order->id }}
                             </div>
                         </div>
