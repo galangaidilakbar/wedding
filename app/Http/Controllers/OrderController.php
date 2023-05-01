@@ -24,13 +24,13 @@ class OrderController extends Controller
             : request()->user()->orders()->with('detail_orders.product')->latest();
 
         // search order by id
-        $orders->when(request()->has('search'), fn ($query) => $query->where('id', request()->search));
+        $orders->when(request()->has('search'), fn($query) => $query->where('id', request()->search));
 
         // filter order by status
-        $orders->when(request()->has('status'), fn ($query) => $query->where('status', request()->status));
+        $orders->when(request()->has('status'), fn($query) => $query->where('status', request()->status));
 
         // filter order by date
-        $orders->when(request()->has('date'), fn ($query) => $query->whereDate('created_at', request()->date));
+        $orders->when(request()->has('date'), fn($query) => $query->whereDate('created_at', request()->date));
 
         return view('order.index', [
             'orders' => $orders->paginate(10)->withQueryString(),
@@ -120,14 +120,21 @@ class OrderController extends Controller
     /**
      * Cancel order.
      */
-    public function cancel(Order $order): RedirectResponse
+    public function cancel(Request $request, Order $order): RedirectResponse
     {
+        $request->validate([
+            'description' => 'required|string',
+        ]);
+
         $order->update([
             'status' => Order::CANCELLED,
             'status_color' => 'gray',
         ]);
 
-        $order->timelines()->create(['title' => 'Pesanan Dibatalkan.']);
+        $order->timelines()->create([
+            'title' => 'Pesanan Dibatalkan.',
+            'description' => 'Alasan pembatalan: ' . $request->description,
+        ]);
 
         return to_route('order.show', $order)->with('order-status', 'order-canceled');
     }
