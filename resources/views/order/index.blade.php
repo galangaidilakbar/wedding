@@ -30,7 +30,7 @@
                                     {{ $order->created_at->format('d M Y') }}
                                 </div>
 
-                                <x-badge-status :text="$order->status" :color="$order->status_color" />
+                                <x-badge-status :text="$order->status" :color="$order->status_color"/>
 
                                 <div class="text-sm text-gray-500 dark:text-gray-400 hidden lg:block select-all">
                                     {{ $order->id }}
@@ -46,7 +46,7 @@
                         <!-- Products -->
                         <div class="grid grid-cols-1">
                             @foreach ($order->detail_orders as $cart)
-                                <div class="flex space-x-8 mt-4 first:mt-0">
+                                <div class="flex space-x-8">
                                     <div class="w-32">
                                         <img src="{{ $cart->product->photo_url }}" alt="{{ $cart->product->name }}"
                                              class="rounded" loading="lazy">
@@ -55,11 +55,21 @@
                                         <div class="text-sm lg:text-base font-medium text-gray-900 dark:text-gray-100">
                                             {{ $cart->product->name }}
                                         </div>
+                                        <div class="text-gray-500 dark:text-gray-400 lg:hidden text-xs mt-1">
+                                            Rp @rupiah($cart->product->price)
+                                        </div>
                                     </div>
                                     <div class="hidden lg:block text-gray-600 dark:text-gray-400">
                                         Rp @rupiah($cart->product->price)
                                     </div>
                                 </div>
+                                <div class="w-auto mt-2">
+                                    <button class="text-gray-500 dark:text-gray-400 text-sm">
+                                        +{{$loop->count - 1}} produk lainnya
+                                    </button>
+                                </div>
+
+                                @break($loop->iteration === 1)
                             @endforeach
                         </div>
 
