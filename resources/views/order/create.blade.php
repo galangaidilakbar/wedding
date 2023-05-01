@@ -10,205 +10,205 @@
             <form action="{{ route('order.store') }}" method="post" class="space-y-6">
                 @csrf
 
-                <!-- Alamat acara -->
-                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                    <div class="max-w-xl">
-                        <section>
-                            <x-input-label :value="__('Alamat Acara')"/>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <div class="col-span-1 lg:col-span-2 p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                        <div class="space-y-6">
+                            <!-- Tanggal -->
+                            <section>
+                                <h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">
+                                    Tanggal acara
+                                </h3>
+                                <x-text-input id="tanggal_acara" class="block w-full max-w-xl" type="date"
+                                              name="tanggal_acara"
+                                              required/>
+                                <x-input-error :messages="$errors->get('tanggal_acara')" class="mt-2"/>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                                    Pastikan tanggal acara yang Anda pilih minimal 2 minggu dari hari ini.
+                                </p>
+                            </section>
 
-                            <div class="flex flex-col">
-                                @forelse($addresses as $address)
-                                    <div
-                                        class="flex items-center space-x-8 mt-4 bg-gray-50 dark:bg-gray-900 px-6 py-4 rounded-lg border dark:border-gray-700">
-                                        <input type="radio" id="{{ $address->id }}" name="address_id"
-                                               value="{{ $address->id }}" {{ $loop->first ? 'checked' : '' }}>
+                            <!-- Alamat -->
+                            <section>
+                                <h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">
+                                    Alamat acara
+                                </h3>
 
-                                        <div class="flex flex-1">
-                                            <div class="flex-1">
-                                                <label for="{{ $address->id }}"
-                                                       class="text-gray-900 dark:text-white">{{ $address->full_name }}</label>
-                                                <span class="border-l dark:border-gray-600 ml-2"></span>
-                                                <span
-                                                    class="text-gray-600 dark:text-gray-400 text-sm ml-2">{{ $address->phone_number }}</span>
-
-                                                <div class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                                                    {{ $address->detail }} ({{ $address->patokan }})
+                                <ul class="grid w-full gap-6 md:grid-cols-2">
+                                    @forelse($addresses as $address)
+                                        <li>
+                                            <input type="radio" id="{{ $address->id }}" name="address_id" value="DP"
+                                                   class="hidden peer" required {{ $loop->first ? 'checked' : '' }}>
+                                            <label for="{{ $address->id }}"
+                                                   class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                                <div class="block">
+                                                    <div
+                                                        class="w-full text-lg font-semibold">{{ $address->full_name }}</div>
+                                                    <div class="w-full text-xs">{{ $address->phone_number }}</div>
+                                                    <div class="w-full text-xs mt-2">
+                                                        {{ $address->detail }}
+                                                        ({{ $address->patokan }})
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <x-primary-link href="{{ route('address.edit', $address) }}"
-                                                            class="hidden lg:block">
-                                                Ubah
+                                            </label>
+                                        </li>
+                                    @empty
+                                        <div class="text-gray-500 dark:text-gray-400 text-sm">
+                                            Tambah alamat terlebih dahulu.
+                                            <x-primary-link href="{{ route('address.create') }}">
+                                                Tambah Alamat
                                             </x-primary-link>
                                         </div>
-                                    </div>
-                                @empty
-                                    <div class="mt-4 text-gray-500 dark:text-gray-400 text-sm">
-                                        Tambah alamat terlebih dahulu.
+                                    @endforelse
+                                </ul>
+
+                                @unless($addresses->isEmpty())
+                                    <div class="mt-4 text-gray-500 dark:text-gray-400 text-xs">
+                                        Bukan disini?
                                         <x-primary-link href="{{ route('address.create') }}">
                                             Tambah Alamat
                                         </x-primary-link>
                                     </div>
-                                @endforelse
+                                @endunless
+                            </section>
 
-                                <x-input-error :messages="$errors->get('address_id')" class="mt-2"/>
-                            </div>
-                        </section>
+                            <!-- Opsi Bayar -->
+                            <section>
+                                <h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">
+                                    Bayar Penuh atau DP?
+                                </h3>
+
+                                <ul class="grid w-full gap-6 md:grid-cols-2">
+                                    <li>
+                                        <input type="radio" id="dp" name="opsi_bayar" value="DP"
+                                               class="hidden peer" required checked>
+                                        <label for="dp"
+                                               class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                            <div class="block">
+                                                <div class="w-full text-lg font-semibold">DP 30%</div>
+                                                <div class="w-full">Bayar uang muka</div>
+                                            </div>
+                                            <svg aria-hidden="true" class="w-6 h-6 ml-3" fill="currentColor"
+                                                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+                                        </label>
+                                    </li>
+
+                                    <li>
+                                        <input type="radio" id="FULL" name="opsi_bayar" value="FULL"
+                                               class="hidden peer">
+                                        <label for="FULL"
+                                               class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                            <div class="block">
+                                                <div class="w-full text-lg font-semibold">Bayar Penuh</div>
+                                                <div class="w-full">Bayar harga total</div>
+                                            </div>
+                                            <svg aria-hidden="true" class="w-6 h-6 ml-3" fill="currentColor"
+                                                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+                                        </label>
+                                    </li>
+                                </ul>
+
+                                <x-input-error :messages="$errors->get('opsi_bayar')" class="mt-2"/>
+                            </section>
+
+                            <!-- Metode pembayararan -->
+                            <section>
+                                <h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">
+                                    Bayar pake apa?
+                                </h3>
+                                <ul class="grid w-full gap-6 md:grid-cols-2">
+                                    <li>
+                                        <input type="radio" id="cash" name="metode_pembayaran" value="cash"
+                                               class="hidden peer" required checked>
+                                        <label for="cash"
+                                               class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                            <div class="block">
+                                                <div class="w-full text-lg font-semibold">Cash</div>
+                                                <div class="w-full">Bayar ke kantor</div>
+                                            </div>
+                                            <svg aria-hidden="true" class="w-6 h-6 ml-3" fill="currentColor"
+                                                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+                                        </label>
+                                    </li>
+
+                                    <li>
+                                        <input type="radio" id="bank" name="metode_pembayaran" value="bank"
+                                               class="hidden peer">
+                                        <label for="bank"
+                                               class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                            <div class="block">
+                                                <div class="w-full text-lg font-semibold">Transfer</div>
+                                                <div class="w-full">Bayar via bank transfer.</div>
+                                            </div>
+                                            <svg aria-hidden="true" class="w-6 h-6 ml-3" fill="currentColor"
+                                                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+                                        </label>
+                                    </li>
+                                </ul>
+
+                                <x-input-error :messages="$errors->get('metode_pembayaran')" class="mt-2"/>
+                            </section>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Tanggal acara -->
-                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                    <div class="max-w-xl">
-                        <section>
-                            <x-input-label for="tanggal_acara" :value="__('Tanggal Acara')"/>
-                            <x-text-input id="tanggal_acara" class="block mt-4 w-full" type="date" name="tanggal_acara"
-                                          required/>
-                            <x-input-error :messages="$errors->get('tanggal_acara')" class="mt-2"/>
-                        </section>
-                    </div>
-                </div>
+                    {{-- TODO: Add total price --}}
+                    <div class="col-span-1">
+                        <section class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Pesananmu</h3>
 
-                <!-- Produk dipesan -->
-                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                    <div class="max-w-xl">
-                        <section>
-                            <x-input-label :value="__('Produk Dipesan')"/>
-
-                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
-                                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                    <thead
-                                        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            <span class="sr-only">Image</span>
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Nama Produk
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Harga
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($carts as $cart)
-                                        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                            <td class="w-32 p-4">
-                                                <img src="{{ $cart->product->photo_url }}"
-                                                     alt="{{ $cart->product->name }}">
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                {{ $cart->product->name }}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                Rp @rupiah($cart->product->price)
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <td class="px-6 py-4" colspan="2">
-                                            {{ __('Total Pesanan') }}
-                                        </td>
-                                        <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                            Rp @rupiah($total_product_price)
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </section>
-                    </div>
-                </div>
-
-                <!-- Opsi Bayar -->
-                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                    <div class="max-w-xl">
-                        <section>
-                            <x-input-label :value="__('Opsi Bayar')"/>
-
-                            <div class="grid grid-cols-1 space-y-6 mt-4">
-                                {{-- DP --}}
-                                <div
-                                    class="flex items-center space-x-8 px-6 py-4 bg-gray-50 dark:bg-gray-900 border rounded-lg dark:border-gray-700">
-                                    <input class="grow-0" type="radio" id="DP" name="opsi_bayar" value="DP" checked>
+                            @foreach($carts as $cart)
+                                <div class="flex gap-4 mt-2 border-t py-6">
+                                    <div class="w-32">
+                                        <img src="{{ $cart->product->photo_url }}"
+                                             class="rounded"
+                                             alt="{{ $cart->product->name }}">
+                                    </div>
                                     <div class="flex-1">
-                                        <label for="DP">{{ __('DP (Direkomendasikan)') }}</label>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                            {{ __('Buat pesanan dengan membayar sebesar 30% dari total pesanan, kemudian lunasi H-3 sebelum acara.') }}
-                                        </p>
+                                        <div class="text-gray-900 dark:text-white">{{ $cart->product->name }}</div>
+                                        <div class="text-gray-600 dark:text-gray-400 text-sm">
+                                            Rp @rupiah($cart->product->price)
+                                        </div>
                                     </div>
                                 </div>
+                            @endforeach
 
-                                {{-- FULL --}}
-                                <div
-                                    class="flex items-center space-x-8 px-6 py-4 bg-gray-50 dark:bg-gray-900 border rounded-lg dark:border-gray-700">
-                                    <input class="grow-0" type="radio" id="FULL" name="opsi_bayar" value="FULL">
-                                    <div class="flex-1">
-                                        <label for="FULL">{{ __('Full') }}</label>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                            {{ __('Bayar sebesar total pesanan.') }}
-                                        </p>
-                                    </div>
-                                </div>
+                            <section>
+                                <x-input-label for="catatan" :value="__('Catatan')"/>
+                                <x-text-input id="catatan" class="block mt-1 w-full" type="text" name="catatan"
+                                              :value="old('catatan')"/>
+                                <x-input-error class="mt-2" :messages="$errors->get('catatan')"/>
+                            </section>
+
+                            <div class="flex justify-between items-center mt-4">
+                                <div class="text-gray-900 dark:text-white font-semibold">Total</div>
+                                <div class="text-gray-900 dark:text-white font-semibold">Rp @rupiah($total_product_price)</div>
                             </div>
 
-                            <x-input-error :messages="$errors->get('opsi_bayar')" class="mt-2"/>
-                        </section>
-                    </div>
-                </div>
+                            <div class="flex justify-between items-center mt-4">
+                                <x-secondary-button-link href="{{ route('cart.index') }}">
+                                    {{ __('translations.Cancel') }}
+                                </x-secondary-button-link>
 
-                <!-- Metode Pembayaran -->
-                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                    <div class="max-w-xl">
-                        <section>
-                            <x-input-label :value="__('Metode Pembayaran')"/>
-
-                            <div class="grid grid-cols-1 space-y-6 mt-4">
-                                {{-- CASH --}}
-                                <div
-                                    class="flex items-center space-x-8 px-6 py-4 bg-gray-50 dark:bg-gray-900 border rounded-lg dark:border-gray-700">
-                                    <input class="grow-0" type="radio" id="CASH" name="metode_pembayaran" value="CASH"
-                                           checked>
-                                    <div class="flex-1">
-                                        <label for="CASH">{{ __('CASH') }}</label>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                                            {{ __('Bayar langsung di kantor.') }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {{-- BANK --}}
-                                <div
-                                    class="flex items-center space-x-8 px-6 py-4 bg-gray-50 dark:bg-gray-900 border rounded-lg dark:border-gray-700">
-                                    <input class="grow-0" type="radio" id="BANK" name="metode_pembayaran" value="BANK">
-                                    <div class="flex-1">
-                                        <label for="BANK">{{ __('Transfer Bank') }}</label>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                                            {{ __('Bayar via transfer bank.') }}
-                                        </p>
-                                    </div>
-                                </div>
+                                <x-primary-button>
+                                    {{ __('Buat Pesanan') }}
+                                </x-primary-button>
                             </div>
-
-                            <x-input-error :messages="$errors->get('metode_pembayaran')" class="mt-2"/>
                         </section>
-                    </div>
-                </div>
-
-                <!-- Catatan -->
-                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                    <div class="max-w-xl">
-                        <section>
-                            <x-input-label for="catatan" :value="__('Catatan')"/>
-                            <x-textarea class="mt-4 block w-full"
-                                        id="catatan"
-                                        name="catatan"
-                                        placeholder="Mohon tinggalkan catatan...">{{ old('catatan') }}</x-textarea>
-
-                            <x-input-error class="mt-2" :messages="$errors->get('catatan')"/>
-                        </section>
-
-                        <x-primary-button class="mt-4">{{ __('Buat Pesanan') }}</x-primary-button>
                     </div>
                 </div>
             </form>
