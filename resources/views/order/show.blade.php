@@ -72,9 +72,9 @@
                                                     <x-select
                                                         id="description"
                                                         name="description"
-                                                        class="mt-1 block w-full lg:w-3/4">
-                                                        required
-                                                        <option value="">-- Pilih alasan --</option>
+                                                        class="mt-1 block w-full lg:w-3/4"
+                                                        required>
+                                                        <option value="" disabled>-- Pilih alasan --</option>
                                                         <option value="perubahan rencana">Perubahan Rencana</option>
                                                         <option value="masalah kesehatan">Masalah Kesehatan</option>
                                                         <option value="kendala keuangan">Kendala Keuangan</option>
