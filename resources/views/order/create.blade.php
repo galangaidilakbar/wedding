@@ -166,7 +166,6 @@
                         </div>
                     </div>
 
-                    {{-- TODO: Add total price --}}
                     <div class="col-span-1">
                         <section class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                             <h3 class="text-lg font-medium text-gray-900 dark:text-white">Pesananmu</h3>
