@@ -67,6 +67,16 @@ class Order extends Model
     // The order is cancelled
     public const CANCELLED = 'Dibatalkan';
 
+    public const ORDER_STATUS = [
+        'Menunggu Pembayaran',
+        'Menunggu Konfirmasi',
+        'Menunggu Pembayaran Sisa',
+        'Menunggu Konfirmasi Sisa',
+        'Berlangsung',
+        'Selesai',
+        'Dibatalkan',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
