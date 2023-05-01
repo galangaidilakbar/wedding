@@ -63,11 +63,13 @@
                                         Rp @rupiah($cart->product->price)
                                     </div>
                                 </div>
-                                <div class="w-auto mt-2">
-                                    <button class="text-gray-500 dark:text-gray-400 text-sm">
-                                        +{{$loop->count - 1}} produk lainnya
-                                    </button>
-                                </div>
+                                @if($loop->count > 1)
+                                    <div class="w-auto mt-2">
+                                        <button class="text-gray-500 dark:text-gray-400 text-sm">
+                                            +{{$loop->count - 1}} produk lainnya
+                                        </button>
+                                    </div>
+                                @endif
 
                                 @break($loop->iteration === 1)
                             @endforeach
