@@ -11,8 +11,8 @@
                 @csrf
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                    <div class="col-span-1 lg:col-span-2 p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                        <div class="space-y-6">
+                    <div class="col-span-1 lg:col-span-2">
+                        <div class="space-y-6 p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                             <!-- Tanggal -->
                             <section>
                                 <h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">
@@ -195,7 +195,9 @@
 
                             <div class="flex justify-between items-center mt-4">
                                 <div class="text-gray-900 dark:text-white font-semibold">Total</div>
-                                <div class="text-gray-900 dark:text-white font-semibold">Rp @rupiah($total_product_price)</div>
+                                <div class="text-gray-900 dark:text-white font-semibold">Rp
+                                    @rupiah($total_product_price)
+                                </div>
                             </div>
 
                             <div class="flex justify-between items-center mt-4">
