@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-            <!-- Ringkasan -->
+            <!-- Alerts, summary, and others -->
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     <!-- Alert Menunggu Pembayaran -->
@@ -71,6 +71,7 @@
                         </div>
                     @endif
 
+                    <!-- Ringkasan -->
                     <div class="grid grid-cols-1 space-y-6" x-data="{ open: false }">
                         <!-- Status -->
                         <div class="flex justify-between items-center">
@@ -172,8 +173,11 @@
                                         <div class="text-lg font-medium text-gray-900 dark:text-gray-100">
                                             {{ $cart->product->name }}
                                         </div>
+                                        <div class="text-gray-500 dark:text-gray-400 text-sm lg:hidden">
+                                            Rp @rupiah($cart->product->price)
+                                        </div>
                                     </div>
-                                    <div class="text-gray-700 dark:text-gray-400">
+                                    <div class="text-gray-700 dark:text-gray-400 hidden lg:block">
                                         Rp @rupiah($cart->product->price)
                                     </div>
                                 </div>
@@ -185,10 +189,10 @@
                         <!-- Catatan -->
                         <div class="grid grid-cols-1 gap-4 mt-6">
                             <div class="text-gray-500 dark:text-gray-400 text-sm">
-                                {{ __('Catatan') }}
+                                {{ __('Catatan: ') }}
                             </div>
                             <div class="text-gray-900 dark:text-gray-100 text-sm">
-                                {{ $order->catatan }}
+                                {{ $order->catatan ?? '-' }}
                             </div>
                         </div>
                     </section>
@@ -220,7 +224,7 @@
                             </div>
 
                             <!-- Detail alamat -->
-                            <div class="text-gray-500 dark:text-gray-400 text-sm">
+                            <div class="text-gray-500 dark:text-gray-400 text-xs lg:text-sm mt-2">
                                 {{ $order->address->detail }} ({{ $order->address->patokan }})
                             </div>
                         </div>
