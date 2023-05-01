@@ -43,16 +43,62 @@
 
                                 <!-- Batalkan Pesanan jika status Menunggu Pembayaran -->
                                 @if ($order->status === 'Menunggu Pembayaran')
-                                    <form action="{{ route('order.cancel', $order) }}" method="post"
-                                          onclick="return confirm('Apakah anda yakin?')">
-                                        @csrf
-                                        @method('patch')
-
+                                    <div x-data="{open: false}">
                                         <button type="submit"
+                                                x-on:click.prevent="$dispatch('open-modal', 'confirm-cancel-order')"
                                                 class="text-yellow-800 bg-transparent border border-yellow-800 hover:bg-yellow-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 py-1.5 text-center dark:hover:bg-yellow-300 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-gray-800 dark:focus:ring-yellow-800">
                                             {{ __('Batalkan Pesanan') }}
                                         </button>
-                                    </form>
+
+                                        <!-- Modal to cancel an order -->
+                                        <x-modal name="confirm-cancel-order" focusable>
+                                            <form method="post" action="{{ route('order.cancel', $order) }}"
+                                                  class="p-6">
+                                                @csrf
+                                                @method('patch')
+
+                                                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                                    {{ __('Apakah Anda yakin ingin membatalkan pesanan ini?') }}
+                                                </h2>
+
+                                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                                    {{ __('Harap dicatat bahwa tanggal yang Anda pilih mungkin telah diambil oleh orang lain setelah pesanan Anda dibuat. Mohon beritahu kami alasan Anda membatalkan pesanan ini.') }}
+                                                </p>
+
+                                                <div class="mt-6">
+                                                    <x-input-label for="description" value="description"
+                                                                   class="sr-only"/>
+
+                                                    <x-select
+                                                        id="description"
+                                                        name="description"
+                                                        class="mt-1 block w-full lg:w-3/4">
+                                                        required
+                                                        <option value="">-- Pilih alasan --</option>
+                                                        <option value="perubahan rencana">Perubahan Rencana</option>
+                                                        <option value="masalah kesehatan">Masalah Kesehatan</option>
+                                                        <option value="kendala keuangan">Kendala Keuangan</option>
+                                                        <option value="perubahan prioritas">Perubahan Prioritas</option>
+                                                        <option value="pembatalan venue">Pembatalan Venue</option>
+                                                        <option value="pengantin meninggal">Pengantin Meninggal</option>
+                                                    </x-select>
+
+                                                    <x-input-error :messages="$errors->get('description')"
+                                                                   class="mt-2"/>
+                                                </div>
+
+                                                <div class="mt-6 flex justify-end">
+                                                    <x-secondary-button x-on:click="$dispatch('close')">
+                                                        {{ __('translations.Cancel') }}
+                                                    </x-secondary-button>
+
+                                                    <x-danger-button class="ml-3">
+                                                        {{ __('Konfimasi') }}
+                                                    </x-danger-button>
+                                                </div>
+                                            </form>
+                                        </x-modal>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -337,38 +383,6 @@
                 </div>
             </div>
 
-            <!-- Opsi -->
-            {{--            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"> --}}
-            {{--                <div class="max-w-xl"> --}}
-            {{--                    <section> --}}
-            {{--                        <header> --}}
-            {{--                            <h6 class="text-lg font-bold dark:text-white"> --}}
-            {{--                                {{ __('Rincian Pembayaran') }} --}}
-            {{--                            </h6> --}}
-            {{--                        </header> --}}
-
-            {{--                        <div class="grid grid-cols-1 mt-6 space-y-3"> --}}
-            {{--                            <!-- Hapus --> --}}
-            {{--                            <div class="flex justify-between"> --}}
-            {{--                                <div class="text-sm text-gray-500 dark:text-gray-400"> --}}
-            {{--                                    {{ __('Hapus') }} --}}
-            {{--                                </div> --}}
-            {{--                                <div class="text-sm text-gray-900 dark:text-gray-100"> --}}
-            {{--                                    <form action="{{ route('order.destroy', $order->id) }}" method="POST"> --}}
-            {{--                                        @csrf --}}
-            {{--                                        @method('DELETE') --}}
-            {{--                                        <button type="submit" class="text-red-600 hover:underline"> --}}
-            {{--                                            {{ __('Hapus') }} --}}
-            {{--                                        </button> --}}
-            {{--                                    </form> --}}
-            {{--                                </div> --}}
-            {{--                            </div> --}}
-            {{--                        </div> --}}
-            {{--                    </section> --}}
-            {{--                </div> --}}
-            {{--            </div> --}}
-
-            <!-- Create map -->
             <script>
                 const map = L.map('map').setView([{{ $order->address->latitude }}, {{ $order->address->longitude }}], 19);
 
