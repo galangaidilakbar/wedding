@@ -14,15 +14,6 @@
                         <x-search-bar to="{{ route('products.search') }}" placeholder="Cari produk..."/>
                     </div>
 
-
-                    @if($keyword)
-                        <div class="my-4">
-                            <p class="text-sm text-gray-500 dark:text-gray-400">
-                                Hasil pencarian untuk <span class="font-medium">{{ $keyword }}</span>.
-                            </p>
-                        </div>
-                    @endif
-
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 place-content-center">
                         @forelse($products as $product)
                             <div
