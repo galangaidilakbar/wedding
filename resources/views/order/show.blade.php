@@ -120,6 +120,12 @@
 
                     <!-- Ringkasan -->
                     <div class="grid grid-cols-1 space-y-6" x-data="{ open: false }">
+                        <!-- Qr code -->
+                        <div class="flex justify-center">
+                            <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{ route('order.show', $order) }}"
+                                 alt="the qr code for this order">
+                        </div>
+
                         <!-- Status -->
                         <div class="flex justify-between items-center">
                             <h6 class="text-lg font-bold dark:text-white">
