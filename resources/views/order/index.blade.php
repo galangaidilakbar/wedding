@@ -8,9 +8,9 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="flex justify-between items-center flex-wrap">
+                <div class="flex justify-between items-center flex-wrap gap-4">
                     <!-- Search bar -->
-                    <div class="w-full lg:w-auto">
+                    <div class="w-full lg:w-auto lg:flex-1">
                         <x-search-bar to="{{ route('order.index') }}" placeholder="Cari pesananmu di sini"/>
                     </div>
 
@@ -18,7 +18,7 @@
                     <form
                         action="{{ route('order.index') }}"
                         method="get"
-                        class="mt-2 lg:mt-0 w-1/2 lg:w-auto"
+                        class="mt-2 lg:mt-0 w-full lg:w-auto"
                         onchange="this.closest('form').submit()">
 
                         <x-input-label
@@ -29,7 +29,7 @@
                         <x-select
                             id="status"
                             name="status"
-                            class="mt-1 block"
+                            class="mt-1 block w-full"
                             required>
                             <option value="" disabled>-- Status --</option>
                             @foreach(App\Models\Order::ORDER_STATUS as $value)
@@ -43,6 +43,84 @@
                     </form>
 
                     <!-- Filter by date -->
+                    <form
+                        action="{{ route('order.index') }}"
+                        method="get"
+                        class="w-full lg:w-auto">
+                        <div class="mt-2 lg:mt-0 flex items-center" x-data="{open: false}">
+                            <div class="relative w-full lg:w-auto">
+                                <label for="select_date" class="sr-only"></label>
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                              clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <input type="text"
+                                       id="select_date"
+                                       x-on:click.prevent="$dispatch('open-modal', 'select-range-date')"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                       placeholder="Pilih tanggal transaksi"
+                                       value="{{ request('start') ? request('start') . ' - ' . request('end') : 'Pilih tanggal transaksi'}}">
+                            </div>
+                        </div>
+                        <!-- Modal to open date range -->
+                        <x-modal name="select-range-date" x-show="open" focusable>
+                            <div class="p-6">
+                                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                    {{ __('Pilih tanggal') }}
+                                </h2>
+
+                                <div class="flex items-center mt-6 justify-start">
+                                    <div class="relative">
+                                        <div
+                                            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                                 fill="currentColor" viewBox="0 0 20 20"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                        <label for="start" class="sr-only">Tanggal awal</label>
+                                        <input name="start" type="date" id="start"
+                                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                               placeholder="Select date start" value="{{ request('start') }}">
+                                    </div>
+                                    <span class="mx-4 text-gray-500">-</span>
+                                    <div class="relative">
+                                        <div
+                                            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                                 fill="currentColor" viewBox="0 0 20 20"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                        <label for="end" class="sr-only">Tanggal akhir</label>
+                                        <input name="end" type="date" id="end"
+                                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                               placeholder="Select date end" value="{{ request('end') }}">
+                                    </div>
+                                </div>
+
+                                <div class="mt-6 flex justify-end">
+                                    <x-secondary-button x-on:click="$dispatch('close')">
+                                        {{ __('translations.Cancel') }}
+                                    </x-secondary-button>
+
+                                    <x-primary-button class="ml-3">
+                                        {{ __('Submit') }}
+                                    </x-primary-button>
+                                </div>
+                            </div>
+                        </x-modal>
+                    </form>
                 </div>
             </div>
 
