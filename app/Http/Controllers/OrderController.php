@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
@@ -29,8 +30,13 @@ class OrderController extends Controller
         // filter order by status
         $orders->when(request()->has('status'), fn($query) => $query->where('status', request()->status));
 
-        // filter order by date
-        $orders->when(request()->has('date'), fn($query) => $query->whereDate('created_at', request()->date));
+        // filter order by date range
+        if (request()->has('start') && request()->has('end')) {
+            $orders->whereBetween('created_at', [
+                Carbon::parse(request()->start)->toDateTimeString(),
+                Carbon::parse(request()->end)->toDateTimeString()
+            ]);
+        }
 
         return view('order.index', [
             'orders' => $orders->paginate(10)->withQueryString(),
