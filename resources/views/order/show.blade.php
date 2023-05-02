@@ -81,6 +81,7 @@
                                                         <option value="perubahan prioritas">Perubahan Prioritas</option>
                                                         <option value="pembatalan venue">Pembatalan Venue</option>
                                                         <option value="pengantin meninggal">Pengantin Meninggal</option>
+                                                        <option value="Lainnya">Lainnya</option>
                                                     </x-select>
 
                                                     <x-input-error :messages="$errors->get('description')"
