@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\UpdatableStatusOrderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CreateInvoiceController;
@@ -78,7 +79,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // CRUD for products.
         Route::resource('/products', ProductController::class)->except('show');
+
+        // Update order status.
+        Route::patch('/order/{order}', UpdatableStatusOrderController::class)->name('order.updateStatus');
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

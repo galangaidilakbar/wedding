@@ -125,8 +125,8 @@
                             <img
                                 src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{ route('order.show', $order) }}"
                                 alt="the qr code for this order"
-                                class="h-40 w-40 mx-auto">
-                            <div>
+                                class="h-40 w-40 mx-auto rounded">
+                            <div class="mt-2">
                                 <p class="text-gray-500 dark:text-gray-400 text-xs text-center">
                                     {{ __('Scan QR Code ini untuk melihat detail pesanan Anda.') }}
                                 </p>
@@ -396,6 +396,14 @@
                     </section>
                 </div>
             </div>
+
+            @if(request()->user()->isAdmin())
+                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                    <div class="max-w-xl">
+                        @include('admin.order.manage-order')
+                    </div>
+                </div>
+            @endif
 
             <script>
                 const map = L.map('map').setView([{{ $order->address->latitude }}, {{ $order->address->longitude }}], 19);
