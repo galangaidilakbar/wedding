@@ -121,9 +121,16 @@
                     <!-- Ringkasan -->
                     <div class="grid grid-cols-1 space-y-6" x-data="{ open: false }">
                         <!-- Qr code -->
-                        <div class="flex justify-center">
-                            <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{ route('order.show', $order) }}"
-                                 alt="the qr code for this order">
+                        <div class="flex justify-center flex-col">
+                            <img
+                                src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{ route('order.show', $order) }}"
+                                alt="the qr code for this order"
+                                class="h-40 w-40 mx-auto">
+                            <div>
+                                <p class="text-gray-500 dark:text-gray-400 text-xs text-center">
+                                    {{ __('Scan QR Code ini untuk melihat detail pesanan Anda.') }}
+                                </p>
+                            </div>
                         </div>
 
                         <!-- Status -->
