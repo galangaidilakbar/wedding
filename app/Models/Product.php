@@ -40,9 +40,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Cart> $carts
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\DetailOrder> $detail_orders
- *
  * @mixin \Eloquent
  */
 class Product extends Model
