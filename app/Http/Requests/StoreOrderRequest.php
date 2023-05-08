@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Order;
+use Exception;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class StoreOrderRequest extends FormRequest
 {
@@ -28,6 +31,20 @@ class StoreOrderRequest extends FormRequest
             'metode_pembayaran' => 'required',
             'catatan' => 'nullable',
         ];
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function checkAvailability(string $date): void
+    {
+        $order = Order::whereDate('tanggal_acara', $date)
+            ->whereNot('status', Order::CANCELLED)
+            ->count();
+
+        if ($order >= 2) {
+            throw ValidationException::withMessages(['tanggal_acara' => 'Tanggal acara sudah penuh']);
+        }
     }
 
     // messages

@@ -20,6 +20,7 @@
                                 </h3>
                                 <x-text-input id="tanggal_acara" class="block w-full max-w-xl" type="date"
                                               name="tanggal_acara"
+                                                :value="old('tanggal_acara')"
                                               required/>
                                 <x-input-error :messages="$errors->get('tanggal_acara')" class="mt-2"/>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">

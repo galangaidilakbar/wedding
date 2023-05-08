@@ -65,6 +65,8 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request): RedirectResponse
     {
+        $request->checkAvailability($request->tanggal_acara);
+
         $validated = $request->validated();
         $validated['user_id'] = $request->user()->id;
         $validated['total_harga'] = $this->getTotalProductPrice();
