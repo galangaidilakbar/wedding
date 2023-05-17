@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Order $order
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Timeline newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Timeline newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Timeline query()
@@ -25,7 +24,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Timeline whereOrderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Timeline whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Timeline whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class Timeline extends Model
