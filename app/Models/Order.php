@@ -72,6 +72,7 @@ class Order extends Model
         'Menunggu Konfirmasi',
         'Menunggu Pembayaran Sisa',
         'Menunggu Konfirmasi Sisa',
+        'Pembayaran Selesai',
         'Berlangsung',
         'Selesai',
         'Dibatalkan',

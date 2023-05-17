@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\Admin\UploadCashPaymentController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UpdatableStatusOrderController;
+use App\Http\Controllers\Admin\UpdatePaymentStatusController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CreateInvoiceController;
@@ -82,6 +84,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Update order status.
         Route::patch('/order/{order}', UpdatableStatusOrderController::class)->name('order.updateStatus');
+
+        // Upload payment proof.
+        Route::post('/order/{order}/payments/cash', [UploadCashPaymentController::class, 'store'])->name('order.payments.store');
+
+        // update payment status.
+        Route::patch('order/{order}/payments/{payment}/status', UpdatePaymentStatusController::class)->name('order.payments.updateStatus');
     });
 });
 

@@ -227,7 +227,7 @@
                                 <div class="flex space-x-8 mt-4 first:mt-0">
                                     <div class="w-32">
                                         <img src="{{ $cart->product->photo_url }}" alt="{{ $cart->product->name }}"
-                                             class="rounded" loading="lazy">
+                                             class="rounded" loading="lazy" onclick="openModalImage(this.src)">
                                     </div>
                                     <div class="flex-1">
                                         <div class="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -348,21 +348,23 @@
                                 <!-- Detail Riwayat Pembayaran -->
                                 <div x-show="open" x-transition class="col-span-2 mt-6">
                                     @forelse ($order->payments as $payment)
-                                        <div class="flex justify-between gap-4">
+                                        <div class="flex justify-between gap-4 first:mt-0 mt-6">
                                             <!-- Bukti Bayar -->
                                             <div class="w-32">
                                                 <img src="{{ $payment->proof_of_payment_url }}"
-                                                     alt="{{ $payment->proof_of_payment }}">
+                                                     alt="{{ $payment->proof_of_payment }}"
+                                                     onclick="openModalImage(this.src)"
+                                                     class="rounded">
                                             </div>
 
                                             <div class="grow">
                                                 <!-- Status Pembayaran -->
-                                                <div class="text-sm text-gray-900 dark:text-gray-100">
+                                                <div class="text-sm text-gray-900 dark:text-gray-100 font-medium">
                                                     {{ $payment->status }}
                                                 </div>
 
                                                 <!-- Catatan dari admin -->
-                                                <div class="text-sm text-gray-600 dark:text-gray-400">
+                                                <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">
                                                     {{ $payment->note }}
                                                 </div>
 
@@ -371,6 +373,26 @@
                                                     {{ __('Pembaharuan terakhir: ') }}
                                                     {{ $payment->updated_at->format('d M Y, H:i') }}
                                                 </div>
+
+                                                @if(request()->user()->isAdmin())
+                                                    <!-- Update status pembayaran -->
+                                                    <form
+                                                        action="{{ route('admin.order.payments.updateStatus', [$order, $payment]) }}"
+                                                        method="post" onchange="this.closest('form').submit()">
+                                                        @csrf
+
+                                                        @method('patch')
+
+                                                        <x-select class="mt-2" name="status">
+                                                            @foreach (App\Models\Payments::STATUS as $value)
+                                                                <option
+                                                                    value="{{ $value }}" {{ $payment->status === $value ? 'selected' : '' }}>
+                                                                    {{ $value }}
+                                                                </option>
+                                                            @endforeach
+                                                        </x-select>
+                                                    </form>
+                                                @endif
                                             </div>
                                         </div>
                                     @empty
@@ -414,9 +436,43 @@
                 }).addTo(map);
 
                 L.marker([{{ $order->address->latitude }}, {{ $order->address->longitude }}]).addTo(map)
-                    .bindPopup("{{ $order->address->full_name }}")
+                    .bindPopup("Tempat Acara {{ $order->address->full_name }}")
                     .openPopup();
             </script>
         </div>
     </div>
+
+    <dialog id="modal-image" class="rounded backdrop-blur-sm bg-white/30 dark:bg-black/30 max-w-xl">
+        <img class="h-auto max-w-full rounded-lg"
+             src="" alt="" id="image-container">
+        <!-- close button -->
+        <button id="close-modal-image"
+                class="absolute right-0 top-0 p-3 m-3 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+    </dialog>
+
+    <script>
+        const modalImage = document.getElementById('modal-image');
+        const imageContainer = document.getElementById('image-container');
+        const closeImage = document.getElementById('close-modal-image');
+
+        function openModalImage(url) {
+            imageContainer.src = url;
+            modalImage.showModal();
+        }
+
+        closeImage.addEventListener('click', () => {
+            modalImage.close();
+        });
+
+        modalImage.addEventListener('click', (event) => {
+            if (event.target === modalImage) {
+                modalImage.close();
+            }
+        });
+    </script>
 </x-app-layout>

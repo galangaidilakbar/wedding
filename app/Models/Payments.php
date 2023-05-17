@@ -44,4 +44,10 @@ class Payments extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    public const STATUS = [
+        'Menunggu Konfirmasi',
+        'Diterima',
+        'Ditolak',
+    ];
 }

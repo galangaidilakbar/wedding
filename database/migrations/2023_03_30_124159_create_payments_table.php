@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignUuid('order_id')->constrained()->cascadeOnDelete();
             $table->string('proof_of_payment'); // path to image
             $table->string('proof_of_payment_url'); // url to image
-            $table->enum('status', ['Belum Diverifikasi', 'Gagal', 'Diterima', 'Dikembalikan'])->default('Belum Diverifikasi');
+            $table->enum('status', [App\Models\Payments::STATUS])->default('Menunggu Konfirmasi');
             $table->string('note')->nullable();
             $table->timestamps();
         });
