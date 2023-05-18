@@ -39,6 +39,11 @@ class UploadCashPaymentController extends Controller
         // update order status
         $order->update(['status' => $request->status]);
 
+        // create new timeline
+        $order->timelines()->create([
+            'title' => 'Pembayaran Diterima.',
+        ]);
+
         // redirect
         return back();
     }
