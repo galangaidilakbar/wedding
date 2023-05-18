@@ -11,7 +11,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-gray-900 dark:text-gray-100">
                     <!-- Product image -->
                     <img src="{{ $product->photo_url }}" alt="{{ $product->name }}"
-                         class="w-full h-full max-h-96 object-cover rounded-lg">
+                         class="w-full h-full max-h-96 object-cover rounded-lg" onclick="openModalImage(this.src)">
 
                     <div>
                         <!-- Product name -->
