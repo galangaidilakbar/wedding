@@ -25,7 +25,9 @@
         <link rel="shortcut icon" href="{{ asset('img/ginasty-logo.jpeg') }}" type="image/x-icon">
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        @include('layouts.bottom-navigation')
+
+        <div class="min-h-screen bg-gray-100 dark:bg-gray-900 mb-10">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
@@ -42,39 +44,39 @@
                 {{ $slot }}
             </main>
         </div>
-    </body>
 
-    <dialog id="modal-image" class="rounded backdrop-blur-sm bg-white/30 dark:bg-black/30 max-w-xl lg:max-w-4xl">
-        <img class="h-auto max-w-full rounded-lg"
-             src="" alt="" id="image-container">
-        <!-- close button -->
-        <button id="close-modal-image"
-                class="absolute right-0 top-0 p-3 m-3 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-        </button>
-    </dialog>
+        <dialog id="modal-image" class="rounded backdrop-blur-sm bg-white/30 dark:bg-black/30 max-w-xl lg:max-w-4xl">
+            <img class="h-auto max-w-full rounded-lg"
+                 src="" alt="" id="image-container">
+            <!-- close button -->
+            <button id="close-modal-image"
+                    class="absolute right-0 top-0 p-3 m-3 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </dialog>
 
-    <script>
-        const modalImage = document.getElementById('modal-image');
-        const imageContainer = document.getElementById('image-container');
-        const closeImage = document.getElementById('close-modal-image');
+        <script>
+            const modalImage = document.getElementById('modal-image');
+            const imageContainer = document.getElementById('image-container');
+            const closeImage = document.getElementById('close-modal-image');
 
-        function openModalImage(url) {
-            imageContainer.src = url;
-            modalImage.showModal();
-        }
-
-        closeImage.addEventListener('click', () => {
-            modalImage.close();
-        });
-
-        modalImage.addEventListener('click', (event) => {
-            if (event.target === modalImage) {
-                modalImage.close();
+            function openModalImage(url) {
+                imageContainer.src = url;
+                modalImage.showModal();
             }
-        });
-    </script>
+
+            closeImage.addEventListener('click', () => {
+                modalImage.close();
+            });
+
+            modalImage.addEventListener('click', (event) => {
+                if (event.target === modalImage) {
+                    modalImage.close();
+                }
+            });
+        </script>
+    </body>
 </html>
