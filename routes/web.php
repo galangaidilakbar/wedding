@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\Admin\ProgressController;
 use App\Http\Controllers\Admin\UploadCashPaymentController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
@@ -90,6 +91,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // update payment status.
         Route::patch('order/{order}/payments/{payment}/status', UpdatePaymentStatusController::class)->name('order.payments.updateStatus');
+
+        // Store progress of an order.
+        Route::post('/order/{order}/progress', [ProgressController::class, 'store'])->name('order.progress.store');
     });
 });
 

@@ -106,7 +106,7 @@ class Order extends Model
         'tanggal_acara' => 'datetime',
     ];
 
-    public function progress(): HasMany
+    public function progresses(): HasMany
     {
         return $this->hasMany(Progress::class);
     }

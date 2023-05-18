@@ -15,9 +15,9 @@ return new class extends Migration {
         Schema::create('progress', function (Blueprint $table) {
             $table->id();
             $table->foreignUuid('order_id')->constrained()->cascadeOnDelete();
-            $table->string('description')->nullable();
-            $table->string('image')->nullable();
-            $table->string('image_url')->nullable();
+            $table->string('description');
+            $table->string('image');
+            $table->string('image_url');
             $table->timestamps();
         });
     }

@@ -119,7 +119,7 @@
                     @endif
 
                     <!-- Ringkasan -->
-                    <div class="grid grid-cols-1 space-y-6" x-data="{ open: false }">
+                    <div class="grid grid-cols-1 space-y-6" x-data="{ open: false, progress: false }">
                         <!-- Qr code -->
                         <div class="flex justify-center flex-col">
                             <img
@@ -145,6 +145,7 @@
                             </button>
                         </div>
 
+                        <!-- Timeline status pesanan -->
                         <ol x-show="open" x-transition class="relative border-l border-gray-200 dark:border-gray-700">
                             @foreach ($order->timelines()->latest()->get() as $timeline)
                                 <li class="mb-10 ml-4">
@@ -208,6 +209,47 @@
                                 {{ $order->tanggal_acara->format('d F Y') }}
                             </div>
                         </div>
+
+                        <div class="border-b dark:border-gray-400 border-dashed"></div>
+
+                        <!-- Progress Acara -->
+                        <div class="flex justify-between items-center">
+                            <div class="text-gray-500 dark:text-gray-400 text-sm">
+                                Progress Acara
+                            </div>
+                            <button @click="progress = !progress"
+                                    class="text-right font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                    x-text="progress ? '{{ __('Tutup') }}' : '{{ __('Lihat Detail') }}'">
+                            </button>
+                        </div>
+
+                        <!-- Progress Acara -->
+                        <ol x-show="progress" x-transition
+                            class="relative border-l border-gray-200 dark:border-gray-700">
+                            @forelse ($order->progresses()->latest()->get() as $progress)
+                                <li class="mb-10 ml-4">
+                                    <div
+                                        class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                                    </div>
+                                    <time
+                                        class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                                        {{ $progress->created_at->format('d F Y, H:i') }}
+                                    </time>
+                                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                                        {{ $progress->description }}
+                                    </p>
+                                    <img
+                                        src="{{ $progress->image_url }}"
+                                        alt="{{ $progress->description }}"
+                                        class="w-32 rounded mt-4"
+                                        onclick="openModalImage(this.src)">
+                                </li>
+                            @empty
+                            <div class="text-sm text-gray-500 dark:text-gray-400 text-center">
+                                belum ada progress...
+                            </div>
+                            @endforelse
+                        </ol>
                     </div>
                 </div>
             </div>
