@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\Order;
+use App\Services\CartService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class OrderController extends Controller
@@ -48,36 +48,46 @@ class OrderController extends Controller
      *
      * @throws AuthorizationException
      */
-    public function create(): View
+    public function create(CartService $cartService): View
     {
-        abort_if($this->getCarts()->isEmpty(), 403, trans('translations.carts_is_empty'));
+        $carts = $cartService->getCartOfUser(\request()->user());
+        abort_if(
+            $carts->isEmpty(),
+            403,
+            trans('translations.carts_is_empty')
+        );
 
         return view('order.create', [
-            'carts' => $this->getCarts(),
-            'addresses' => auth()->user()->addresses()->get(),
-            'total_product_price' => $this->getTotalProductPrice(),
-            'total_pembayaran_dengan_dp' => $this->getTotalPembayaranDenganDP(),
+            'carts' => $carts,
+            'addresses' => \request()->user()->addresses()->latest()->get(),
+            'total_product_price' => $cartService->getTotalProductPrice($carts),
+            'total_pembayaran_dengan_dp' => $cartService->getPriceInDP($cartService->getTotalProductPrice($carts)),
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @throws Exception
      */
-    public function store(StoreOrderRequest $request): RedirectResponse
+    public function store(StoreOrderRequest $request, CartService $cartService): RedirectResponse
     {
         // Check availability
         $request->checkAvailability($request->input('tanggal_acara'));
 
         // validate request
         $validated = $request->validated();
-        $validated['total_harga'] = $this->getTotalProductPrice();
-        $validated['total_dp'] = $this->getTotalPembayaranDenganDP();
+
+        // get carts
+        $carts = $cartService->getCartOfUser($request->user());
+        $validated['total_harga'] = $cartService->getTotalProductPrice($carts);
+        $validated['total_dp'] = $cartService->getPriceInDP($validated['total_harga']);
 
         // Create order
         $order = $request->user()->orders()->create($validated);
 
         // Create detail order and delete carts
-        foreach ($this->getCarts() as $cart) {
+        foreach ($carts as $cart) {
             $order->detail_orders()->create(['product_id' => $cart->product_id]);
             $cart->delete();
         }
@@ -90,32 +100,14 @@ class OrderController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @throws AuthorizationException
      */
     public function show(Order $order): View
     {
         $this->authorize('view', $order);
 
         return view('order.show', ['order' => $order]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @return Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @return Response
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
     }
 
     /**
@@ -144,29 +136,9 @@ class OrderController extends Controller
 
         $order->timelines()->create([
             'title' => 'Pesanan Dibatalkan.',
-            'description' => 'Alasan pembatalan: '.$request->description,
+            'description' => 'Alasan pembatalan: '.$request->input('description'),
         ]);
 
         return to_route('order.show', $order)->with('order-status', 'order-canceled');
-    }
-
-    public function getCarts(): Collection
-    {
-        return request()->user()->carts()->with('product')->get();
-    }
-
-    public function getTotalProductPrice(): int|float
-    {
-        $prices = collect();
-        foreach ($this->getCarts() as $cart) {
-            $prices[] = $cart->product->price;
-        }
-
-        return $prices->sum();
-    }
-
-    public function getTotalPembayaranDenganDP(): int|float
-    {
-        return $this->getTotalProductPrice() * Order::DP;
     }
 }

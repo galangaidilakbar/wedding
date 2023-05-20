@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Product;
+use App\Services\CartService;
 use App\Services\ProductRecommendations;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,22 +16,13 @@ class CartController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ProductRecommendations $productRecommendations): View
+    public function index(ProductRecommendations $productRecommendations, CartService $cartService): View
     {
-        $carts = request()->user()->carts()->latest()->get();
-
-        // get product price
-        $prices = collect();
-
-        foreach ($carts as $cart) {
-            $prices[] = $cart->product->price;
-        }
-
-        Log::info('Showing the shopping cart for user: '.request()->user()->id);
+        $carts = $cartService->getCartOfUser(request()->user());
 
         return view('cart', [
             'carts' => $carts,
-            'total_price' => $prices->sum(),
+            'total_price' => $cartService->getTotalProductPrice($carts),
             'recommendations' => $productRecommendations->get(),
         ]);
     }
