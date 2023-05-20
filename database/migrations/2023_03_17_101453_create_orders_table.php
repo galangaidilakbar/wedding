@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -20,7 +21,7 @@ return new class extends Migration {
             $table->text('catatan')->nullable();
             $table->decimal('total_dp', 12);
             $table->decimal('total_harga', 12);
-            $table->enum('status', [App\Models\Order::ORDER_STATUS])->default(App\Models\Order::ORDER_STATUS[0]);
+            $table->enum('status', [App\Models\Order::ORDER_STATUS])->default(App\Models\Order::ORDER_STATUS['WAITING_FOR_PAYMENT']);
             $table->string('status_color')->default('yellow');
             $table->timestamps();
         });

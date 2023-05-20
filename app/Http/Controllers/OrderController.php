@@ -25,16 +25,16 @@ class OrderController extends Controller
             : request()->user()->orders()->with('detail_orders.product')->latest();
 
         // search order by id
-        $orders->when(request()->has('search'), fn($query) => $query->where('id', request()->search));
+        $orders->when(request()->has('search'), fn ($query) => $query->where('id', request()->search));
 
         // filter order by status
-        $orders->when(request()->has('status'), fn($query) => $query->where('status', request()->status));
+        $orders->when(request()->has('status'), fn ($query) => $query->where('status', request()->status));
 
         // filter order by date range
         if (request()->has('start') && request()->has('end')) {
             $orders->whereBetween('created_at', [
                 Carbon::parse(request()->start)->toDateTimeString(),
-                Carbon::parse(request()->end)->toDateTimeString()
+                Carbon::parse(request()->end)->toDateTimeString(),
             ]);
         }
 
@@ -65,13 +65,16 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request): RedirectResponse
     {
-        $request->checkAvailability($request->tanggal_acara);
+        // Check availability
+        $request->checkAvailability($request->input('tanggal_acara'));
 
+        // validate request
         $validated = $request->validated();
-        $validated['user_id'] = $request->user()->id;
         $validated['total_harga'] = $this->getTotalProductPrice();
         $validated['total_dp'] = $this->getTotalPembayaranDenganDP();
-        $order = Order::create($validated);
+
+        // Create order
+        $order = $request->user()->orders()->create($validated);
 
         // Create detail order and delete carts
         foreach ($this->getCarts() as $cart) {
@@ -136,12 +139,12 @@ class OrderController extends Controller
 
         $order->update([
             'status' => Order::CANCELLED,
-            'status_color' => 'gray',
+            'status_color' => Order::ORDER_STATUS['CANCELLED'],
         ]);
 
         $order->timelines()->create([
             'title' => 'Pesanan Dibatalkan.',
-            'description' => 'Alasan pembatalan: ' . $request->description,
+            'description' => 'Alasan pembatalan: '.$request->description,
         ]);
 
         return to_route('order.show', $order)->with('order-status', 'order-canceled');

@@ -26,7 +26,7 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'address_id' => 'required',
-            'tanggal_acara' => 'required|date|after: +2 weeks',
+            'tanggal_acara' => 'required|date|after: +1 month',
             'opsi_bayar' => 'required',
             'metode_pembayaran' => 'required',
             'catatan' => 'nullable',
@@ -54,7 +54,7 @@ class StoreOrderRequest extends FormRequest
             'address_id.required' => 'Alamat harus diisi',
             'tanggal_acara.required' => 'Tanggal acara harus diisi',
             'tanggal_acara.date' => 'Tanggal acara harus berupa tanggal',
-            'tanggal_acara.after' => 'Tanggal acara harus lebih dari 2 minggu dari hari ini',
+            'tanggal_acara.after' => 'Tanggal acara harus lebih dari 1 bulan dari hari ini',
             'opsi_bayar.required' => 'Opsi pembayaran harus diisi',
             'metode_pembayaran.required' => 'Metode pembayaran harus diisi',
         ];

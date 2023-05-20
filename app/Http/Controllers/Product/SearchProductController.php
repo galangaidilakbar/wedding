@@ -23,7 +23,7 @@ class SearchProductController extends Controller
         $products->when($search, function ($q) use ($search) {
             $q->where('name', 'like', '%'.$search.'%')
                 ->orWhere('description', 'like', '%'.$search.'%')
-                ->orWhere('id', $search);;
+                ->orWhere('id', $search);
         });
 
         return view('product.index', [

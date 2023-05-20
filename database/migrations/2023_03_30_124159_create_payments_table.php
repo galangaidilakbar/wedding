@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -15,7 +16,7 @@ return new class extends Migration {
             $table->foreignUuid('order_id')->constrained()->cascadeOnDelete();
             $table->string('proof_of_payment'); // path to image
             $table->string('proof_of_payment_url'); // url to image
-            $table->enum('status', [App\Models\Payments::STATUS])->default('Menunggu Konfirmasi');
+            $table->enum('status', [App\Models\Payments::STATUS])->default(App\Models\Payments::STATUS['WAITING_FOR_CONFIRMATION']);
             $table->string('note')->nullable();
             $table->timestamps();
         });

@@ -4,25 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Product;
+use App\Services\ProductRecommendations;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use App\Services\ProductRecommendations;
 
 class CartController extends Controller
 {
-    private ProductRecommendations $productRecommendations;
-
-    public function __construct(ProductRecommendations $productRecommendations)
-    {
-        $this->productRecommendations = $productRecommendations;
-    }
-
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(ProductRecommendations $productRecommendations): View
     {
         $carts = request()->user()->carts()->latest()->get();
 
@@ -38,7 +31,7 @@ class CartController extends Controller
         return view('cart', [
             'carts' => $carts,
             'total_price' => $prices->sum(),
-            'recommendations' => $this->productRecommendations->get(),
+            'recommendations' => $productRecommendations->get(),
         ]);
     }
 

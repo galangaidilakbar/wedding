@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Order $order
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Payments newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Payments newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Payments query()
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Payments whereProofOfPaymentUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payments whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payments whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Payments extends Model
@@ -44,8 +46,16 @@ class Payments extends Model
     }
 
     public const STATUS = [
-        'Menunggu Konfirmasi',
-        'Diterima',
-        'Ditolak',
+        // determine the payment is waiting for confirmation
+        'WAITING_FOR_CONFIRMATION' => 'Menunggu Konfirmasi',
+
+        // determine the payment is accepted
+        'PAYMENT_ACCEPTED' => 'Pembayaran Diterima',
+
+        // determine the payment is rejected
+        'PAYMENT_REJECTED' => 'Pembayaran Ditolak',
+
+        // determine the payment is refunded
+        'PAYMENT_REFUNDED' => 'Pembayaran Telah Dikembalikan',
     ];
 }

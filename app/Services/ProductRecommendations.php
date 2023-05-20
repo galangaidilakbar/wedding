@@ -12,5 +12,4 @@ class ProductRecommendations
     {
         return Product::all()->random(3);
     }
-
 }

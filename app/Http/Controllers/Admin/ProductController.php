@@ -30,8 +30,8 @@ class ProductController extends Controller
 
         // search product by name, description, or id
         $products->when($search, function ($query) use ($search) {
-            $query->where('name', 'like', '%' . $search . '%')
-                ->orWhere('description', 'like', '%' . $search . '%')
+            $query->where('name', 'like', '%'.$search.'%')
+                ->orWhere('description', 'like', '%'.$search.'%')
                 ->orWhere('id', $search);
         });
 

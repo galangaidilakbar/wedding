@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Timeline> $timelines
  * @property-read int|null $timelines_count
  * @property-read \App\Models\User $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Order query()
@@ -50,6 +51,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereTotalHarga($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class Order extends Model
@@ -66,14 +68,23 @@ class Order extends Model
     public const CANCELLED = 'Dibatalkan';
 
     public const ORDER_STATUS = [
-        'Menunggu Pembayaran',
-        'Menunggu Konfirmasi',
-        'Menunggu Pembayaran Sisa',
-        'Menunggu Konfirmasi Sisa',
-        'Pembayaran Selesai',
-        'Berlangsung',
-        'Selesai',
-        'Dibatalkan',
+        // determine the order is waiting for payment
+        'WAITING_FOR_PAYMENT' => 'Menunggu Pembayaran',
+
+        // determine the order is waiting for confirmation
+        'WAITING_FOR_CONFIRMATION' => 'Menunggu Konfirmasi',
+
+        // determine the order is waiting for remaining payment
+        'WAITING_FOR_REMAINING_PAYMENT' => 'Menunggu Pembayaran Sisa',
+
+        // determine the order has been paid
+        'HAS_BEEN_PAID' => 'Pembayaran Sudah Dilunasi',
+
+        // determine the order has been completed
+        'HAS_BEEN_COMPLETED' => 'Pesanan Telah Selesai',
+
+        // determine the order has been cancelled
+        'CANCELLED' => 'Dibatalkan',
     ];
 
     public function user(): BelongsTo

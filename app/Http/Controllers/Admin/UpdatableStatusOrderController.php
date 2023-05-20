@@ -4,37 +4,33 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Services\GetStatusColorOfAnOrder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class UpdatableStatusOrderController extends Controller
 {
     /**
      * Handle the incoming request.
      *
-     * @param Request $request
-     * @param Order $order
      * @return RedirectResponse
      */
-    public function __invoke(Request $request, Order $order)
+    public function __invoke(Request $request, Order $order, GetStatusColorOfAnOrder $statusColorOfAnOrder)
     {
         // validate request
         $validated = $request->validate([
-            'status' => ['required', 'in:' . implode(',', Order::ORDER_STATUS)],
+            'status' => ['required', 'in:'.implode(',', Order::ORDER_STATUS)],
         ]);
 
         // update order status
         $order->update([
             'status' => $validated['status'],
-            // TODO: change status color based on status.
-            'status_color' => 'gray',
+            'status_color' => $statusColorOfAnOrder->get($validated['status']),
         ]);
 
         // create order timeline
-
         $order->timelines()->create([
-            'title' => 'Pesanan ' . $validated['status'] . '.',
+            'title' => 'Pesanan '.$validated['status'].'.',
             'description' => 'Status pesanan diperbarui oleh Admin.',
         ]);
 

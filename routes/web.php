@@ -1,22 +1,22 @@
 <?php
 
 use App\Http\Controllers\AddressController;
-use App\Http\Controllers\Admin\ProgressController;
-use App\Http\Controllers\Admin\UploadCashPaymentController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProgressController;
 use App\Http\Controllers\Admin\UpdatableStatusOrderController;
 use App\Http\Controllers\Admin\UpdatePaymentStatusController;
+use App\Http\Controllers\Admin\UploadCashPaymentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CreateInvoiceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\Product\GetProductByCategoryNameController;
 use App\Http\Controllers\Product\SearchProductController;
 use App\Http\Controllers\Product\ShowProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UploadTransferPaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,7 +66,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // CRUD for order.
     Route::resource('order', OrderController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
-    Route::resource('order.payments', PaymentsController::class)->except('index');
+
+    // Upload transfer payment proof.
+    Route::resource('order.payments', UploadTransferPaymentController::class)->only(['create', 'store']);
 
     // Admin
     Route::group([
@@ -84,9 +86,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('/products', ProductController::class)->except('show');
 
         // Update order status.
-        Route::patch('/order/{order}', UpdatableStatusOrderController::class)->name('order.updateStatus');
+        Route::patch('/order/{order}/update-status', UpdatableStatusOrderController::class)->name('order.updateStatus');
 
-        // Upload payment proof.
+        // Upload cash payment proof.
         Route::post('/order/{order}/payments/cash', [UploadCashPaymentController::class, 'store'])->name('order.payments.store');
 
         // update payment status.
@@ -97,4 +99,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

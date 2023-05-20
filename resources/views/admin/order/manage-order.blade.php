@@ -83,8 +83,12 @@
 
                 <x-select name="status" id="status" class="mt-1 block w-full">
                     <option value="" disabled>-- Status --</option>
-                    <option value="Menunggu Pembayaran Sisa">Menunggu Pembayaran Sisa</option>
-                    <option value="Pembayaran Selesai">Pembayaran Selesai</option>
+                    <option value="{{ App\Models\Order::ORDER_STATUS['WAITING_FOR_REMAINING_PAYMENT'] }}">
+                        {{ App\Models\Order::ORDER_STATUS['WAITING_FOR_REMAINING_PAYMENT'] }}
+                    </option>
+                    <option value="{{ App\Models\Order::ORDER_STATUS['HAS_BEEN_PAID'] }}">
+                        {{ App\Models\Order::ORDER_STATUS['HAS_BEEN_PAID'] }}
+                    </option>
                 </x-select>
 
                 <x-input-error :messages="$errors->get('status')" class="mt-2"/>
