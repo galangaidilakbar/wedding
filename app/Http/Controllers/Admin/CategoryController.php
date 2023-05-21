@@ -35,6 +35,31 @@ class CategoryController extends Controller
     }
 
     /**
+     * Show the category and products that attached to it.
+     */
+    public function show(Category $category): View
+    {
+        $products = $category->products();
+
+        if (request()->has('sort')) {
+            if (request()->sort === 'lowest_price') {
+                $products->orderBy('price');
+            } elseif (request()->sort === 'highest_price') {
+                $products->orderByDesc('price');
+            } elseif (request()->sort === 'newest') {
+                $products->orderByDesc('created_at');
+            } elseif (request()->sort === 'oldest') {
+                $products->orderBy('created_at');
+            }
+        }
+
+        return view('category.show', [
+            'category' => $category,
+            'products' => $products->get(),
+        ]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Category $category): View
