@@ -11,8 +11,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CreateInvoiceController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GetAllCategoriesController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\Product\GetProductByCategoryNameController;
 use App\Http\Controllers\Product\SearchProductController;
 use App\Http\Controllers\Product\ShowProductController;
 use App\Http\Controllers\ProfileController;
@@ -55,8 +55,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Show and delete shopping cart.
     Route::resource('cart', CartController::class)->only(['index', 'destroy']);
 
-    // Get product by category name.
-    Route::get('/getProductByCategoryName', GetProductByCategoryNameController::class)->name('getProductByCategoryName');
+    // get all categories
+    Route::get('/categories', GetAllCategoriesController::class)->name('categories.index');
+
+    // get category and its products.
+    Route::get('/categories/{category}/products', [CategoryController::class, 'show'])->name('categories.show');
 
     // Create invoice.
     Route::get('/order/{order}/invoice', [CreateInvoiceController::class, 'index'])->name('order.invoice');
@@ -99,4 +102,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
