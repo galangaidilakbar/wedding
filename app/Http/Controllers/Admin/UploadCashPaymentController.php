@@ -47,6 +47,6 @@ class UploadCashPaymentController extends Controller
         ]);
 
         // redirect
-        return back();
+        return back()->with('payment-status', 'payment-received');
     }
 }

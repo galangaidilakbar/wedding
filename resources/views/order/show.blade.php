@@ -118,6 +118,19 @@
                         </div>
                     @endif
 
+                    <!-- Alert Bukti Bayar Diterima Admin -->
+                    @if(session('payment-status') === 'payment-received')
+                        <div
+                            x-data="{ open: true }"
+                            x-show="open"
+                            x-transition
+                            x-init="setTimeout(() => open = false, 5000)"
+                            class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                            role="alert">
+                            {{ __('Bukti pembayaran Anda telah diterima oleh Admin.') }}
+                        </div>
+                    @endif
+
                     <div class="grid grid-cols-1 space-y-6" x-data="{ open: false, progress: false }">
                         <!-- Qr code -->
                         <div class="flex justify-center flex-col">
