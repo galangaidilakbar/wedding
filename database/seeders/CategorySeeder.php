@@ -15,12 +15,6 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Paket']);
-        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Pelaminan']);
-        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Meja']);
-        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Kursi']);
-        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Tenda']);
-        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Tata Rias']);
-        Category::factory()->has(Product::factory()->count(rand(5, 10)))->create(['name' => 'Photography']);
+        Category::factory(10)->create();
     }
 }
