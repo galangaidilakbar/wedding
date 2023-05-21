@@ -69,7 +69,7 @@
                             @method('delete')
 
                             <button type="submit"
-                                    {{ $category->products_count ? 'disabled' : '' }} class="font-medium text-blue-600 dark:text-blue-500 hover:underline {{ $category->products_count ? 'cursor-not-allowed opacity-50': '' }}">
+                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                 {{ __('Hapus')  }}
                             </button>
                         </form>
