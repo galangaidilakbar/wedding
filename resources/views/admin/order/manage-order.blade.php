@@ -44,6 +44,20 @@
                 {{ __('Tambahkan progress pengerjaan') }}
             </x-primary-button>
         </div>
+
+        <!-- Delete order -->
+        <form action="{{ route('order.destroy', $order) }}" method="post"
+              onsubmit="return confirm('Apakah Anda yakin ingin menghapus pesanan ini?')">
+            @csrf
+
+            @method('delete')
+
+            <div class="flex justify-start">
+                <x-danger-button type="submit">
+                    {{ __('Hapus pesanan') }}
+                </x-danger-button>
+            </div>
+        </form>
     </div>
 
     <!-- Modal upload bukti bayar secara tunai -->
