@@ -47,7 +47,7 @@
     </div>
 
     <!-- Modal upload bukti bayar secara tunai -->
-    <dialog class="w-full max-w-xl rounded" id="modal_upload_bukti_bayar_tunai">
+    <dialog class="w-full max-w-xl rounded dark:bg-gray-900" id="modal_upload_bukti_bayar_tunai">
         <form
             action="{{ route('admin.order.payments.store', $order) }}"
             method="post"
@@ -107,7 +107,7 @@
     </dialog>
 
     <!-- Modal progress pengerjaan -->
-    <dialog class="w-full max-w-xl rounded" id="modal_progress_pengerjaan">
+    <dialog class="w-full max-w-xl rounded dark:bg-gray-900" id="modal_progress_pengerjaan">
         <form
             action="{{ route('admin.order.progress.store', $order) }}"
             method="post"
