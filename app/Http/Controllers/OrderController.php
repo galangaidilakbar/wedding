@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\Order;
 use App\Services\CartService;
+use App\Services\GetStatusColorOfAnOrder;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -25,10 +26,10 @@ class OrderController extends Controller
             : request()->user()->orders()->with('detail_orders.product')->latest();
 
         // search order by id
-        $orders->when(request()->has('search'), fn ($query) => $query->where('id', request()->search));
+        $orders->when(request()->has('search'), fn($query) => $query->where('id', request()->search));
 
         // filter order by status
-        $orders->when(request()->has('status'), fn ($query) => $query->where('status', request()->status));
+        $orders->when(request()->has('status'), fn($query) => $query->where('status', request()->status));
 
         // filter order by date range
         if (request()->has('start') && request()->has('end')) {
@@ -123,20 +124,20 @@ class OrderController extends Controller
     /**
      * Cancel order.
      */
-    public function cancel(Request $request, Order $order): RedirectResponse
+    public function cancel(Request $request, Order $order, GetStatusColorOfAnOrder $statusColorOfAnOrder): RedirectResponse
     {
         $request->validate([
             'description' => 'required|string',
         ]);
 
         $order->update([
-            'status' => Order::CANCELLED,
-            'status_color' => Order::ORDER_STATUS['CANCELLED'],
+            'status' => Order::ORDER_STATUS['CANCELLED'],
+            'status_color' => $statusColorOfAnOrder->get(Order::ORDER_STATUS['CANCELLED']),
         ]);
 
         $order->timelines()->create([
             'title' => 'Pesanan Dibatalkan.',
-            'description' => 'Alasan pembatalan: '.$request->input('description'),
+            'description' => 'Alasan pembatalan: ' . $request->input('description'),
         ]);
 
         return to_route('order.show', $order)->with('order-status', 'order-canceled');
