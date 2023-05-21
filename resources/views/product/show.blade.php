@@ -24,6 +24,20 @@
                             Rp @rupiah($product->price)
                         </div>
 
+                        <!-- Categories -->
+                        <div class="text-sm font-medium text-gray-500 dark:text-gray-400 mt-3">
+                            Kategori:
+                            @foreach ($product->categories as $category)
+                                <a href="{{ route('categories.show', $category) }}"
+                                   class="text-blue-500 dark:text-blue-400 hover:underline">
+                                    {{ $category->name }}
+                                </a>
+                                @if (!$loop->last)
+                                    ,
+                                @endif
+                            @endforeach
+                        </div>
+
                         <!-- Product description -->
                         <p class="text-gray-600 dark:text-gray-400 whitespace-pre-line">
                             {{ $product->description }}
