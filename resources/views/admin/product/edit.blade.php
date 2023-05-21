@@ -10,11 +10,13 @@
                             </h2>
 
                             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                {{ __('Lorem ipsum dolor sit amet.') }}
+                                {{ __('Perbarui informasi suatu produk.') }}
                             </p>
                         </header>
 
-                        <form method="post" action="{{ route('admin.products.update', $product) }}" class="mt-6 space-y-6"
+                        <form method="post"
+                              action="{{ route('admin.products.update', $product) }}"
+                              class="mt-6 space-y-6"
                               enctype="multipart/form-data">
                             @csrf
                             @method('put')
@@ -25,15 +27,6 @@
                                               :value="old('name', $product->name)" required autofocus
                                               autocomplete="name"/>
                                 <x-input-error class="mt-2" :messages="$errors->get('name')"/>
-                            </div>
-
-                            <div>
-                                <x-input-label for="category_id" :value="__('Kategori Produk')"/>
-                                <x-select name="category_id" id="category_id" class="mt-1 block w-full" value="{{ $product->category_id }}">
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}" @selected($category->id === $product->category_id)>{{ $category->name }}</option>
-                                    @endforeach
-                                </x-select>
                             </div>
 
                             <div>
@@ -59,10 +52,32 @@
                                 file:text-sm file:font-semibold
                                 file:bg-indigo-50 dark:file:bg-indigo-400 file:text-indigo-700 dark:file:text-indigo-100
                                 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-500"
-                                       accept=".png, .jpeg, .jpg" onchange="showPreview(event)">
+                                       accept=".png, .jpeg, .jpg">
                                 <img src="{{ $product->photo_url }}" alt="Gambar Produk {{ $product->name }}"
-                                     class="mt-1 max-w-full h-auto rounded-lg bg-contain">
+                                     class="mt-3 max-w-full h-auto rounded-lg bg-contain">
                                 <x-input-error class="mt-2" :messages="$errors->get('photo')"/>
+                            </div>
+
+                            <div>
+                                <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">{{ __('Kategori') }}</h3>
+                                <ul class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                    @foreach($categories as $category)
+                                        <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                            <div class="flex items-center pl-3">
+                                                <input id="{{ $category->id }}"
+                                                       name="categories[]"
+                                                       type="checkbox"
+                                                       value="{{ $category->id }}"
+                                                       {{ $product->categories->contains($category) ? 'checked' : ''}}
+                                                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                                <label for="{{ $category->id }}"
+                                                       class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                    {{ $category->name }}
+                                                </label>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
 
                             <div class="flex items-center gap-4">
