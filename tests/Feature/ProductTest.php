@@ -59,8 +59,6 @@ class ProductTest extends TestCase
     // Admin user can create a product
     public function test_admin_can_create_a_product()
     {
-        $category = Category::factory()->create();
-
         Storage::fake('local');
 
         $photo = UploadedFile::fake()->image('product.jpg');
@@ -71,15 +69,14 @@ class ProductTest extends TestCase
             'name' => 'Test Product',
             'description' => 'Test Description',
             'price' => 100,
-            'category_id' => $category->id,
             'photo' => $photo,
+            'categories' => [Category::factory()->create()->id],
         ])->assertStatus(302);
 
         $this->assertDatabaseHas('products', [
             'name' => 'Test Product',
             'description' => 'Test Description',
             'price' => 100,
-            'category_id' => $category->id,
         ]);
 
         Storage::disk('local')->assertExists('public/products/'.$photo->hashName());
@@ -88,17 +85,19 @@ class ProductTest extends TestCase
     // view product
     public function test_view_a_product()
     {
-        $category = Category::factory()->has(Product::factory()->count(1))->create();
+        $product = Product::factory()->create();
+
+        Product::factory(10)->create();
 
         $this->actingAs($this->regularUser);
 
-        $this->get(route('products.show', $category->products()->first()))->assertOk();
+        $this->get(route('products.show', $product))->assertOk();
     }
 
     // Admin user can update a product
     public function test_admin_can_update_a_product()
     {
-        $category = Category::factory()->has(Product::factory()->count(1))->create();
+        $product = Product::factory()->create();
 
         Storage::fake('local');
 
@@ -106,19 +105,18 @@ class ProductTest extends TestCase
 
         $this->actingAs($this->adminUser);
 
-        $this->put(route('admin.products.update', $category->products()->first()), [
+        $this->put(route('admin.products.update', $product), [
             'name' => 'Test Product',
             'description' => 'Test Description',
             'price' => 100,
-            'category_id' => $category->id,
             'photo' => $photo,
+            'categories' => [Category::factory()->create()->id],
         ])->assertStatus(302);
 
         $this->assertDatabaseHas('products', [
             'name' => 'Test Product',
             'description' => 'Test Description',
             'price' => 100,
-            'category_id' => $category->id,
         ]);
 
         Storage::disk('local')->assertExists('public/products/'.$photo->hashName());
@@ -127,9 +125,7 @@ class ProductTest extends TestCase
     // Admin user can delete a product
     public function test_admin_can_delete_a_product()
     {
-        $category = Category::factory()->has(Product::factory()->count(1))->create();
-
-        $product = $category->products()->first();
+        $product = Product::factory()->create();
 
         $this->actingAs($this->adminUser);
 
