@@ -10,9 +10,6 @@
                     Nama Produk
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Kategori
-                </th>
-                <th scope="col" class="px-6 py-3">
                     Harga
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -28,9 +25,6 @@
                     </th>
                     <td class="px-6 py-4">
                         {{ $product->name }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ $product->category->name }}
                     </td>
                     <td class="px-6 py-4">
                         Rp @rupiah($product->price)
