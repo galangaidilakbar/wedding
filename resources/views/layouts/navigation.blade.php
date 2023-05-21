@@ -20,6 +20,10 @@
                         {{ __('translations.Orders') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
+                        {{ __('Kategori') }}
+                    </x-nav-link>
+
                     @can('is-admin')
                         <div class="flex items-center">
                             <x-dropdown align="right" width="48">
@@ -119,17 +123,21 @@
                 {{ __('translations.Orders') }}
             </x-responsive-nav-link>
 
+            <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
+                {{ __('Kategori') }}
+            </x-responsive-nav-link>
+
             @can('is-admin')
                 <x-responsive-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.*')">
-                    {{ __('Kategori Produk') }}
+                    {{ __('Kelola Kategori Produk') }}
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.*')">
-                    {{ __('Produk') }}
+                    {{ __('Kelola Produk') }}
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
-                    {{ __('Pengguna') }}
+                    {{ __('Kelola Pengguna') }}
                 </x-responsive-nav-link>
             @endcan
         </div>
