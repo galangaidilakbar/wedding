@@ -29,7 +29,7 @@
 
                             <div class="mt-2 mb-4 text-sm">
                                 Saat ini, kami sedang menunggu pembayaran dari Anda. Mohon segera melakukan
-                                pembayaran agar transaksi dapat segera diselesaikan. Terima kasih.
+                                pembayaran agar pesanan Anda dapat segera dikerjakan. Terima kasih.
                             </div>
 
                             <div class="flex">
@@ -118,7 +118,6 @@
                         </div>
                     @endif
 
-                    <!-- Ringkasan -->
                     <div class="grid grid-cols-1 space-y-6" x-data="{ open: false, progress: false }">
                         <!-- Qr code -->
                         <div class="flex justify-center flex-col">
@@ -128,7 +127,7 @@
                                 class="h-40 w-40 mx-auto rounded">
                             <div class="mt-2">
                                 <p class="text-gray-500 dark:text-gray-400 text-xs text-center">
-                                    {{ __('Scan QR Code ini untuk melihat detail pesanan Anda.') }}
+                                    {{ __('Tunjukkan QR Code ini kepada Admin untuk melakukan pembayaran.') }}
                                 </p>
                             </div>
                         </div>
@@ -245,9 +244,9 @@
                                         onclick="openModalImage(this.src)">
                                 </li>
                             @empty
-                            <div class="text-sm text-gray-500 dark:text-gray-400 text-center">
-                                belum ada progress...
-                            </div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400 text-center">
+                                    belum ada progress...
+                                </div>
                             @endforelse
                         </ol>
                     </div>
@@ -484,5 +483,5 @@
         </div>
     </div>
 
-    
+
 </x-app-layout>
