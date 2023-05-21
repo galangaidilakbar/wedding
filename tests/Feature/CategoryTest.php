@@ -16,6 +16,8 @@ class CategoryTest extends TestCase
 
     public User $adminUser;
 
+    public Category $category;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -28,7 +30,7 @@ class CategoryTest extends TestCase
             'is_admin' => true,
         ]);
 
-        Category::factory()->create();
+        $this->category = Category::factory()->create();
     }
 
     // Regular user can't access category pages
@@ -37,7 +39,7 @@ class CategoryTest extends TestCase
         $this->actingAs($this->regularUser);
 
         $this->get(route('admin.categories.index'))->assertForbidden();
-        $this->get(route('admin.categories.edit', 1))->assertForbidden();
+        $this->get(route('admin.categories.edit', $this->category))->assertForbidden();
     }
 
     // Regular user cannot create a category
