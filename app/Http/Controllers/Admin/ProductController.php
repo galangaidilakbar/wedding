@@ -36,7 +36,7 @@ class ProductController extends Controller
         });
 
         return view('admin.product.index', [
-            'products' => $products->with('category')->paginate()->withQueryString(),
+            'products' => $products->latest()->paginate()->withQueryString(),
         ]);
     }
 
@@ -64,7 +64,9 @@ class ProductController extends Controller
         $validated['photo'] = $path;
         $validated['photo_url'] = Storage::url($path);
 
-        Product::create($validated);
+        $product = Product::create($validated);
+
+        $product->categories()->attach($validated['categories']);
 
         return to_route('admin.products.index')->with('status', 'produk berhasil disimpan');
     }
@@ -99,6 +101,9 @@ class ProductController extends Controller
         }
 
         $product->update($validated);
+
+        // sync the product categories
+        $product->categories()->sync($validated['categories']);
 
         return to_route('admin.products.index')->with('status', 'produk berhasil diubah');
     }
