@@ -5,6 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Address;
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -37,8 +39,12 @@ class DatabaseSeeder extends Seeder
                 'is_admin' => false,
             ]);
 
-        $this->call([
-            CategorySeeder::class,
-        ]);
+        $categories = Category::factory(10)->create();
+
+        Product::factory(100)->create()->each(function ($product) use ($categories) {
+            $product->categories()->attach(
+                $categories->random(2)->pluck('id')->toArray()
+            );
+        });
     }
 }
