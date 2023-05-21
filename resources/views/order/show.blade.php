@@ -3,6 +3,153 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('translations.Order detail') }}
         </h2>
+
+        <section class="max-w-xl mt-4">
+            <!-- Alert Menunggu Pembayaran -->
+            @if ($order->status === 'Menunggu Pembayaran')
+                <div
+                    class="p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800"
+                    role="alert">
+                    <div class="flex items-center">
+                        <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Info</span>
+                        <h3 class="text-lg font-medium">{{ $order->status }}</h3>
+                    </div>
+
+                    <div class="mt-2 mb-4 text-sm">
+                        Saat ini, kami sedang menunggu pembayaran dari Anda. Mohon segera melakukan
+                        pembayaran agar pesanan Anda dapat segera dikerjakan. Terima kasih.
+                    </div>
+
+                    <div class="flex">
+                        <!-- Lakukan Pembayaran jika metode pembayaran adalah BANK -->
+                        @if ($order->metode_pembayaran === 'BANK')
+                            <a href="{{ route('order.payments.create', $order) }}"
+                               class="text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-yellow-300 dark:text-gray-800 dark:hover:bg-yellow-400 dark:focus:ring-yellow-800">
+                                {{ __('Lakukan Pembayaran') }}
+                            </a>
+                        @endif
+
+                        <!-- Batalkan Pesanan jika status Menunggu Pembayaran -->
+                        @if ($order->status === 'Menunggu Pembayaran')
+                            <div x-data="{open: false}">
+                                <button type="submit"
+                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-cancel-order')"
+                                        class="text-yellow-800 bg-transparent border border-yellow-800 hover:bg-yellow-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 py-1.5 text-center dark:hover:bg-yellow-300 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-gray-800 dark:focus:ring-yellow-800">
+                                    {{ __('Batalkan Pesanan') }}
+                                </button>
+
+                                <!-- Modal to cancel an order -->
+                                <x-modal name="confirm-cancel-order" focusable>
+                                    <form method="post" action="{{ route('order.cancel', $order) }}"
+                                          class="p-6">
+                                        @csrf
+                                        @method('patch')
+
+                                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                            {{ __('Apakah Anda yakin ingin membatalkan pesanan ini?') }}
+                                        </h2>
+
+                                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                            {{ __('Harap dicatat bahwa tanggal yang Anda pilih mungkin telah diambil oleh orang lain setelah pesanan Anda dibuat. Mohon beritahu kami alasan Anda membatalkan pesanan ini.') }}
+                                        </p>
+
+                                        <div class="mt-6">
+                                            <x-input-label for="description" value="description"
+                                                           class="sr-only"/>
+
+                                            <x-select
+                                                id="description"
+                                                name="description"
+                                                class="mt-1 block w-full lg:w-3/4"
+                                                required>
+                                                <option value="" disabled>-- Pilih alasan --</option>
+                                                <option value="perubahan rencana">Perubahan Rencana</option>
+                                                <option value="masalah kesehatan">Masalah Kesehatan</option>
+                                                <option value="kendala keuangan">Kendala Keuangan</option>
+                                                <option value="perubahan prioritas">Perubahan Prioritas</option>
+                                                <option value="pembatalan venue">Pembatalan Venue</option>
+                                                <option value="pengantin meninggal">Pengantin Meninggal</option>
+                                                <option value="Lainnya">Lainnya</option>
+                                            </x-select>
+
+                                            <x-input-error :messages="$errors->get('description')"
+                                                           class="mt-2"/>
+                                        </div>
+
+                                        <div class="mt-6 flex justify-end">
+                                            <x-secondary-button x-on:click="$dispatch('close')">
+                                                {{ __('translations.Cancel') }}
+                                            </x-secondary-button>
+
+                                            <x-danger-button class="ml-3">
+                                                {{ __('Konfimasi') }}
+                                            </x-danger-button>
+                                        </div>
+                                    </form>
+                                </x-modal>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            @endif
+
+            <!-- Alert Pesanan Dibatalkan -->
+            @if(session('order-status') === 'order-canceled')
+                <div
+                    x-data="{ open: true }"
+                    x-show="open"
+                    x-transition
+                    x-init="setTimeout(() => open = false, 5000)"
+                    class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                    role="alert">
+                    {{ __('Pesanan berhasil dibatalkan.') }}
+                </div>
+            @endif
+
+            <!-- Alert Bukti Bayar Diterima Admin -->
+            @if(session('payment-status') === 'payment-received')
+                <div
+                    x-data="{ open: true }"
+                    x-show="open"
+                    x-transition
+                    x-init="setTimeout(() => open = false, 5000)"
+                    class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                    role="alert">
+                    {{ __('Bukti pembayaran Anda telah diterima oleh Admin.') }}
+                </div>
+            @endif
+
+            <!-- Alert Menunggu Pembayaran Sisa -->
+            @if($order->status === App\Models\Order::ORDER_STATUS['WAITING_FOR_REMAINING_PAYMENT'])
+                <div id="alert-additional-content-1"
+                     class="p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
+                     role="alert">
+                    <div class="flex items-center">
+                        <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Info</span>
+                        <h3 class="text-lg font-medium">{{ $order->status }}</h3>
+                    </div>
+                    <div class="mt-2 mb-4 text-sm">
+                        Saat ini, kami sedang menunggu sisa pembayaran Anda. Mohon melunasi pembayaran sebelum tanggal
+                        <span
+                            class="font-bold">{{ $order->tanggal_acara->subDays(7)->toFormattedDateString() }}</span>,
+                        yaitu seminggu sebelum acara, agar pesanan Anda tidak dibatalkan secara otomatis
+                        oleh sistem kami. Terima kasih.
+                    </div>
+                </div>
+            @endif
+        </section>
     </x-slot>
 
     <div class="py-12">
@@ -11,126 +158,6 @@
             <!-- Alerts, summary, and others -->
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <div class="max-w-xl">
-                    <!-- Alert Menunggu Pembayaran -->
-                    @if ($order->status === 'Menunggu Pembayaran')
-                        <div
-                            class="p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800"
-                            role="alert">
-                            <div class="flex items-center">
-                                <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                                          clip-rule="evenodd"></path>
-                                </svg>
-                                <span class="sr-only">Info</span>
-                                <h3 class="text-lg font-medium">{{ $order->status }}</h3>
-                            </div>
-
-                            <div class="mt-2 mb-4 text-sm">
-                                Saat ini, kami sedang menunggu pembayaran dari Anda. Mohon segera melakukan
-                                pembayaran agar pesanan Anda dapat segera dikerjakan. Terima kasih.
-                            </div>
-
-                            <div class="flex">
-                                <!-- Lakukan Pembayaran jika metode pembayaran adalah BANK -->
-                                @if ($order->metode_pembayaran === 'BANK')
-                                    <a href="{{ route('order.payments.create', $order) }}"
-                                       class="text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-yellow-300 dark:text-gray-800 dark:hover:bg-yellow-400 dark:focus:ring-yellow-800">
-                                        {{ __('Lakukan Pembayaran') }}
-                                    </a>
-                                @endif
-
-                                <!-- Batalkan Pesanan jika status Menunggu Pembayaran -->
-                                @if ($order->status === 'Menunggu Pembayaran')
-                                    <div x-data="{open: false}">
-                                        <button type="submit"
-                                                x-on:click.prevent="$dispatch('open-modal', 'confirm-cancel-order')"
-                                                class="text-yellow-800 bg-transparent border border-yellow-800 hover:bg-yellow-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 py-1.5 text-center dark:hover:bg-yellow-300 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-gray-800 dark:focus:ring-yellow-800">
-                                            {{ __('Batalkan Pesanan') }}
-                                        </button>
-
-                                        <!-- Modal to cancel an order -->
-                                        <x-modal name="confirm-cancel-order" focusable>
-                                            <form method="post" action="{{ route('order.cancel', $order) }}"
-                                                  class="p-6">
-                                                @csrf
-                                                @method('patch')
-
-                                                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                                    {{ __('Apakah Anda yakin ingin membatalkan pesanan ini?') }}
-                                                </h2>
-
-                                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                                    {{ __('Harap dicatat bahwa tanggal yang Anda pilih mungkin telah diambil oleh orang lain setelah pesanan Anda dibuat. Mohon beritahu kami alasan Anda membatalkan pesanan ini.') }}
-                                                </p>
-
-                                                <div class="mt-6">
-                                                    <x-input-label for="description" value="description"
-                                                                   class="sr-only"/>
-
-                                                    <x-select
-                                                        id="description"
-                                                        name="description"
-                                                        class="mt-1 block w-full lg:w-3/4"
-                                                        required>
-                                                        <option value="" disabled>-- Pilih alasan --</option>
-                                                        <option value="perubahan rencana">Perubahan Rencana</option>
-                                                        <option value="masalah kesehatan">Masalah Kesehatan</option>
-                                                        <option value="kendala keuangan">Kendala Keuangan</option>
-                                                        <option value="perubahan prioritas">Perubahan Prioritas</option>
-                                                        <option value="pembatalan venue">Pembatalan Venue</option>
-                                                        <option value="pengantin meninggal">Pengantin Meninggal</option>
-                                                        <option value="Lainnya">Lainnya</option>
-                                                    </x-select>
-
-                                                    <x-input-error :messages="$errors->get('description')"
-                                                                   class="mt-2"/>
-                                                </div>
-
-                                                <div class="mt-6 flex justify-end">
-                                                    <x-secondary-button x-on:click="$dispatch('close')">
-                                                        {{ __('translations.Cancel') }}
-                                                    </x-secondary-button>
-
-                                                    <x-danger-button class="ml-3">
-                                                        {{ __('Konfimasi') }}
-                                                    </x-danger-button>
-                                                </div>
-                                            </form>
-                                        </x-modal>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    @endif
-
-                    <!-- Alert Pesanan Dibatalkan -->
-                    @if(session('order-status') === 'order-canceled')
-                        <div
-                            x-data="{ open: true }"
-                            x-show="open"
-                            x-transition
-                            x-init="setTimeout(() => open = false, 5000)"
-                            class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-                            role="alert">
-                            {{ __('Pesanan berhasil dibatalkan.') }}
-                        </div>
-                    @endif
-
-                    <!-- Alert Bukti Bayar Diterima Admin -->
-                    @if(session('payment-status') === 'payment-received')
-                        <div
-                            x-data="{ open: true }"
-                            x-show="open"
-                            x-transition
-                            x-init="setTimeout(() => open = false, 5000)"
-                            class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-                            role="alert">
-                            {{ __('Bukti pembayaran Anda telah diterima oleh Admin.') }}
-                        </div>
-                    @endif
-
                     <div class="grid grid-cols-1 space-y-6" x-data="{ open: false, progress: false }">
                         <!-- Qr code -->
                         <div class="flex justify-center flex-col">
@@ -138,9 +165,9 @@
                                 src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{ route('order.show', $order) }}"
                                 alt="the qr code for this order"
                                 class="h-40 w-40 mx-auto rounded">
-                            <div class="mt-2">
+                            <div class="mt-3">
                                 <p class="text-gray-500 dark:text-gray-400 text-xs text-center">
-                                    {{ __('Tunjukkan QR Code ini kepada Admin untuk melakukan pembayaran.') }}
+                                    {{ __('Tunjukkan QR Code ini kepada admin untuk melihat pesanan, melakukan pembayaran, dan sebagainya.') }}
                                 </p>
                             </div>
                         </div>
