@@ -75,7 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('order.payments', UploadTransferPaymentController::class)->only(['create', 'store']);
 
     // Reschedule order.
-    Route::resource('order.reschedule', RescheduleController::class)->only(['index', 'create', 'store', 'show']);
+    Route::resource('order.reschedule', RescheduleController::class)->only(['create', 'store', 'show']);
 
     // Admin
     Route::group([
@@ -105,7 +105,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/order/{order}/progress', [ProgressController::class, 'store'])->name('order.progress.store');
 
         // admin can approve reschedule order.
-        Route::resource('order.reschedule', RescheduleController::class)->only(['edit', 'update', 'destroy']);
+        Route::resource('order.reschedule', RescheduleController::class)->only(['update', 'destroy']);
     });
 });
 

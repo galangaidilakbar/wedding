@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Reschedule extends Model
 {
     use HasFactory;
-
     use HasUuids;
 
     protected $guarded = ['id'];

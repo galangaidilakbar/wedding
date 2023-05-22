@@ -26,10 +26,10 @@ class OrderController extends Controller
             : request()->user()->orders()->with('detail_orders.product')->latest();
 
         // search order by id
-        $orders->when(request()->has('search'), fn($query) => $query->where('id', request()->search));
+        $orders->when(request()->has('search'), fn ($query) => $query->where('id', request()->search));
 
         // filter order by status
-        $orders->when(request()->has('status'), fn($query) => $query->where('status', request()->status));
+        $orders->when(request()->has('status'), fn ($query) => $query->where('status', request()->status));
 
         // filter order by date range
         if (request()->has('start') && request()->has('end')) {
@@ -137,7 +137,7 @@ class OrderController extends Controller
 
         $order->timelines()->create([
             'title' => 'Pesanan Dibatalkan.',
-            'description' => 'Alasan pembatalan: ' . $request->input('description'),
+            'description' => 'Alasan pembatalan: '.$request->input('description'),
         ]);
 
         return to_route('order.show', $order)->with('order-status', 'order-canceled');

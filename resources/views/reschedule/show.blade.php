@@ -75,13 +75,28 @@
                                     @method('PUT')
 
                                     <div class="flex justify-end space-x-4">
-                                        <x-danger-button name="status" value="{{ App\Models\Reschedule::STATUS['REJECTED'] }}">
+                                        <x-danger-button name="status"
+                                                         value="{{ App\Models\Reschedule::STATUS['REJECTED'] }}">
                                             {{ __('Tolak') }}
                                         </x-danger-button>
 
-                                        <x-primary-button name="status" value="{{ App\Models\Reschedule::STATUS['APPROVED'] }}">
+                                        <x-primary-button name="status"
+                                                          value="{{ App\Models\Reschedule::STATUS['APPROVED'] }}">
                                             {{ __('Terima') }}
                                         </x-primary-button>
+                                    </div>
+                                </form>
+
+                                <form action="{{ route('admin.order.reschedule.destroy', [$order, $reschedule]) }}"
+                                      method="post">
+                                    @csrf
+
+                                    @method('DELETE')
+
+                                    <div class="flex justify-end">
+                                        <x-danger-button>
+                                            {{ __('Hapus') }}
+                                        </x-danger-button>
                                     </div>
                                 </form>
                             @endif
