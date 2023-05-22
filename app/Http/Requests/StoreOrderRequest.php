@@ -39,7 +39,7 @@ class StoreOrderRequest extends FormRequest
     public function checkAvailability(string $date): void
     {
         $order = Order::whereDate('tanggal_acara', $date)
-            ->whereNot('status', Order::CANCELLED)
+            ->whereNot('status', Order::ORDER_STATUS['CANCELLED'])
             ->count();
 
         if ($order >= 2) {

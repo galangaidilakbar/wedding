@@ -149,6 +149,27 @@
                     </div>
                 </div>
             @endif
+
+            <!-- Alert Pengajuan Reschedule berhasil -->
+            @if(session('reschedule-success'))
+                <div
+                    x-data="{ open: true }"
+                    x-show="open"
+                    x-transition
+                    x-init="setTimeout(() => open = false, 5000)"
+                    class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                    role="alert">
+                    {{ session('reschedule-success') }}
+                </div>
+            @endif
+
+            <!-- Pengajuan Reschedule -->
+            @if($order->reschedule)
+                <x-primary-link
+                    href="{{ route('order.reschedule.show', [$order, $order->reschedule]) }}">
+                    Lihat Pengajuan Reschedule
+                </x-primary-link>
+            @endif
         </section>
     </x-slot>
 
@@ -248,6 +269,21 @@
                                 {{ $order->tanggal_acara->format('d F Y') }}
                             </div>
                         </div>
+
+                        <!-- Reschedule tanggal acara -->
+                        @if($order->status === App\Models\Order::ORDER_STATUS['WAITING_FOR_REMAINING_PAYMENT'] ||
+                            $order->status === App\Models\Order::ORDER_STATUS['HAS_BEEN_PAID'])
+                            <div class="flex justify-between">
+                                <div class="text-gray-500 dark:text-gray-400 text-sm">
+                                    {{ __('Reschedule') }}
+                                </div>
+                                <div class="text-gray-900 dark:text-gray-100 text-sm">
+                                    <x-primary-link href="{{ route('order.reschedule.create', $order) }}">
+                                        {{ __('Ajukan Reschedule') }}
+                                    </x-primary-link>
+                                </div>
+                            </div>
+                        @endif
 
                         <div class="border-b dark:border-gray-400 border-dashed"></div>
 
@@ -522,6 +558,4 @@
             </script>
         </div>
     </div>
-
-
 </x-app-layout>

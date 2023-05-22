@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\Order
@@ -65,7 +66,6 @@ class Order extends Model
     public const DP = 0.30;
 
     // The order is cancelled
-    public const CANCELLED = 'Dibatalkan';
 
     public const ORDER_STATUS = [
         // determine the order is waiting for payment
@@ -120,5 +120,10 @@ class Order extends Model
     public function progresses(): HasMany
     {
         return $this->hasMany(Progress::class);
+    }
+
+    public function reschedule(): HasOne
+    {
+        return $this->HasOne(Reschedule::class);
     }
 }

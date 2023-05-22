@@ -16,6 +16,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Product\SearchProductController;
 use App\Http\Controllers\Product\ShowProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RescheduleController;
 use App\Http\Controllers\UploadTransferPaymentController;
 use Illuminate\Support\Facades\Route;
 
@@ -73,6 +74,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Upload transfer payment proof.
     Route::resource('order.payments', UploadTransferPaymentController::class)->only(['create', 'store']);
 
+    // Reschedule order.
+    Route::resource('order.reschedule', RescheduleController::class)->only(['index', 'create', 'store', 'show']);
+
     // Admin
     Route::group([
         'prefix' => 'admin',
@@ -99,7 +103,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Store progress of an order.
         Route::post('/order/{order}/progress', [ProgressController::class, 'store'])->name('order.progress.store');
+
+        // admin can approve reschedule order.
+        Route::resource('order.reschedule', RescheduleController::class)->only(['edit', 'update', 'destroy']);
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
