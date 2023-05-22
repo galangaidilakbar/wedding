@@ -27,6 +27,7 @@ class RescheduleController extends Controller
                 'old_date' => $order->tanggal_acara,
                 'new_date' => $request->new_date,
                 'reason' => $request->reason,
+                'status' => Reschedule::STATUS['PENDING'],
             ]
         );
 
