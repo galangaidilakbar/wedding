@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="text-center">
+    <div class="text-center text-sm text-gray-500 dark:text-gray-400">
         Selamat datang di {{ config('app.name') }}
     </div>
 
