@@ -32,7 +32,7 @@
                                 name="sort"
                                 class="block w-full"
                                 required>
-                                <option value="" disabled>-- Status --</option>
+                                <option value="" disabled>Urutkan</option>
                                 <option
                                     value="latest"
                                     {{ request('sort') === 'latest' ? 'selected' : '' }}>
