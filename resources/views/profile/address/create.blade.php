@@ -25,7 +25,7 @@
                             <input type="hidden" id="longitude" name="longitude">
                             <input type="hidden" id="accuracy" name="accuracy">
 
-                            <div class="grid grid-cols-2 space-x-4">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 space-y-4 lg:space-y-0 lg:space-x-4">
                                 <!-- Nama Lengkap -->
                                 <div>
                                     <x-input-label for="full_name" :value="__('Nama Lengkap')"/>
@@ -36,8 +36,9 @@
 
                                 <!-- Nomor telepon -->
                                 <div>
-                                    <x-input-label for="phone_number" :value="__('Nomor Telepon')"/>
-                                    <x-text-input id="phone_number" name="phone_number" type="number" class="mt-1 block w-full"
+                                    <x-input-label for="phone_number" :value="__('Nomor Telepon (Whatsapp)')"/>
+                                    <x-text-input id="phone_number" name="phone_number" type="number"
+                                                  class="mt-1 block w-full"
                                                   :value="old('phone_number')" required/>
                                     <x-input-error class="mt-2" :messages="$errors->get('phone_number')"/>
                                 </div>
@@ -101,5 +102,19 @@
         }
 
         map.on('locationerror', onLocationError);
+
+        var popup = L.popup();
+
+        function onMapClick(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent("Tempat Acara")
+                .openOn(map);
+            document.getElementById("latitude").value = e.latlng.lat
+            document.getElementById("longitude").value = e.latlng.lng
+            document.getElementById("accuracy").value = 100 // set accuracy to 100 meters
+        }
+
+        map.on('click', onMapClick);
     </script>
 </x-app-layout>
