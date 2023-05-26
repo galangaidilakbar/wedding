@@ -123,7 +123,7 @@
                             <!-- Metode pembayararan -->
                             <section>
                                 <h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">
-                                    Bayar pake apa?
+                                    Dengan apa Anda akan membayar?
                                 </h3>
                                 <ul class="grid w-full gap-6 md:grid-cols-2">
                                     <li>
