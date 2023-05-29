@@ -18,11 +18,21 @@ class UploadTransferPaymentController extends Controller
         // abort if payment method is cash
         abort_if($order->metode_pembayaran === 'CASH', 403, 'Metode pembayaran tidak sesuai');
 
-        // abort if order status is not waiting for payment
-        abort_if($order->status !== 'Menunggu Pembayaran', 403, 'Status pesanan tidak sesuai');
+        // init final price to total_price
+        $final_price = $order->total_harga;
+
+        // if user just create an order and opsi bayar is DP, set final price to total_dp
+        if ($order->status === Order::ORDER_STATUS['WAITING_FOR_PAYMENT'] && $order->opsi_bayar === 'DP') {
+            $final_price = $order->total_dp;
+        }
+
+        // if user already paid an order with opsi bayar dp, the final price will be total_harga - total_dp
+        if ($order->status === Order::ORDER_STATUS['WAITING_FOR_REMAINING_PAYMENT'] && $order->opsi_bayar === 'DP') {
+            $final_price = $order->total_harga - $order->total_dp;
+        }
 
         // return view to create payment
-        return view('order.payment.create', ['order' => $order]);
+        return view('order.payment.create', compact('order', 'final_price'));
     }
 
     /**
