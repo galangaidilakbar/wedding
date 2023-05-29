@@ -29,14 +29,12 @@
             </div>
         </form>
 
-        <!-- Trigger dialog upload bukti bayar secara tunai -->
-        @if ($order->metode_pembayaran === 'CASH')
-            <div class="flex justify-start">
-                <x-primary-button id="triggerUploadPaymentDialog">
-                    {{ __('Unggah bukti bayar (tunai)') }}
-                </x-primary-button>
-            </div>
-        @endif
+        <!-- Trigger dialog upload bukti bayar -->
+        <div class="flex justify-start">
+            <x-primary-button id="triggerUploadPaymentDialog">
+                {{ __('Unggah bukti bayar (tunai)') }}
+            </x-primary-button>
+        </div>
 
         <!-- trigger dialog progress pengerjaan -->
         <div class="flex justify-start">
