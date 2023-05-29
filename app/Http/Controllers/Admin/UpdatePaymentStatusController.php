@@ -15,7 +15,12 @@ class UpdatePaymentStatusController extends Controller
      */
     public function __invoke(Request $request, Order $order, Payments $payment): RedirectResponse
     {
-        $payment->update(['status' => $request->status]);
+        $payment->update(['status' => $request->input('status')]);
+
+        $order->timelines()->create([
+            'title' => 'Status pembayaran',
+            'description' => $request->input('status')
+        ]);
 
         return back();
     }
