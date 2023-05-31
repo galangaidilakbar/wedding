@@ -10,7 +10,8 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "laraveldaily/laravel-invoices": "^3.0"
+        "laraveldaily/laravel-invoices": "^3.0",
+        "spatie/simple-excel": "^3.2"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",

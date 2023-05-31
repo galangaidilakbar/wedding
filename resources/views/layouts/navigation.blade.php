@@ -56,6 +56,10 @@
                         <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
                             {{ __('Pengguna') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('admin.order.reports.create')" :active="request()->routeIs('admin.order.reports.create')">
+                            {{ __('Laporan') }}
+                        </x-nav-link>
                     @endcan
                 </div>
             </div>
@@ -138,6 +142,10 @@
 
                 <x-responsive-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
                     {{ __('Kelola Pengguna') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.order.reports.create')" :active="request()->routeIs('admin.order.reports.create')">
+                    {{ __('Laporan') }}
                 </x-responsive-nav-link>
             @endcan
         </div>

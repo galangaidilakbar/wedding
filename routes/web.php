@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UploadCashPaymentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CreateInvoiceController;
+use App\Http\Controllers\CreateReportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GetAllCategoriesController;
 use App\Http\Controllers\OrderController;
@@ -106,7 +107,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // admin can approve reschedule order.
         Route::resource('order.reschedule', RescheduleController::class)->only(['update', 'destroy']);
+
+        // Create report
+        Route::get('order/reports/create', function () {
+            return view('admin.report.create');
+        })->name('order.reports.create');
+
+        // Download the reports
+        Route::post('/order/reports', CreateReportController::class)->name('order.reports.store');
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

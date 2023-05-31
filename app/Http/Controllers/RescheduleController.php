@@ -34,7 +34,7 @@ class RescheduleController extends Controller
         // membuat timeline
         $order->timelines()->create([
             'title' => 'Pengajuan reschedule dibuat.',
-            'description' => 'Mengajukan reschedule dari tanggal ' . $order->tanggal_acara->format('Y-m-d') . ' ke tanggal '.$request->new_date.' dengan alasan '.$request->reason.'.',
+            'description' => 'Mengajukan reschedule dari tanggal '.$order->tanggal_acara->format('Y-m-d').' ke tanggal '.$request->new_date.' dengan alasan '.$request->reason.'.',
         ]);
 
         return redirect()->route('order.show', $order->id)->with('reschedule-success', 'Pengajuan reschedule berhasil dibuat.');

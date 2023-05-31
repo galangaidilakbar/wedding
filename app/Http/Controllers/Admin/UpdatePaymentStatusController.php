@@ -19,7 +19,7 @@ class UpdatePaymentStatusController extends Controller
 
         $order->timelines()->create([
             'title' => 'Status pembayaran',
-            'description' => $request->input('status')
+            'description' => $request->input('status'),
         ]);
 
         return back();
