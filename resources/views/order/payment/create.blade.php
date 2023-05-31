@@ -100,13 +100,10 @@
                                 </header>
 
                                 <ul class="list-disc list-inside space-y-2 text-sm text-gray-900 dark:text-gray-100 mt-4">
-                                    <li><strong>Kode bank BRI</strong> adalah <strong>002</strong>.</li>
-                                    <li><strong>Nomor rekening {{ config('app.name') }}</strong> adalah
-                                        <strong>123456789012345</strong>.
-                                    </li>
-                                    <li><strong>Nama rekening</strong> adalah
-                                        <strong>{{ config('invoices.seller.attributes.name') }}</strong>.
-                                    </li>
+                                    <li>Bank tujuan: <strong>{{ config('app.bank_account.name') }}</strong></li>
+                                    <li>Kode Bank: <strong>{{ config('app.bank_account.code') }}</strong></li>
+                                    <li>Nomor Rekening: <strong>{{ config('app.bank_account.account_number') }}</strong></li>
+                                    <li>Nama Penerima: <strong>{{ config('app.bank_account.recipient_name') }}</strong></li>
                                 </ul>
                             </div>
 
@@ -150,7 +147,7 @@
                                             <li>Login ke aplikasi mobile banking BRI atau internet banking BRI.</li>
                                             <li>Pilih menu "Transfer".</li>
                                             <li>Pilih jenis transfer "Antar Rekening BRI".</li>
-                                            <li>Masukkan nomor rekening <strong>123456789012345</strong>.</li>
+                                            <li>Masukkan nomor rekening <strong>{{ config('app.bank_account.account_number') }}</strong>.</li>
                                             <li>Masukkan nominal pembayaran sebesar <strong>Rp
                                                     @rupiah($final_price)</strong>.
                                             </li>
@@ -203,7 +200,7 @@
                                             <li>Pilih menu "Transfer" pada layar ATM.</li>
                                             <li>Pilih jenis transfer "Antar Bank" atau "Transfer ke Bank Lain".</li>
                                             <li>Masukkan kode bank BRI, yaitu <strong>"002"</strong></li>
-                                            <li>Masukkan nomor rekening <strong>123456789012345</strong>.</li>
+                                            <li>Masukkan nomor rekening <strong>{{ config('app.bank_account.account_number') }}</strong>.</li>
                                             <li>Masukkan nominal pembayaran sebesar <strong>Rp
                                                     @rupiah($final_price)</strong>.
                                             </li>

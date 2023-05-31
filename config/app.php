@@ -212,4 +212,21 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Bank Account
+    |--------------------------------------------------------------------------
+    |
+    | This array of bank account will be registered when this application
+    | is started. However, feel free to register as many as you wish as
+    | the bank account are "lazy" loaded so they don't hinder performance.
+    |
+    */
+    'bank_account' => [
+        'name' => 'BRI',
+        'code' => '002',
+        'account_number' => '164501000413531',
+        'recipient_name' => 'LIA ISMAYANTI',
+    ],
+
 ];
