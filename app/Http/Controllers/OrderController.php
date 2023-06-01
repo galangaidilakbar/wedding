@@ -12,6 +12,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class OrderController extends Controller
 {
@@ -26,10 +28,10 @@ class OrderController extends Controller
             : request()->user()->orders()->with('detail_orders.product')->latest();
 
         // search order by id
-        $orders->when(request()->has('search'), fn ($query) => $query->where('id', request()->search));
+        $orders->when(request()->has('search'), fn($query) => $query->where('id', request()->search));
 
         // filter order by status
-        $orders->when(request()->has('status'), fn ($query) => $query->where('status', request()->status));
+        $orders->when(request()->has('status'), fn($query) => $query->where('status', request()->status));
 
         // filter order by date range
         if (request()->has('start') && request()->has('end')) {
@@ -96,7 +98,41 @@ class OrderController extends Controller
         // Create timeline
         $order->timelines()->create(['title' => 'Pesanan Dibuat.']);
 
-        return to_route('order.show', $order)->with('order-status', 'order-created');
+        $product_on_item_details = [];
+
+        foreach ($order->detail_orders as $detail_order) {
+            $product_on_item_details[] = [
+                'id' => $detail_order->product->id,
+                'price' => $detail_order->product->price,
+                'quantity' => 1,
+                'name' => $detail_order->product->name,
+            ];
+        }
+
+        Config::$serverKey = config('services.midtrans.serverKey');
+        Config::$isProduction = config('services.midtrans.isProduction');
+        Config::$isSanitized = config('services.midtrans.isSanitized');
+        Config::$is3ds = config('services.midtrans.is3ds');
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $order->id,
+                'gross_amount' => $order->total_harga,
+            ],
+            'customer_details' => [
+                'first_name' => $order->user->name,
+                'email' => $order->user->email,
+            ],
+            'item_details' => $product_on_item_details,
+        ];
+
+        $snapToken = Snap::getSnapToken($params);
+
+        $order->update([
+            'snap_token' => $snapToken,
+        ]);
+
+        return to_route('order.show', $order)->with('snapToken', $snapToken);
     }
 
     /**
@@ -137,7 +173,7 @@ class OrderController extends Controller
 
         $order->timelines()->create([
             'title' => 'Pesanan Dibatalkan.',
-            'description' => 'Alasan pembatalan: '.$request->input('description'),
+            'description' => 'Alasan pembatalan: ' . $request->input('description'),
         ]);
 
         return to_route('order.show', $order)->with('order-status', 'order-canceled');

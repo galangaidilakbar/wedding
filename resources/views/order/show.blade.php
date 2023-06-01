@@ -558,6 +558,8 @@
                 L.marker([{{ $order->address->latitude }}, {{ $order->address->longitude }}]).addTo(map)
                     .bindPopup("Tempat Acara {{ $order->address->full_name }}")
                     .openPopup();
+
+                window.snap.pay('{{ $order->snap_token }}');
             </script>
         </div>
     </div>

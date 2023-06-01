@@ -23,6 +23,11 @@
                 crossorigin=""></script>
 
         <link rel="shortcut icon" href="{{ asset('img/ginasty-logo.jpeg') }}" type="image/x-icon">
+
+        <!-- Midtrans -->
+        <script type="text/javascript"
+                src="https://app.sandbox.midtrans.com/snap/snap.js"
+                data-client-key="{{ config('services.midtrans.clientKey') }}"></script>
     </head>
     <body class="font-sans antialiased">
         @include('layouts.bottom-navigation')
