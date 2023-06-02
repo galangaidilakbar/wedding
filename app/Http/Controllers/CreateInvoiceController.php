@@ -20,6 +20,13 @@ class CreateInvoiceController extends Controller
      */
     public function index(Order $order): Response
     {
+        $accepted_status = [
+            Order::ORDER_STATUS['HAS_BEEN_PAID'],
+            Order::ORDER_STATUS['HAS_BEEN_COMPLETED'],
+        ];
+
+        abort_if($order->status != in_array($order->status, $accepted_status), 403, 'Pesanan Belum Dibayar');
+
         // Create seller
         $seller = new Party([
             'name' => config('app.name'),
@@ -30,7 +37,7 @@ class CreateInvoiceController extends Controller
         // Create customer
         $customer = new Party([
             'name' => request()->user()->name,
-            'address' => $order->address->detail.'('.$order->address->patokan.')',
+            'address' => $order->address->detail . '(' . $order->address->patokan . ')',
             'phone' => $order->address->phone_number,
         ]);
 
@@ -40,6 +47,13 @@ class CreateInvoiceController extends Controller
             $items[] = (new InvoiceItem())->title($detail_order->product->name)->pricePerUnit($detail_order->product->price);
         }
 
+        $notes = [
+            'No. Pesanan: ' . $order->id,
+            'Catatan dari Pembeli: ' . $order->note,
+        ];
+
+        $notes = implode('<br>', $notes);
+
         // Create invoice
         $invoice = Invoice::make()
             ->status($order->status)
@@ -48,7 +62,7 @@ class CreateInvoiceController extends Controller
             ->seller($seller)
             ->buyer($customer)
             ->addItems($items)
-            ->payUntilDays(3)
+            ->notes($notes)
             ->logo(public_path('img/ginasty-logo.jpeg'));
 
         return $invoice->stream();
