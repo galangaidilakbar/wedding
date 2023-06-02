@@ -36,6 +36,12 @@ Route::get('/', function () {
     return view('index');
 });
 
+// Midtrans notification.
+Route::post('payment/notification', [OrderController::class, 'notification'])->name('midtrans.notification');
+
+// Midtrans finish.
+Route::get('payment/finish', [OrderController::class, 'finish'])->name('midtrans.finish');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

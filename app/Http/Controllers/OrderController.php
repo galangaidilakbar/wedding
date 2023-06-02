@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Midtrans\Config;
+use Midtrans\Notification;
 use Midtrans\Snap;
 
 class OrderController extends Controller
@@ -177,5 +178,120 @@ class OrderController extends Controller
         ]);
 
         return to_route('order.show', $order)->with('order-status', 'order-canceled');
+    }
+
+    public function notification(Request $request)
+    {
+        Config::$isProduction = config('services.midtrans.isProduction');
+        Config::$serverKey = config('services.midtrans.serverKey');
+
+        $notif = new Notification();
+
+        $transaction = $notif->transaction_status;
+        $type = $notif->payment_type;
+        $order_id = $notif->order_id;
+        $fraud = $notif->fraud_status;
+
+        $order = Order::findOrFail($order_id);
+
+        if ($transaction == 'capture') {
+            // For credit card transaction, we need to check whether transaction is challenge by FDS or not
+            if ($type == 'credit_card') {
+                if ($fraud == 'challenge') {
+                    $order->update([
+                        'status' => Order::ORDER_STATUS['WAITING_FOR_CONFIRMATION'],
+                        'status_color' => 'yellow'
+                    ]);
+
+                    $order->timelines()->create([
+                        'title' => 'Status Pembayaran.',
+                        'description' => "Transaction order_id: " . $order_id . " is challenged by FDS",
+                    ]);
+                } else {
+                    $order->update([
+                        'status' => Order::ORDER_STATUS['HAS_BEEN_PAID'],
+                        'status_color' => 'green'
+                    ]);
+
+                    $order->timelines()->create([
+                        'title' => 'Status Pembayaran.',
+                        'description' => "Transaction order_id: " . $order_id . " successfully captured using " . $type,
+                    ]);
+                }
+            }
+        } else if ($transaction == 'settlement') {
+            $order->update([
+                'status' => Order::ORDER_STATUS['HAS_BEEN_PAID'],
+                'status_color' => 'green'
+            ]);
+
+            $order->timelines()->create([
+                'title' => 'Status Pembayaran.',
+                'description' => "Transaction order_id: " . $order_id . " successfully transfered using " . $type,
+            ]);
+        } else if ($transaction == 'pending') {
+            $order->update([
+                'status' => Order::ORDER_STATUS['WAITING_FOR_PAYMENT'],
+                'status_color' => 'yellow'
+            ]);
+
+            $order->timelines()->create([
+                'title' => 'Status Pembayaran.',
+                'description' => "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type,
+            ]);
+        } else if ($transaction == 'deny') {
+            $order->update([
+                'status' => Order::ORDER_STATUS['CANCELLED'],
+                'status_color' => 'red'
+            ]);
+
+            $order->timelines()->create([
+                'title' => 'Status Pembayaran.',
+                'description' => "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.",
+            ]);
+        } else if ($transaction == 'expire') {
+            $order->update([
+                'status' => Order::ORDER_STATUS['CANCELLED'],
+                'status_color' => 'red'
+            ]);
+
+            $order->timelines()->create([
+                'title' => 'Status Pembayaran.',
+                'description' => "Payment using " . $type . " for transaction order_id: " . $order_id . " is expired.",
+            ]);
+        } else if ($transaction == 'cancel') {
+            $order->update([
+                'status' => Order::ORDER_STATUS['CANCELLED'],
+                'status_color' => 'red'
+            ]);
+
+            $order->timelines()->create([
+                'title' => 'Status Pembayaran.',
+                'description' => "Payment using " . $type . " for transaction order_id: " . $order_id . " is canceled.",
+            ]);
+        }
+    }
+
+    public function finish(Request $request): RedirectResponse
+    {
+        $response = \Http::acceptJson()
+            ->withBasicAuth(config('services.midtrans.serverKey'), '')
+            ->get('https://api.sandbox.midtrans.com/v2/' . $request->input('order_id') . '/status');
+
+        $order = Order::findOrFail($response->json('order_id'));
+
+        if ($response->json('transaction_status') === 'capture' || $response->json('transaction_status') === 'settlement') {
+            $order->update([
+                'status' => Order::ORDER_STATUS['HAS_BEEN_PAID'],
+                'status_color' => 'green'
+            ]);
+
+            $order->timelines()->firstOrCreate([
+                'title' => 'Status Pembayaran.',
+                'description' => "Transaction order_id: " . $response->json('order_id') . " successfully captured using " . $response->json('payment_type'),
+            ]);
+        }
+
+        return to_route('order.show', $order);
     }
 }

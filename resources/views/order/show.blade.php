@@ -5,6 +5,11 @@
         </h2>
 
         <section class="max-w-xl mt-4">
+
+            <x-primary-button id="pay-button" class="mb-5">
+                Bayar Sekarang
+            </x-primary-button>
+
             <!-- Alert Menunggu Pembayaran -->
             @if ($order->status === 'Menunggu Pembayaran')
                 <div
@@ -559,7 +564,10 @@
                     .bindPopup("Tempat Acara {{ $order->address->full_name }}")
                     .openPopup();
 
-                window.snap.pay('{{ $order->snap_token }}');
+                const payButton = document.getElementById('pay-button');
+                payButton.addEventListener('click', function () {
+                    window.snap.pay('{{ $order->snap_token }}');
+                })
             </script>
         </div>
     </div>
