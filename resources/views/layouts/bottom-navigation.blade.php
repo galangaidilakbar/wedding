@@ -12,7 +12,7 @@
                     </path>
                 </svg>
             </x-slot>
-            <x-slot name="bottom_nav_text">Home</x-slot>
+            <x-slot name="bottom_nav_text">Beranda</x-slot>
         </x-bottom-nav-link>
 
         {{-- Pesanan --}}
@@ -51,7 +51,7 @@
                     </path>
                 </svg>
             </x-slot>
-            <x-slot name="bottom_nav_text">Profile</x-slot>
+            <x-slot name="bottom_nav_text">Profil</x-slot>
         </x-bottom-nav-link>
     </div>
 </div>
