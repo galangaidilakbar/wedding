@@ -36,11 +36,11 @@ class CreateReportController extends Controller
                 'Nama Pembeli' => $order->user->name,
                 'Email Pembeli' => $order->user->email,
                 'No. Telepon Pembeli' => $order->address->phone_number,
-                'Detail Alamat Acara' => $order->address->full_name . ' ' . $order->address->detail . ' (' . $order->address->patokan . ')',
+                'Detail Alamat Acara' => $order->address->full_name.' '.$order->address->detail.' ('.$order->address->patokan.')',
                 'Opsi Bayar' => $order->opsi_bayar,
                 'Metode Pembayaran' => $order->metode_pembayaran,
                 'Status Pesanan' => $order->status,
-                'Total Harga' => 'Rp.' . number_format($order->total_harga, 2, ',', '.'),
+                'Total Harga' => 'Rp.'.number_format($order->total_harga, 2, ',', '.'),
             ];
         });
 

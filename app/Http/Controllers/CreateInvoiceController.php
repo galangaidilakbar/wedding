@@ -37,7 +37,7 @@ class CreateInvoiceController extends Controller
         // Create customer
         $customer = new Party([
             'name' => request()->user()->name,
-            'address' => $order->address->detail . '(' . $order->address->patokan . ')',
+            'address' => $order->address->detail.'('.$order->address->patokan.')',
             'phone' => $order->address->phone_number,
         ]);
 
@@ -48,8 +48,8 @@ class CreateInvoiceController extends Controller
         }
 
         $notes = [
-            'No. Pesanan: ' . $order->id,
-            'Catatan dari Pembeli: ' . $order->note,
+            'No. Pesanan: '.$order->id,
+            'Catatan dari Pembeli: '.$order->note,
         ];
 
         $notes = implode('<br>', $notes);
