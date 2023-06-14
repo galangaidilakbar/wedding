@@ -13,6 +13,7 @@ use App\Http\Controllers\CreateInvoiceController;
 use App\Http\Controllers\CreateReportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GetAllCategoriesController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Product\SearchProductController;
 use App\Http\Controllers\Product\ShowProductController;
@@ -32,9 +33,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', LandingPageController::class);
+
+// Search product.
+Route::get('/products/search', SearchProductController::class)->name('products.search');
+
+// Show product.
+Route::get('/products/{product}', ShowProductController::class)->name('products.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -44,12 +49,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('address', AddressController::class)->except(['index', 'show']);
-
-    // Search product.
-    Route::get('/products/search', SearchProductController::class)->name('products.search');
-
-    // Show product.
-    Route::get('/products/{product}', ShowProductController::class)->name('products.show');
 
     // Store product into shopping cart.
     Route::post('/products/{product}/cart', [CartController::class, 'store'])->name('products.cart.store');
